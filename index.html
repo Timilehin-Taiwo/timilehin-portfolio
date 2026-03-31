@@ -582,6 +582,7 @@
       padding: 0 48px 48px;
       overflow-x: auto; scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
+      position: relative; /* Added to ensure scroll calculations are perfectly bounded */
     }
     .gallery-slideshow::-webkit-scrollbar { display: none; } 
     
@@ -816,7 +817,7 @@
   <!-- NAV -->
   <nav id="mainNav">
     <a href="#hero" class="nav-logo">
-      <img src="Logo%20B%26W%20-%20Dark%20Mode.jpg" alt="Timilehin Taiwo Arts Logo" />
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
       <div class="nav-logo-text">
         Timilehin Taiwo
         <span>Arts</span>
@@ -844,7 +845,7 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.jpg" alt="Logo" />
+        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
       </div>
       <h1 class="hero-title">Art For you</h1>
       <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
@@ -1464,6 +1465,7 @@
 
     // ── GALLERY FILTER & RANDOM SLIDESHOW ──
     let randomPanInterval;
+    let currentPanIndex = 0;
 
     function startRandomPanning() {
       clearInterval(randomPanInterval);
@@ -1471,12 +1473,23 @@
       const items = Array.from(document.querySelectorAll('.gallery-item'));
       
       randomPanInterval = setInterval(() => {
-        // Pause panning if user is hovering or interacting with the gallery
-        if (container.matches(':hover') || container.matches(':active')) return;
+        // 1. Prevent vertical page jumps by checking if the gallery is actually in view
+        const rect = container.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+
+        // 2. Pause panning if off-screen, hovered, or actively scrolling
+        if (!isVisible || container.matches(':hover') || container.matches(':active')) return;
         
-        const randomItem = items[Math.floor(Math.random() * items.length)];
-        randomItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }, 2500); // Pans every 2.5 seconds
+        currentPanIndex = (currentPanIndex + 1) % items.length;
+        const nextItem = items[currentPanIndex];
+        
+        // 3. Use strictly horizontal scrollTo instead of scrollIntoView to NEVER affect the vertical window scroll
+        const paddingLeft = parseInt(window.getComputedStyle(container).paddingLeft) || 0;
+        container.scrollTo({ 
+          left: nextItem.offsetLeft - paddingLeft, 
+          behavior: 'smooth' 
+        });
+      }, 3000); // Pans every 3 seconds
     }
 
     function stopRandomPanning() {
