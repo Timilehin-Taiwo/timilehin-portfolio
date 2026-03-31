@@ -91,11 +91,12 @@
     .nav-logo img { 
       width: 38px; height: 38px; 
       object-fit: contain;
-      mix-blend-mode: screen;
+      /* Custom transparency SVG filter applied here */
+      filter: url(#remove-black);
     }
     body.light-mode .nav-logo img {
-      filter: invert(1);
-      mix-blend-mode: multiply;
+      /* Inverts the perfectly masked white logo into a black logo */
+      filter: url(#remove-black) invert(1);
     }
     .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
@@ -183,11 +184,11 @@
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
-      mix-blend-mode: screen;
+      /* Custom transparency SVG filter applied here */
+      filter: url(#remove-black);
     }
     body.light-mode .hero-monogram img {
-      filter: invert(1);
-      mix-blend-mode: multiply;
+      filter: url(#remove-black) invert(1);
     }
 
     .hero-title {
@@ -801,6 +802,27 @@
   </style>
 </head>
 <body>
+
+  <!-- INVISIBLE SVG FILTER FOR LOGO TRANSPARENCY -->
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+      <filter id="remove-black" color-interpolation-filters="sRGB">
+        <!-- High contrast threshold to cleanly separate logo from its JPG background -->
+        <feComponentTransfer>
+          <feFuncR type="linear" slope="5" intercept="-1" />
+          <feFuncG type="linear" slope="5" intercept="-1" />
+          <feFuncB type="linear" slope="5" intercept="-1" />
+        </feComponentTransfer>
+        <!-- Maps the white logo to solid white (RGB) and pure transparency for the black -->
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 0 1
+          1 0 0 0 0
+        " />
+      </filter>
+    </defs>
+  </svg>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
