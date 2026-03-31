@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
+      /* Dark Theme (Default) */
       --black: #080808;
       --near-black: #111111;
       --dark: #1a1a1a;
@@ -21,6 +22,20 @@
       --accent-dim: rgba(200,184,154,0.15);
     }
 
+    /* Light Theme Overrides */
+    body.light-mode {
+      --black: #f5f2ee;
+      --near-black: #e8e4df;
+      --dark: #dcd7d0;
+      --mid: #c8b89a;
+      --grey: #5a5a5a;
+      --light-grey: #2e2e2e;
+      --off-white: #111111;
+      --white: #080808;
+      --accent: #a68a56; 
+      --accent-dim: rgba(166, 138, 86, 0.15);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
@@ -29,30 +44,15 @@
       background: var(--black);
       color: var(--off-white);
       font-family: 'DM Mono', monospace;
-      cursor: none;
       overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      /* Custom Paint Brush Cursor */
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23c8b89a" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), auto;
     }
-
-    /* ── CUSTOM CURSOR ── */
-    #cursor {
-      position: fixed; top: 0; left: 0; z-index: 9999;
-      pointer-events: none;
-      mix-blend-mode: difference;
+    
+    a, button, select, input, textarea {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
     }
-    #cursor-dot {
-      position: absolute; width: 8px; height: 8px;
-      background: var(--white); border-radius: 50%;
-      transform: translate(-50%,-50%);
-      transition: transform 0.1s ease;
-    }
-    #cursor-ring {
-      position: absolute; width: 36px; height: 36px;
-      border: 1px solid rgba(245,242,238,0.6);
-      border-radius: 50%;
-      transform: translate(-50%,-50%);
-      transition: width 0.3s ease, height 0.3s ease, transform 0.15s ease;
-    }
-    body.hovering #cursor-ring { width: 56px; height: 56px; }
 
     /* ── NOISE OVERLAY ── */
     body::before {
@@ -62,63 +62,57 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       opacity: 0.035;
     }
+    body.light-mode::before {
+      opacity: 0.05;
+      mix-blend-mode: multiply;
+    }
 
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       display: flex; align-items: center; justify-content: space-between;
       padding: 28px 48px;
-      mix-blend-mode: normal;
-      transition: background 0.4s ease, padding 0.4s ease;
+      transition: background 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
     }
     nav.scrolled {
-      background: rgba(8,8,8,0.92);
+      background: var(--black);
       backdrop-filter: blur(12px);
       padding: 18px 48px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(150,150,150,0.1);
     }
 
     .nav-logo {
       display: flex; align-items: center; gap: 12px;
       text-decoration: none;
     }
-    .nav-logo svg { width: 38px; height: 38px; }
+    .nav-logo img { 
+      width: 38px; height: 38px; 
+      border-radius: 50%; object-fit: cover;
+      border: 1px solid rgba(150,150,150,0.2);
+    }
     .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 14px; font-weight: 300; letter-spacing: 0.2em;
+      font-size: 14px; font-weight: 600; letter-spacing: 0.2em;
       color: var(--off-white); text-transform: uppercase;
       line-height: 1.3;
     }
-    .nav-logo-text span { display: block; font-size: 10px; letter-spacing: 0.4em; color: var(--light-grey); }
+    .nav-logo-text span { display: block; font-size: 10px; letter-spacing: 0.4em; color: var(--light-grey); font-weight: 300;}
 
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-    .nav-links a {
+    .nav-cta-container { display: flex; gap: 24px; align-items: center; }
+    
+    .theme-toggle {
       font-family: 'DM Mono', monospace; font-size: 11px;
-      letter-spacing: 0.25em; color: var(--light-grey); text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.3s ease;
-      position: relative;
+      letter-spacing: 0.1em; color: var(--accent);
+      background: transparent; border: 1px solid var(--accent);
+      padding: 8px 16px; border-radius: 4px; text-transform: uppercase;
+      transition: all 0.3s ease;
     }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0;
-      width: 0; height: 1px; background: var(--accent);
-      transition: width 0.3s ease;
+    .theme-toggle:hover {
+      background: var(--accent); color: var(--black);
     }
-    .nav-links a:hover { color: var(--off-white); }
-    .nav-links a:hover::after { width: 100%; }
-
-    .nav-cta {
-      font-family: 'DM Mono', monospace; font-size: 11px;
-      letter-spacing: 0.2em; color: var(--black);
-      background: var(--off-white); border: none;
-      padding: 10px 22px; text-decoration: none;
-      text-transform: uppercase;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    .nav-cta:hover { background: var(--accent); }
 
     /* ── HAMBURGER (mobile) ── */
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
     .hamburger span { display: block; width: 24px; height: 1px; background: var(--off-white); transition: all 0.3s ease; }
 
     /* ── HERO ── */
@@ -128,16 +122,24 @@
       overflow: hidden;
     }
 
+    .hero-bg-img {
+      position: absolute; inset: 0; z-index: 1;
+      background: url('Abstract ILL.JPG') center/cover no-repeat;
+      opacity: 0.2;
+      transition: opacity 0.4s ease;
+    }
+    body.light-mode .hero-bg-img { opacity: 0.15; }
+
     .hero-bg-lines {
-      position: absolute; inset: 0; z-index: 0;
+      position: absolute; inset: 0; z-index: 2;
       background-image:
-        linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+        linear-gradient(to right, rgba(150,150,150,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(150,150,150,0.04) 1px, transparent 1px);
       background-size: 80px 80px;
     }
 
     .hero-content {
-      position: relative; z-index: 2;
+      position: relative; z-index: 3;
       text-align: center;
       animation: fadeUp 1.4s ease both;
     }
@@ -155,7 +157,11 @@
       margin-bottom: 28px;
       animation: fadeUp 1.2s 0.1s ease both;
     }
-    .hero-monogram svg { width: 90px; height: 90px; }
+    .hero-monogram img { 
+      width: 90px; height: 90px; 
+      border-radius: 50%; object-fit: cover;
+      border: 1px solid rgba(150,150,150,0.2);
+    }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
@@ -178,22 +184,23 @@
     }
 
     .hero-scroll {
-      position: absolute; bottom: 40px; left: 50%;
-      transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      position: absolute; bottom: 48px; left: 48px;
+      display: flex; flex-direction: column; align-items: center;
+      z-index: 4;
       animation: fadeUp 1.2s 0.8s ease both;
     }
-    .hero-scroll span {
-      font-size: 10px; letter-spacing: 0.4em;
-      color: var(--grey); text-transform: uppercase;
-    }
-    .scroll-line {
-      width: 1px; height: 48px; background: linear-gradient(to bottom, var(--grey), transparent);
-      animation: scrollPulse 2s infinite;
+    .scroll-arrow {
+      font-size: 24px; color: var(--accent);
+      animation: bounce 2s infinite;
     }
 
     /* ── SECTION DEFAULTS ── */
-    section { padding: 120px 0; }
+    section { padding: 120px 0; transition: background-color 0.4s ease; }
+    #about { background: var(--near-black); }
+    #services { background: var(--black); }
+    #process { background: var(--black); }
+    #gallery { background: var(--near-black); }
+    #contact { background: var(--black); }
 
     .section-header {
       display: flex; align-items: baseline; gap: 20px;
@@ -209,6 +216,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 5vw, 68px);
       font-weight: 300; line-height: 1;
+      color: var(--white);
     }
     .section-line {
       flex: 1; height: 1px;
@@ -217,13 +225,18 @@
     }
 
     /* ── ABOUT ── */
-    #about { background: var(--near-black); }
     .about-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 0; max-width: 1200px; margin: 0 auto; padding: 0 48px;
     }
     .about-left {
-      padding-right: 80px; border-right: 1px solid rgba(255,255,255,0.06);
+      padding-right: 80px; border-right: 1px solid rgba(150,150,150,0.1);
+      transition: border-color 0.4s ease;
+    }
+    .about-img {
+      width: 100%; max-width: 380px; height: auto;
+      border-radius: 4px; margin-bottom: 40px;
+      border: 1px solid rgba(150,150,150,0.1);
     }
     .about-statement {
       font-family: 'Cormorant Garamond', serif;
@@ -244,7 +257,6 @@
     .about-stats {
       display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
     }
-    .stat-item {}
     .stat-number {
       font-family: 'Cormorant Garamond', serif;
       font-size: 56px; font-weight: 300;
@@ -255,37 +267,53 @@
       color: var(--grey); text-transform: uppercase;
       margin-top: 6px;
     }
+    .services-header {
+      font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.2em;
+      color: var(--white); text-transform: uppercase; margin-bottom: 20px; margin-top: 48px;
+    }
     .about-disciplines {
       display: flex; flex-direction: column; gap: 14px;
-      margin-top: 48px;
-      padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 24px; border-top: 1px solid rgba(150,150,150,0.1);
+      transition: border-color 0.4s ease;
     }
     .discipline-tag {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-      font-size: 12px; letter-spacing: 0.1em;
+      padding: 14px 0; border-bottom: 1px solid rgba(150,150,150,0.1);
+      font-size: 12px; letter-spacing: 0.1em; color: var(--light-grey);
+      transition: border-color 0.4s ease;
     }
-    .discipline-tag .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent); opacity: 0.6;
+
+    /* ── PHILOSOPHY BREAK ── */
+    #philosophy {
+      background: var(--near-black);
+      padding: 100px 48px;
+      transition: background-color 0.4s ease;
     }
-    .discipline-tag .bar {
-      height: 1px; background: var(--accent); opacity: 0.3;
-      transition: width 1s ease;
+    .philosophy-inner {
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .philosophy-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 54px);
+      font-weight: 300; font-style: italic;
+      line-height: 1.4; color: var(--white);
+      margin-bottom: 40px;
+    }
+    .philosophy-attribution {
+      font-size: 11px; letter-spacing: 0.4em;
+      color: var(--accent); text-transform: uppercase;
     }
 
     /* ── SERVICES & PRICING ── */
-    #services { background: var(--black); }
-
     .pricing-tabs {
       display: flex; gap: 0;
       padding: 0 48px; margin-bottom: 64px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      overflow-x: auto;
+      border-bottom: 1px solid rgba(150,150,150,0.1);
+      overflow-x: auto; transition: border-color 0.4s ease;
     }
     .pricing-tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      background: none; border: none; cursor: none;
+      background: none; border: none;
       font-family: 'DM Mono', monospace;
       font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
       color: var(--grey);
@@ -323,32 +351,35 @@
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2px;
-      margin-bottom: 8px;
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
     .price-card {
       background: var(--near-black);
-      border: 1px solid rgba(255,255,255,0.04);
-      padding: 28px 28px 24px;
+      border: 1px solid rgba(150,150,150,0.1);
+      padding: 24px;
       position: relative; overflow: hidden;
       transition: background 0.3s ease, border-color 0.3s ease;
       display: flex; flex-direction: column; justify-content: space-between;
-      min-height: 140px;
     }
-    .price-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--accent);
-      transition: height 0.4s ease;
+    .price-card:hover { background: var(--dark); border-color: rgba(200,184,154,0.3); }
+
+    .price-img-wrapper {
+      width: 100%; height: 160px;
+      margin-bottom: 20px; border-radius: 4px;
+      overflow: hidden; background: var(--black);
+      border: 1px solid rgba(150,150,150,0.1);
     }
-    .price-card:hover { background: var(--dark); border-color: rgba(200,184,154,0.15); }
-    .price-card:hover::before { height: 100%; }
+    .price-img-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .price-card:hover .price-img-wrapper img { transform: scale(1.05); }
 
     .price-card-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 18px; font-weight: 400; color: var(--white);
+      font-size: 18px; font-weight: 600; color: var(--white);
       line-height: 1.3; margin-bottom: 8px;
     }
     .price-card-desc {
@@ -359,16 +390,12 @@
     .price-card-footer {
       display: flex; align-items: center; justify-content: space-between;
       margin-top: 20px; padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid rgba(150,150,150,0.1);
     }
     .price-amount {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; font-weight: 300;
+      font-size: 22px; font-weight: 600;
       color: var(--accent);
-    }
-    .price-currency {
-      font-size: 10px; letter-spacing: 0.2em;
-      color: var(--grey); text-transform: uppercase;
     }
     .price-enquire {
       font-size: 10px; letter-spacing: 0.2em;
@@ -377,51 +404,30 @@
     }
     .price-enquire:hover { color: var(--accent); }
 
-    /* ── GALLERY PHILOSOPHY ── */
-    #philosophy {
-      background: var(--near-black);
-      padding: 100px 48px;
-    }
-    .philosophy-inner {
-      max-width: 900px; margin: 0 auto; text-align: center;
-    }
-    .philosophy-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 4vw, 54px);
-      font-weight: 300; font-style: italic;
-      line-height: 1.4; color: var(--white);
-      margin-bottom: 40px;
-    }
-    .philosophy-attribution {
-      font-size: 11px; letter-spacing: 0.4em;
-      color: var(--accent); text-transform: uppercase;
-    }
-
     /* ── PROCESS ── */
-    #process { background: var(--black); }
     .process-steps {
       display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 0; padding: 0 48px;
     }
     .process-step {
       padding: 48px 40px;
-      border-right: 1px solid rgba(255,255,255,0.05);
-      position: relative;
+      border-right: 1px solid rgba(150,150,150,0.1);
+      position: relative; transition: border-color 0.4s ease;
     }
     .process-step:last-child { border-right: none; }
     .process-step::before {
       content: ''; position: absolute;
       top: 0; left: 40px; right: 0; height: 1px;
-      background: rgba(255,255,255,0.05);
+      background: rgba(150,150,150,0.1);
     }
     .step-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: 72px; font-weight: 300; line-height: 1;
-      color: rgba(200,184,154,0.12); margin-bottom: 24px;
+      color: rgba(200,184,154,0.15); margin-bottom: 24px;
     }
     .step-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; font-weight: 400;
+      font-size: 22px; font-weight: 600;
       color: var(--white); margin-bottom: 16px;
     }
     .step-body {
@@ -429,76 +435,66 @@
       color: var(--grey); letter-spacing: 0.02em;
     }
 
-    /* ── GALLERY ── */
-    #gallery { background: var(--near-black); }
+    /* ── GALLERY (SLIDESHOW) ── */
     .gallery-filter {
-      display: flex; gap: 4px;
+      display: flex; gap: 8px;
       padding: 0 48px; margin-bottom: 48px;
       flex-wrap: wrap;
     }
     .filter-btn {
-      background: none; border: 1px solid rgba(255,255,255,0.08);
+      background: none; border: 1px solid rgba(150,150,150,0.2);
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--grey); padding: 10px 20px; cursor: none;
-      transition: all 0.3s ease;
+      color: var(--grey); padding: 10px 20px;
+      transition: all 0.3s ease; border-radius: 4px;
     }
     .filter-btn.active, .filter-btn:hover {
       background: var(--accent); color: var(--black); border-color: var(--accent);
     }
-    .gallery-masonry {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 4px; padding: 0 48px;
+    
+    .gallery-slideshow {
+      display: flex; gap: 16px;
+      padding: 0 48px 48px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
     }
+    .gallery-slideshow::-webkit-scrollbar { display: none; } /* Hide scrollbar for clean look */
+    
     .gallery-item {
+      flex: 0 0 calc(33.333% - 11px); /* Show exactly 3 items per view */
+      scroll-snap-align: start;
       position: relative; overflow: hidden;
       background: var(--dark);
-      aspect-ratio: 3/4;
-      cursor: none;
+      aspect-ratio: 4/5;
+      border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px;
+      transition: opacity 0.4s ease;
     }
-    .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
-    .gallery-item.tall { grid-row: span 2; }
-    .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 16px;
-      background: linear-gradient(135deg, var(--dark) 0%, var(--mid) 100%);
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
       transition: transform 0.6s ease;
     }
-    .gallery-item:hover .gallery-placeholder { transform: scale(1.03); }
-    .gallery-placeholder-icon {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px; color: rgba(200,184,154,0.2);
-    }
-    .gallery-placeholder-label {
-      font-size: 9px; letter-spacing: 0.4em;
-      color: rgba(200,184,154,0.2); text-transform: uppercase;
-    }
+    .gallery-item:hover img { transform: scale(1.04); }
+
     .gallery-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 60%);
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 50%);
       display: flex; flex-direction: column; justify-content: flex-end;
       padding: 24px; opacity: 0; transition: opacity 0.4s ease;
     }
     .gallery-item:hover .gallery-overlay { opacity: 1; }
     .gallery-overlay h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px; font-weight: 400; color: var(--white);
-    }
-    .gallery-overlay span {
-      font-size: 10px; letter-spacing: 0.25em; color: var(--accent); text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px; font-weight: 400; color: var(--white);
+      letter-spacing: 0.2em; text-transform: uppercase;
     }
 
     /* ── CONTACT ── */
-    #contact { background: var(--black); }
     .contact-inner {
       padding: 0 48px; display: grid;
       grid-template-columns: 1fr 1fr; gap: 80px;
       max-width: 1200px;
     }
-    .contact-left {}
     .contact-headline {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(36px, 4vw, 60px);
@@ -513,27 +509,27 @@
     .contact-links { display: flex; flex-direction: column; gap: 20px; }
     .contact-link-item {
       display: flex; align-items: center; gap: 20px;
-      padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
-      text-decoration: none;
+      padding-bottom: 20px; border-bottom: 1px solid rgba(150,150,150,0.1);
+      text-decoration: none; transition: border-color 0.4s ease;
     }
     .contact-link-icon {
-      width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.1);
+      width: 40px; height: 40px; border: 1px solid rgba(150,150,150,0.2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      font-size: 16px; flex-shrink: 0; border-radius: 4px;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+      color: var(--off-white);
     }
     .contact-link-item:hover .contact-link-icon {
-      background: var(--accent); border-color: var(--accent);
+      background: var(--accent); border-color: var(--accent); color: var(--black);
     }
     .contact-link-label {
       font-size: 10px; letter-spacing: 0.3em; color: var(--grey); text-transform: uppercase;
     }
     .contact-link-value {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 16px; color: var(--white);
+      font-size: 16px; color: var(--white); font-weight: 600;
     }
 
-    .contact-form-side {}
     .contact-form-title {
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
@@ -546,11 +542,11 @@
     }
     .form-field input, .form-field textarea, .form-field select {
       width: 100%; background: transparent;
-      border: none; border-bottom: 1px solid rgba(255,255,255,0.1);
+      border: none; border-bottom: 1px solid rgba(150,150,150,0.2);
       padding: 12px 0; color: var(--off-white);
       font-family: 'DM Mono', monospace; font-size: 12px;
       outline: none; resize: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s ease, color 0.4s ease;
       appearance: none;
     }
     .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
@@ -563,7 +559,7 @@
       background: var(--off-white); color: var(--black);
       font-family: 'DM Mono', monospace; font-size: 11px;
       letter-spacing: 0.2em; text-transform: uppercase;
-      border: none; padding: 16px 36px; cursor: none;
+      border: none; padding: 16px 36px; border-radius: 4px;
       transition: background 0.3s ease;
     }
     .form-submit:hover { background: var(--accent); }
@@ -574,12 +570,13 @@
       background: var(--near-black);
       padding: 40px 48px;
       display: flex; align-items: center; justify-content: space-between;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid rgba(150,150,150,0.1);
+      transition: background-color 0.4s ease, border-color 0.4s ease;
     }
     .footer-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 13px; letter-spacing: 0.25em; color: var(--light-grey);
-      text-transform: uppercase;
+      text-transform: uppercase; font-weight: 600;
     }
     .footer-copy {
       font-size: 10px; letter-spacing: 0.15em; color: var(--grey);
@@ -597,9 +594,10 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(8px); }
+      60% { transform: translateY(4px); }
     }
 
     .reveal {
@@ -615,97 +613,53 @@
     @media (max-width: 900px) {
       nav { padding: 22px 24px; }
       nav.scrolled { padding: 14px 24px; }
-      .nav-links, .nav-cta { display: none; }
+      .nav-cta-container { display: none; }
       .hamburger { display: flex; }
 
-      .mobile-menu {
-        display: none; position: fixed;
-        top: 0; right: 0; bottom: 0; width: 280px;
-        background: var(--near-black);
-        border-left: 1px solid rgba(255,255,255,0.06);
-        z-index: 999; padding: 80px 40px;
-        flex-direction: column; gap: 32px;
-      }
-      .mobile-menu.open { display: flex; }
-      .mobile-menu a {
-        font-family: 'DM Mono', monospace; font-size: 13px;
-        letter-spacing: 0.2em; color: var(--off-white);
-        text-decoration: none; text-transform: uppercase;
-        padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.05);
-      }
+      .gallery-item { flex: 0 0 calc(50% - 8px); }
 
       .section-header { padding: 0 24px; flex-wrap: wrap; }
       .section-line { display: none; }
 
       .about-grid { grid-template-columns: 1fr; padding: 0 24px; }
-      .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
       .about-right { padding-left: 0; padding-top: 48px; }
 
       .process-steps { grid-template-columns: 1fr 1fr; padding: 0 24px; }
       .process-step { padding: 32px 24px; }
 
-      .pricing-tabs { padding: 0 24px; }
-      .pricing-panel { padding: 0 24px; }
-
-      .gallery-masonry { padding: 0 24px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-      .gallery-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
+      .pricing-tabs, .pricing-panel, .gallery-slideshow, .gallery-filter { padding: 0 24px; }
 
       .contact-inner { grid-template-columns: 1fr; gap: 48px; padding: 0 24px; }
       footer { flex-direction: column; gap: 20px; text-align: center; padding: 32px 24px; }
       .footer-links { justify-content: center; }
 
       #philosophy { padding: 80px 24px; }
-
-      body { cursor: auto; }
-      #cursor { display: none; }
     }
 
     @media (max-width: 500px) {
       .process-steps { grid-template-columns: 1fr; }
       .about-stats { grid-template-columns: 1fr 1fr; }
       .hero-title { font-size: 48px; }
+      .gallery-item { flex: 0 0 100%; }
+      .hero-scroll { left: 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- CURSOR -->
-  <div id="cursor">
-    <div id="cursor-dot"></div>
-    <div id="cursor-ring"></div>
-  </div>
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#process">Process</a>
-    <a href="#contact">Commission</a>
-  </div>
-
   <!-- NAV -->
   <nav id="mainNav">
     <a href="#hero" class="nav-logo">
-      <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- TT Monogram -->
-        <line x1="8" y1="10" x2="52" y2="10" stroke="#f5f2ee" stroke-width="1.5"/>
-        <line x1="8" y1="14" x2="52" y2="14" stroke="#f5f2ee" stroke-width="0.7"/>
-        <line x1="29" y1="10" x2="29" y2="55" stroke="#f5f2ee" stroke-width="1.5"/>
-        <line x1="33" y1="14" x2="33" y2="55" stroke="#f5f2ee" stroke-width="0.7"/>
-      </svg>
+      <img src="Logo B&W - Dark Mode.jpg" alt="Timilehin Taiwo Arts Logo" />
       <div class="nav-logo-text">
         Timilehin Taiwo
         <span>Arts</span>
       </div>
     </a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#process">Process</a></li>
-    </ul>
-    <a href="#contact" class="nav-cta">Commission Work</a>
+    <div class="nav-cta-container">
+      <button id="themeToggle" class="theme-toggle">☀️ Light</button>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -713,25 +667,20 @@
 
   <!-- HERO -->
   <section id="hero">
+    <div class="hero-bg-img"></div>
     <div class="hero-bg-lines"></div>
     <div class="hero-content">
-      <div class="hero-eyebrow">Lagos · Nigeria · Est. 2017</div>
+      <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="10" y1="18" x2="110" y2="18" stroke="#c8b89a" stroke-width="2.5"/>
-          <line x1="10" y1="26" x2="110" y2="26" stroke="#c8b89a" stroke-width="1"/>
-          <line x1="57" y1="18" x2="57" y2="110" stroke="#c8b89a" stroke-width="2.5"/>
-          <line x1="65" y1="26" x2="65" y2="110" stroke="#c8b89a" stroke-width="1"/>
-        </svg>
+        <img src="Logo B&W - Dark Mode.jpg" alt="Logo" />
       </div>
       <h1 class="hero-title">
-        Art that<br /><em>breathes.</em>
+        Art For you
       </h1>
       <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
     </div>
     <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
+      <div class="scroll-arrow">↓</div>
     </div>
   </section>
 
@@ -744,18 +693,14 @@
     </div>
     <div class="about-grid">
       <div class="about-left reveal">
+        <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img" />
         <p class="about-statement">
           Seven years of turning <em>vision into image</em> — one frame, one stroke, one story at a time.
         </p>
         <p class="about-body">
-          Timilehin Taiwo is a multidisciplinary visual artist based in Lagos, Nigeria, 
-          whose practice spans storyboard art, digital portrait painting, album cover illustration, 
-          and graphic design. With a career rooted in storytelling and a refined sense of 
-          visual narrative, the work bridges the space between commercial precision and 
-          deeply personal expression.<br /><br />
-          What began as a passion for portraiture evolved into a full-spectrum creative practice — 
-          most notably in storyboard and animation direction, where motion and sequence become 
-          the language. Every engagement is treated as a collaboration, not just a commission.
+          I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.<br /><br />
+          What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.<br /><br />
+          I approach every project as a collaboration, not just a commission.
         </p>
       </div>
       <div class="about-right reveal reveal-delay-1">
@@ -769,7 +714,7 @@
             <div class="stat-label">Disciplines</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">∞</div>
+            <div class="stat-number">1000+</div>
             <div class="stat-label">Frames Drawn</div>
           </div>
           <div class="stat-item">
@@ -778,21 +723,18 @@
           </div>
         </div>
         <div class="about-disciplines">
+          <div class="services-header">My Services</div>
           <div class="discipline-tag">
             <span>Storyboard &amp; Animation</span>
-            <span style="font-size:10px;color:var(--accent);letter-spacing:0.2em">FLAGSHIP</span>
           </div>
           <div class="discipline-tag">
             <span>Digital Portrait Art</span>
-            <span style="font-size:10px;color:var(--grey);letter-spacing:0.2em">CORE</span>
           </div>
           <div class="discipline-tag">
             <span>Album &amp; Cover Illustration</span>
-            <span style="font-size:10px;color:var(--grey);letter-spacing:0.2em">CORE</span>
           </div>
           <div class="discipline-tag">
             <span>Logo &amp; Graphic Design</span>
-            <span style="font-size:10px;color:var(--grey);letter-spacing:0.2em">STUDIO</span>
           </div>
         </div>
       </div>
@@ -803,7 +745,7 @@
   <div id="philosophy">
     <div class="philosophy-inner reveal">
       <p class="philosophy-quote">
-        "Every frame I draw is a decision — what to show, what to hold back, what to let the silence say."
+        "Your Satisfaction is my utmost priority."
       </p>
       <p class="philosophy-attribution">— Timilehin Taiwo</p>
     </div>
@@ -828,24 +770,23 @@
     <div class="pricing-panel active" id="tab-storyboard">
       <div class="panel-intro">
         <h3>Storyboard Art</h3>
-        <p>Flagship Service</p>
       </div>
 
       <div class="pricing-sub-heading">Coloured Storyboards</div>
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Coloured Storyboard 1.jpeg" alt="Coloured Storyboard 1" loading="lazy" /></div>
           <div>
             <div class="price-card-name">10 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Full-colour sequential frames for pitch or production</div>
           </div>
           <div class="price-card-footer">
-            <div>
-              <div class="price-amount">₦120,000</div>
-            </div>
+            <div><div class="price-amount">₦120,000</div></div>
             <a href="#contact" class="price-enquire">Enquire →</a>
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Coloured Storyboard 2.jpeg" alt="Coloured Storyboard 2" loading="lazy" /></div>
           <div>
             <div class="price-card-name">20 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Extended colour sequence for short films &amp; ads</div>
@@ -856,6 +797,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Coloured Storyboard 3.jpeg" alt="Coloured Storyboard 3" loading="lazy" /></div>
           <div>
             <div class="price-card-name">30 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Full production-ready colour board for full scenes</div>
@@ -870,6 +812,7 @@
       <div class="pricing-sub-heading">Black &amp; White Storyboards</div>
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="B&W Storyboard 1.jpeg" alt="B&W Storyboard 1" loading="lazy" /></div>
           <div>
             <div class="price-card-name">10 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Clean greyscale frames for narrative direction</div>
@@ -880,6 +823,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="B&W Storyboard 2.jpeg" alt="B&W Storyboard 2" loading="lazy" /></div>
           <div>
             <div class="price-card-name">20 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Mid-length greyscale board for scene mapping</div>
@@ -890,6 +834,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="B&W Storyboard 3.jpeg" alt="B&W Storyboard 3" loading="lazy" /></div>
           <div>
             <div class="price-card-name">30 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Extended greyscale production board</div>
@@ -900,6 +845,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="B&W Storyboard 4.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
           <div>
             <div class="price-card-name">40 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Full-length greyscale board — full scene sequences</div>
@@ -910,6 +856,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="B&W Storyboard 5.jpeg" alt="B&W Storyboard 5" loading="lazy" /></div>
           <div>
             <div class="price-card-name">50 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Complete feature-level storyboard in greyscale</div>
@@ -926,12 +873,13 @@
     <div class="pricing-panel" id="tab-portrait">
       <div class="panel-intro">
         <h3>Portrait Art</h3>
-        <p>Digital Painting · Printed on Glittered Canvas</p>
+        <p>Digital Painting · Printed on Glittered and Matte Canvas</p>
       </div>
 
       <div class="pricing-sub-heading">Individual Portraits</div>
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="12 x 16 Inches - Demilade.jpeg" alt="12 x 16 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">12 × 16 Inches Portrait</div>
             <div class="price-card-desc">Coloured digital portrait printed on glittered canvas</div>
@@ -942,6 +890,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="18 x 24 Inches - Mares Aunty.jpeg" alt="18 x 24 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">16×24 / 18×24 Inches Portrait</div>
             <div class="price-card-desc">Mid-large format coloured digital portrait on glittered canvas</div>
@@ -952,6 +901,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="24 x 30 Inches - American client.jpeg" alt="24 x 30 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">24 × 30 Inches Portrait</div>
             <div class="price-card-desc">Large-format statement portrait on glittered canvas</div>
@@ -966,22 +916,13 @@
       <div class="pricing-sub-heading">Couple Portraits</div>
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Couple Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">16/18 × 20/24 Inches Couple Portrait</div>
             <div class="price-card-desc">Coloured digital couple portrait printed on glittered canvas</div>
           </div>
           <div class="price-card-footer">
             <div><div class="price-amount">₦90,000</div></div>
-            <a href="#contact" class="price-enquire">Enquire →</a>
-          </div>
-        </div>
-        <div class="price-card">
-          <div>
-            <div class="price-card-name">Couple Portrait Painting (Softcopy)</div>
-            <div class="price-card-desc">Digital illustration softcopy — no print</div>
-          </div>
-          <div class="price-card-footer">
-            <div><div class="price-amount">₦80,000</div></div>
             <a href="#contact" class="price-enquire">Enquire →</a>
           </div>
         </div>
@@ -997,6 +938,7 @@
 
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Digital Illustration (Softcopy)</div>
             <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
@@ -1007,6 +949,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" /></div>
           <div>
             <div class="price-card-name">1 Character Song Cover Art</div>
             <div class="price-card-desc">Single-character album or song cover illustration</div>
@@ -1017,6 +960,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Multi-Character Song Cover Art</div>
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
@@ -1038,6 +982,9 @@
 
       <div class="pricing-grid">
         <div class="price-card">
+          <div class="price-img-wrapper" style="background:var(--mid);">
+             <!-- No specific image requested for flyer -->
+          </div>
           <div>
             <div class="price-card-name">Flyer Design</div>
             <div class="price-card-desc">Event or promotional flyer — digital delivery</div>
@@ -1048,6 +995,7 @@
           </div>
         </div>
         <div class="price-card">
+          <div class="price-img-wrapper"><img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Logo Design</div>
             <div class="price-card-desc">Brand mark and logo — multiple concepts, full delivery</div>
@@ -1074,100 +1022,68 @@
 
     <div class="gallery-filter reveal">
       <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="storyboard">Storyboard</button>
+      <button class="filter-btn" data-filter="illustration">Illustration</button>
       <button class="filter-btn" data-filter="portrait">Portrait</button>
       <button class="filter-btn" data-filter="cover">Cover Art</button>
       <button class="filter-btn" data-filter="design">Design</button>
     </div>
 
-    <div class="gallery-masonry" id="galleryGrid">
-      <!-- Gallery items — replace .gallery-placeholder with actual <img> tags -->
-      <div class="gallery-item wide" data-category="storyboard">
-        <div class="gallery-placeholder">
-          <div class="gallery-placeholder-icon">◈</div>
-          <div class="gallery-placeholder-label">Storyboard · Coloured</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Feature Storyboard</h4><span>Coloured · 30 Frames</span>
-        </div>
+    <!-- Horizontally Scrolling Slideshow -->
+    <div class="gallery-slideshow" id="galleryGrid">
+      
+      <!-- Illustrations (3) -->
+      <div class="gallery-item" data-category="illustration">
+        <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
+        <div class="gallery-overlay"><h4>ILLUSTRATION</h4></div>
+      </div>
+      <div class="gallery-item" data-category="illustration">
+        <img src="Client 2.jpeg" alt="Illustration" loading="lazy" />
+        <div class="gallery-overlay"><h4>ILLUSTRATION</h4></div>
+      </div>
+      <div class="gallery-item" data-category="illustration">
+        <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
+        <div class="gallery-overlay"><h4>ILLUSTRATION</h4></div>
+      </div>
+
+      <!-- Portraits (3) -->
+      <div class="gallery-item" data-category="portrait">
+        <img src="12 x 16 Inches - Demilade.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-overlay"><h4>PORTRAIT</h4></div>
       </div>
       <div class="gallery-item" data-category="portrait">
-        <div class="gallery-placeholder">
-          <div class="gallery-placeholder-icon">◉</div>
-          <div class="gallery-placeholder-label">Portrait · Digital</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Digital Portrait</h4><span>24×30 Inches</span>
-        </div>
+        <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-overlay"><h4>PORTRAIT</h4></div>
       </div>
-      <div class="gallery-item tall" data-category="storyboard">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#1a1a1a,#2a2a2a);">
-          <div class="gallery-placeholder-icon">▦</div>
-          <div class="gallery-placeholder-label">Storyboard · B&amp;W</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Sequential B&amp;W</h4><span>50 Frames</span>
-        </div>
+      <div class="gallery-item" data-category="portrait">
+        <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-overlay"><h4>PORTRAIT</h4></div>
+      </div>
+
+      <!-- Cover Art (3) -->
+      <div class="gallery-item" data-category="cover">
+        <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-overlay"><h4>COVER ART</h4></div>
       </div>
       <div class="gallery-item" data-category="cover">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#1f1a10,#2a2010);">
-          <div class="gallery-placeholder-icon">♪</div>
-          <div class="gallery-placeholder-label">Cover Art · Multi-Char</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Song Cover Art</h4><span>Multi-Character</span>
-        </div>
+        <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-overlay"><h4>COVER ART</h4></div>
       </div>
-      <div class="gallery-item" data-category="portrait">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#1a1018,#201525);">
-          <div class="gallery-placeholder-icon">◉</div>
-          <div class="gallery-placeholder-label">Portrait · Couple</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Couple Portrait</h4><span>16×24 Inches</span>
-        </div>
+      <div class="gallery-item" data-category="cover">
+        <img src="Caravan Cover Art.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-overlay"><h4>COVER ART</h4></div>
       </div>
-      <div class="gallery-item" data-category="storyboard">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#101a1a,#152020);">
-          <div class="gallery-placeholder-icon">▦</div>
-          <div class="gallery-placeholder-label">Storyboard · Coloured</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Music Video Board</h4><span>20 Frames · Coloured</span>
-        </div>
-      </div>
-      <div class="gallery-item wide" data-category="cover">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#1a100a,#201510);">
-          <div class="gallery-placeholder-icon">♪</div>
-          <div class="gallery-placeholder-label">Cover Art · 1 Character</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Solo Cover Art</h4><span>1 Character · Digital</span>
-        </div>
+
+      <!-- Design (2) -->
+      <div class="gallery-item" data-category="design">
+        <img src="Art Base - Logo.jpeg" alt="Design" loading="lazy" />
+        <div class="gallery-overlay"><h4>DESIGN</h4></div>
       </div>
       <div class="gallery-item" data-category="design">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#10101a,#151520);">
-          <div class="gallery-placeholder-icon">◈</div>
-          <div class="gallery-placeholder-label">Logo Design</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Brand Identity</h4><span>Logo Design</span>
-        </div>
+        <img src="The Real Zone Logo.jpeg" alt="Design" loading="lazy" />
+        <div class="gallery-overlay"><h4>DESIGN</h4></div>
       </div>
-      <div class="gallery-item" data-category="portrait">
-        <div class="gallery-placeholder" style="background: linear-gradient(135deg,#1a1a0f,#202015);">
-          <div class="gallery-placeholder-icon">◉</div>
-          <div class="gallery-placeholder-label">Portrait · Single</div>
-        </div>
-        <div class="gallery-overlay">
-          <h4>Single Portrait</h4><span>12×16 Inches</span>
-        </div>
-      </div>
-    </div>
 
-    <p style="padding: 40px 48px 0; font-size:11px; color:var(--grey); letter-spacing:0.2em;">
-      → Replace placeholder tiles with your actual artwork images. Full instructions in <code style="color:var(--accent)">README.md</code>
-    </p>
+    </div>
   </section>
 
   <!-- PROCESS -->
@@ -1219,25 +1135,25 @@
           or building a brand — reach out. Every project starts with a conversation.
         </p>
         <div class="contact-links">
-          <a href="https://wa.me/234XXXXXXXXXX" class="contact-link-item" target="_blank" rel="noopener">
+          <a href="https://wa.me/2349033547114" class="contact-link-item" target="_blank" rel="noopener">
             <div class="contact-link-icon">✉</div>
             <div>
               <div class="contact-link-label">WhatsApp</div>
               <div class="contact-link-value">Message Directly</div>
             </div>
           </a>
-          <a href="https://instagram.com/timilehin.taiwo.arts" class="contact-link-item" target="_blank" rel="noopener">
+          <a href="https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr" class="contact-link-item" target="_blank" rel="noopener">
             <div class="contact-link-icon">◎</div>
             <div>
               <div class="contact-link-label">Instagram</div>
-              <div class="contact-link-value">@timilehin.taiwo.arts</div>
+              <div class="contact-link-value">@timilehin.taiwo</div>
             </div>
           </a>
-          <a href="mailto:hello@timilehin.art" class="contact-link-item">
+          <a href="mailto:olasunkanmitimilehintaiwo@gmail.com" class="contact-link-item">
             <div class="contact-link-icon">@</div>
             <div>
               <div class="contact-link-label">Email</div>
-              <div class="contact-link-value">hello@timilehin.art</div>
+              <div class="contact-link-value">olasunkanmitimilehintaiwo@gmail.com</div>
             </div>
           </a>
         </div>
@@ -1248,15 +1164,15 @@
         <form id="contactForm" onsubmit="handleSubmit(event)">
           <div class="form-field">
             <label>Your Name</label>
-            <input type="text" placeholder="Full name" required />
+            <input type="text" name="name" placeholder="Full name" required />
           </div>
           <div class="form-field">
             <label>Email / WhatsApp</label>
-            <input type="text" placeholder="How to reach you" required />
+            <input type="text" name="contact" placeholder="How to reach you" required />
           </div>
           <div class="form-field">
             <label>Service Required</label>
-            <select required>
+            <select name="service" required>
               <option value="" disabled selected>Select a service</option>
               <optgroup label="Storyboard">
                 <option>Coloured Storyboard</option>
@@ -1279,7 +1195,7 @@
           </div>
           <div class="form-field">
             <label>Project Brief</label>
-            <textarea placeholder="Tell me about your project — what, when, any references..."></textarea>
+            <textarea name="brief" placeholder="Tell me about your project — what, when, any references..."></textarea>
           </div>
           <button type="submit" class="form-submit">
             Send Brief <span class="form-submit-arrow">→</span>
@@ -1304,26 +1220,28 @@
   </footer>
 
   <script>
-    // ── CURSOR ──
-    const cursor = document.getElementById('cursor');
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    // ── LIGHT/DARK MODE TOGGLE ──
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const body = document.body;
 
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    // Check system preference & localStorage
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
 
-    function animateCursor() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
-      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-      requestAnimationFrame(animateCursor);
+    if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
+      body.classList.add('light-mode');
+      themeToggleBtn.textContent = '🌙 Dark';
     }
-    animateCursor();
 
-    document.querySelectorAll('a, button, .price-card, .gallery-item, .filter-btn, .tab-btn').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    themeToggleBtn.addEventListener('click', () => {
+      body.classList.toggle('light-mode');
+      if (body.classList.contains('light-mode')) {
+        localStorage.setItem('portfolio-theme', 'light');
+        themeToggleBtn.textContent = '🌙 Dark';
+      } else {
+        localStorage.setItem('portfolio-theme', 'dark');
+        themeToggleBtn.textContent = '☀️ Light';
+      }
     });
 
     // ── NAV SCROLL ──
@@ -1331,12 +1249,6 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     });
-
-    // ── HAMBURGER ──
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
     // ── REVEAL ON SCROLL ──
     const reveals = document.querySelectorAll('.reveal');
@@ -1355,16 +1267,21 @@
       });
     });
 
-    // ── GALLERY FILTER ──
+    // ── GALLERY FILTER (SLIDESHOW) ──
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
+        
         document.querySelectorAll('.gallery-item').forEach(item => {
-          const show = filter === 'all' || item.dataset.category === filter;
-          item.style.opacity = show ? '1' : '0.15';
-          item.style.pointerEvents = show ? 'auto' : 'none';
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.style.display = 'block';
+            setTimeout(() => item.style.opacity = '1', 50);
+          } else {
+            item.style.opacity = '0';
+            setTimeout(() => item.style.display = 'none', 400);
+          }
         });
       });
     });
@@ -1372,12 +1289,38 @@
     // ── FORM ──
     function handleSubmit(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('button');
+      const form = e.target;
+      const btn = form.querySelector('button');
+      const originalBtnContent = btn.innerHTML;
       btn.textContent = 'Sending...';
-      setTimeout(() => {
-        e.target.style.display = 'none';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // Send data to your email using FormSubmit AJAX
+      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          Name: data.name,
+          Contact: data.contact,
+          Service: data.service,
+          Brief: data.brief
+        })
+      })
+      .then(response => response.json())
+      .then(result => {
+        form.style.display = 'none';
         document.getElementById('formMsg').style.display = 'block';
-      }, 900);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        btn.innerHTML = originalBtnContent; // Revert button if failed
+        alert("Oops! There was a problem submitting your form. Please try again.");
+      });
     }
 
     // ── SMOOTH NAV LINKS ──
