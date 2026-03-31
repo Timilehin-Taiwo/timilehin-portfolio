@@ -53,7 +53,7 @@
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23c8b89a" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), auto;
     }
     
-    a, button, select, input, textarea {
+    a, button, select, input, textarea, .price-img-wrapper, .gallery-item {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
     }
 
@@ -92,6 +92,11 @@
       width: 38px; height: 38px; 
       border-radius: 50%; object-fit: cover;
       border: 1px solid rgba(150,150,150,0.2);
+      mix-blend-mode: screen;
+    }
+    body.light-mode .nav-logo img {
+      filter: invert(1);
+      mix-blend-mode: multiply;
     }
     .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
@@ -143,7 +148,7 @@
 
     .hero-bg-img {
       position: absolute; inset: 0; z-index: 1;
-      background: url('Abstract ILL.JPG') center/cover no-repeat;
+      background: url('Abstract%20ILL.JPG') center/cover no-repeat;
       opacity: 0.4;
       transition: opacity 0.4s ease;
     }
@@ -180,6 +185,11 @@
       width: 90px; height: 90px; 
       border-radius: 50%; object-fit: cover;
       border: 1px solid rgba(150,150,150,0.2);
+      mix-blend-mode: screen;
+    }
+    body.light-mode .hero-monogram img {
+      filter: invert(1);
+      mix-blend-mode: multiply;
     }
 
     .hero-title {
@@ -302,11 +312,20 @@
 
     /* ── PHILOSOPHY BREAK ── */
     #philosophy {
+      position: relative;
       background: var(--near-black);
       padding: 100px 48px;
       transition: background-color 0.4s ease;
+      overflow: hidden;
+    }
+    #philosophy::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: url('Timilehin%20Taiwo%20-%20About%20Artist.jpg') center/cover no-repeat;
+      opacity: 0.2;
     }
     .philosophy-inner {
+      position: relative; z-index: 2;
       max-width: 900px; margin: 0 auto; text-align: center;
     }
     .philosophy-quote {
@@ -486,6 +505,29 @@
       font-family: 'Cormorant Garamond', serif; font-size: 24px;
       color: var(--accent); text-align: right; margin: 32px 0; font-weight: 600;
     }
+
+    /* ── LIGHTBOX (IMAGE EXPANSION) ── */
+    .lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+      z-index: 100000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transform: scale(0.95); transition: transform 0.3s ease;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute; top: 30px; right: 40px;
+      background: none; border: none; color: var(--grey);
+      font-size: 32px; cursor: pointer; transition: color 0.3s ease;
+      font-family: sans-serif;
+    }
+    .lightbox-close:hover { color: var(--accent); }
 
     /* ── PROCESS ── */
     .process-steps {
@@ -774,7 +816,7 @@
   <!-- NAV -->
   <nav id="mainNav">
     <a href="#hero" class="nav-logo">
-      <img src="Logo B&W - Dark Mode.jpg" alt="Timilehin Taiwo Arts Logo" />
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.jpg" alt="Timilehin Taiwo Arts Logo" />
       <div class="nav-logo-text">
         Timilehin Taiwo
         <span>Arts</span>
@@ -802,7 +844,7 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <img src="Logo B&W - Dark Mode.jpg" alt="Logo" />
+        <img src="Logo%20B%26W%20-%20Dark%20Mode.jpg" alt="Logo" />
       </div>
       <h1 class="hero-title">Art For you</h1>
       <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
@@ -940,7 +982,7 @@
       <div class="pricing-sub-heading">Black &amp; White Storyboards</div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B&W Storyboard 1.jpeg" alt="B&W Storyboard 1" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%201.jpeg" alt="B&W Storyboard 1" loading="lazy" /></div>
           <div>
             <div class="price-card-name">10 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Clean greyscale frames for narrative direction</div>
@@ -951,7 +993,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B&W Storyboard 2.jpeg" alt="B&W Storyboard 2" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%202.jpeg" alt="B&W Storyboard 2" loading="lazy" /></div>
           <div>
             <div class="price-card-name">20 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Mid-length greyscale board for scene mapping</div>
@@ -962,7 +1004,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B&W Storyboard 3.jpeg" alt="B&W Storyboard 3" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%203.jpeg" alt="B&W Storyboard 3" loading="lazy" /></div>
           <div>
             <div class="price-card-name">30 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Extended greyscale production board</div>
@@ -973,7 +1015,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B&W Storyboard 4.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
           <div>
             <div class="price-card-name">40 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Full-length greyscale board — full scene sequences</div>
@@ -984,7 +1026,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B&W Storyboard 5.jpeg" alt="B&W Storyboard 5" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
           <div>
             <div class="price-card-name">50 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Complete feature-level storyboard in greyscale</div>
@@ -1123,7 +1165,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Art%20Base%20-%20Logo.jpeg" alt="Logo Design" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Logo Design</div>
             <div class="price-card-desc">Brand mark and logo — multiple concepts, full delivery</div>
@@ -1174,6 +1216,12 @@
     </div>
   </div>
 
+  <!-- LIGHTBOX COMPONENT -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <img id="lightboxImg" src="" alt="Expanded Image" />
+  </div>
+
   <!-- GALLERY -->
   <section id="gallery">
     <div class="section-header reveal">
@@ -1187,7 +1235,7 @@
       <button class="filter-btn" data-filter="illustration">Illustration</button>
       <button class="filter-btn" data-filter="portrait">Portrait</button>
       <button class="filter-btn" data-filter="cover">Cover Art</button>
-      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
     <div class="gallery-slideshow" id="galleryGrid">
@@ -1235,12 +1283,12 @@
 
       <!-- Design -->
       <div class="gallery-item" data-category="design">
-        <img src="Art Base - Logo.jpeg" alt="Design" loading="lazy" />
-        <div class="gallery-overlay"><h4>DESIGN</h4></div>
+        <img src="Art%20Base%20-%20Logo.jpeg" alt="Graphics Design" loading="lazy" />
+        <div class="gallery-overlay"><h4>GRAPHICS DESIGN</h4></div>
       </div>
       <div class="gallery-item" data-category="design">
-        <img src="The Real Zone Logo.jpeg" alt="Design" loading="lazy" />
-        <div class="gallery-overlay"><h4>DESIGN</h4></div>
+        <img src="The%20Real%20Zone%20Logo.jpeg" alt="Graphics Design" loading="lazy" />
+        <div class="gallery-overlay"><h4>GRAPHICS DESIGN</h4></div>
       </div>
     </div>
   </section>
@@ -1414,15 +1462,47 @@
       });
     });
 
-    // ── GALLERY FILTER (SLIDESHOW) ──
+    // ── GALLERY FILTER & RANDOM SLIDESHOW ──
+    let randomPanInterval;
+
+    function startRandomPanning() {
+      clearInterval(randomPanInterval);
+      const container = document.getElementById('galleryGrid');
+      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      
+      randomPanInterval = setInterval(() => {
+        // Pause panning if user is hovering or interacting with the gallery
+        if (container.matches(':hover') || container.matches(':active')) return;
+        
+        const randomItem = items[Math.floor(Math.random() * items.length)];
+        randomItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }, 2500); // Pans every 2.5 seconds
+    }
+
+    function stopRandomPanning() {
+      clearInterval(randomPanInterval);
+    }
+
+    // Start panning immediately on load
+    startRandomPanning();
+
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const filter = btn.dataset.filter;
+        
+        if (filter === 'all') {
+          startRandomPanning();
+        } else {
+          stopRandomPanning();
+          // Reset scroll to start when viewing a specific category
+          document.getElementById('galleryGrid').scrollTo({ left: 0, behavior: 'smooth' });
+        }
+
         document.querySelectorAll('.gallery-item').forEach(item => {
           if (filter === 'all' || item.dataset.category === filter) {
-            item.style.display = 'block'; setTimeout(() => item.style.opacity = '1', 50);
+            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
           } else {
             item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
           }
@@ -1569,6 +1649,30 @@
         const target = document.querySelector(a.getAttribute('href'));
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
       });
+    });
+
+    // ── LIGHTBOX SYSTEM ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    
+    // Expand Images on Click
+    document.querySelectorAll('.price-img-wrapper, .gallery-item').forEach(container => {
+      container.addEventListener('click', (e) => {
+        const img = container.querySelector('img');
+        // Only open if an image actually exists (skips placeholders)
+        if (img) {
+          lightboxImg.src = img.src;
+          lightbox.classList.add('open');
+        }
+      });
+    });
+
+    // Close Lightbox
+    lightbox.addEventListener('click', (e) => {
+      // Close if clicking anywhere except the image itself
+      if (e.target !== lightboxImg) {
+        lightbox.classList.remove('open');
+      }
     });
   </script>
 </body>
