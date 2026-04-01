@@ -1519,7 +1519,7 @@
     // ── LIGHT/DARK MODE 3-WAY TOGGLE (System/Dark/Light) ──
     const themeToggleBtn = document.getElementById('themeToggle');
     const mobileThemeToggleBtn = document.getElementById('mobileThemeToggle');
-    let currentTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    let currentTheme = 'dark'; // Always default to dark mode on every site visit
 
     function applyTheme(theme) {
       if (theme === 'system') {
@@ -1534,7 +1534,6 @@
         document.body.classList.remove('light-mode');
         updateToggleTexts('🌙 Dark', '🌙 Dark Mode');
       }
-      localStorage.setItem('portfolio-theme', theme);
       currentTheme = theme;
     }
 
