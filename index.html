@@ -92,22 +92,18 @@
       text-decoration: none;
     }
     
-    /* True Transparency Wrapper to defeat stacking context trapping */
     .nav-logo-img-wrapper {
       display: flex;
-      mix-blend-mode: screen; 
     }
-    body.light-mode .nav-logo-img-wrapper { mix-blend-mode: multiply; }
     
-    /* High contrast & crushed black filter */
     .nav-logo-img-wrapper img { 
       width: 38px; height: 38px; 
       object-fit: contain;
-      filter: grayscale(100%) contrast(500%) brightness(0.5);
+      filter: url(#key-black);
       clip-path: inset(2%);
     }
     body.light-mode .nav-logo-img-wrapper img {
-      filter: invert(1) grayscale(100%) contrast(500%) brightness(0.5);
+      filter: url(#key-black-light);
     }
     
     .nav-logo-text {
@@ -190,23 +186,20 @@
       animation: fadeUp 1.2s 0.2s ease both;
     }
 
-    /* True Transparency Wrapper applied here to defeat stacking context trapping */
     .hero-monogram {
       display: flex; justify-content: center;
       margin-bottom: 28px;
       animation: fadeUp 1.2s 0.1s ease both;
-      mix-blend-mode: screen;
     }
-    body.light-mode .hero-monogram { mix-blend-mode: multiply; }
     
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
-      filter: grayscale(100%) contrast(500%) brightness(0.5);
+      filter: url(#key-black);
       clip-path: inset(2%);
     }
     body.light-mode .hero-monogram img {
-      filter: invert(1) grayscale(100%) contrast(500%) brightness(0.5);
+      filter: url(#key-black-light);
     }
 
     .hero-title {
@@ -1328,8 +1321,7 @@
     </div>
 
     <div class="gallery-filter reveal">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="illustration">Illustration</button>
+      <button class="filter-btn active" data-filter="illustration">Illustration</button>
       <button class="filter-btn" data-filter="portrait">Portrait</button>
       <button class="filter-btn" data-filter="cover">Cover Art</button>
       <button class="filter-btn" data-filter="design">Graphics Design</button>
@@ -1622,58 +1614,71 @@
       }, 1000);
     });
 
-    // ── GALLERY FILTER & RANDOM SLIDESHOW ──
+    // ── GALLERY SLIDESHOW & HIGHLIGHT SYNC ──
+    const galleryGrid = document.getElementById('galleryGrid');
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    const filterBtns = document.querySelectorAll('.filter-btn');
     let randomPanInterval;
     let currentPanIndex = 0;
 
+    function updateActiveButton(category) {
+      filterBtns.forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === category);
+      });
+    }
+
+    // Observer to detect which image is currently in view (handles both auto-pan and manual swipe)
+    const galleryObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const category = entry.target.dataset.category;
+          updateActiveButton(category);
+          currentPanIndex = galleryItems.indexOf(entry.target);
+        }
+      });
+    }, {
+      root: galleryGrid,
+      threshold: 0.6 // Trigger when 60% of the image is visible
+    });
+
+    galleryItems.forEach(item => galleryObserver.observe(item));
+
     function startRandomPanning() {
       clearInterval(randomPanInterval);
-      const container = document.getElementById('galleryGrid');
-      const items = Array.from(document.querySelectorAll('.gallery-item'));
-      
       randomPanInterval = setInterval(() => {
-        const rect = container.getBoundingClientRect();
+        const rect = galleryGrid.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-        if (!isVisible || container.matches(':hover') || container.matches(':active')) return;
+        if (!isVisible || galleryGrid.matches(':hover') || galleryGrid.matches(':active')) return;
         
-        currentPanIndex = (currentPanIndex + 1) % items.length;
-        const nextItem = items[currentPanIndex];
+        currentPanIndex = (currentPanIndex + 1) % galleryItems.length;
+        const nextItem = galleryItems[currentPanIndex];
         
-        const paddingLeft = parseInt(window.getComputedStyle(container).paddingLeft) || 0;
-        container.scrollTo({ 
+        const paddingLeft = parseInt(window.getComputedStyle(galleryGrid).paddingLeft) || 0;
+        galleryGrid.scrollTo({ 
           left: nextItem.offsetLeft - paddingLeft, 
           behavior: 'smooth' 
         });
       }, 3000); 
     }
 
-    function stopRandomPanning() {
-      clearInterval(randomPanInterval);
-    }
-
     startRandomPanning();
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Clicking a header scrolls to the first item in that category
+    filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
         const filter = btn.dataset.filter;
+        const targetItem = galleryItems.find(item => item.dataset.category === filter);
         
-        if (filter === 'all') {
-          startRandomPanning();
-        } else {
-          stopRandomPanning();
-          document.getElementById('galleryGrid').scrollTo({ left: 0, behavior: 'smooth' });
+        if (targetItem) {
+          const paddingLeft = parseInt(window.getComputedStyle(galleryGrid).paddingLeft) || 0;
+          galleryGrid.scrollTo({ 
+            left: targetItem.offsetLeft - paddingLeft, 
+            behavior: 'smooth' 
+          });
         }
-
-        document.querySelectorAll('.gallery-item').forEach(item => {
-          if (filter === 'all' || item.dataset.category === filter) {
-            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
-          } else {
-            item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
-          }
-        });
+        // Restart panning to pause the timer and prevent an instant jump back
+        startRandomPanning();
       });
     });
 
