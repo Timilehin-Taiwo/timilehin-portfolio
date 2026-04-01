@@ -31,10 +31,10 @@
       --near-black: #e8e4df;
       --dark: #dcd7d0;
       --mid: #c8b89a;
-      --grey: #5a5a5a;
-      --light-grey: #2e2e2e;
-      --off-white: #111111;
-      --white: #080808;
+      --grey: #444444;       /* Darkened for better contrast */
+      --light-grey: #222222; /* Darkened for better contrast */
+      --off-white: #0a0a0a;  /* Darkened for better contrast */
+      --white: #000000;
       --accent: #a68a56; 
       --accent-dim: rgba(166, 138, 86, 0.15);
     }
@@ -69,6 +69,9 @@
       opacity: 0.05;
       mix-blend-mode: multiply;
     }
+    
+    /* Hide Mobile Menu globally on desktop to prevent duplicate blue links bug */
+    .mobile-menu { display: none; }
 
     /* ── NAV ── */
     nav {
@@ -91,12 +94,13 @@
     .nav-logo img { 
       width: 38px; height: 38px; 
       object-fit: contain;
-      /* Custom transparency SVG filter applied here */
-      filter: url(#remove-black);
+      mix-blend-mode: screen;
+      filter: grayscale(100%) contrast(500%);
+      clip-path: inset(2%);
     }
     body.light-mode .nav-logo img {
-      /* Inverts the perfectly masked white logo into a black logo */
-      filter: url(#remove-black) invert(1);
+      filter: invert(1) grayscale(100%) contrast(500%);
+      mix-blend-mode: multiply;
     }
     .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
@@ -166,6 +170,7 @@
       position: relative; z-index: 3;
       text-align: center;
       animation: fadeUp 1.4s ease both;
+      padding: 0 24px;
     }
 
     .hero-eyebrow {
@@ -184,17 +189,19 @@
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
-      /* Custom transparency SVG filter applied here */
-      filter: url(#remove-black);
+      mix-blend-mode: screen;
+      filter: grayscale(100%) contrast(500%);
+      clip-path: inset(2%);
     }
     body.light-mode .hero-monogram img {
-      filter: url(#remove-black) invert(1);
+      filter: invert(1) grayscale(100%) contrast(500%);
+      mix-blend-mode: multiply;
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(52px, 9vw, 130px);
-      font-weight: 300; line-height: 0.9;
+      font-size: clamp(40px, 8vw, 100px); /* Slightly refined to fit longer text */
+      font-weight: 300; line-height: 1;
       letter-spacing: -0.02em;
       color: var(--white);
       animation: fadeUp 1.2s 0.35s ease both;
@@ -444,7 +451,7 @@
       color: var(--accent);
     }
     
-    /* CART BUTTONS */
+    /* CART BUTTONS & CALCULATOR */
     .add-to-cart-btn {
       background: transparent; border: 1px solid var(--accent);
       color: var(--accent); font-family: 'DM Mono', monospace;
@@ -453,6 +460,13 @@
       transition: all 0.3s ease;
     }
     .add-to-cart-btn:hover { background: var(--accent); color: var(--black); }
+    
+    .calculator-box {
+      background: var(--near-black); padding: 32px; 
+      border: 1px solid rgba(150,150,150,0.1); border-radius: 4px;
+      margin-top: 24px; transition: border-color 0.3s ease;
+    }
+    .calculator-box:hover { border-color: rgba(200,184,154,0.3); }
 
     /* ── CART UI SYSTEM ── */
     #cartToggleBtn {
@@ -581,7 +595,7 @@
       padding: 0 48px 48px;
       overflow-x: auto; scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
-      position: relative; /* Added to ensure scroll calculations are perfectly bounded */
+      position: relative; 
     }
     .gallery-slideshow::-webkit-scrollbar { display: none; } 
     
@@ -640,15 +654,12 @@
       text-decoration: none; transition: border-color 0.4s ease;
     }
     .contact-link-icon {
-      width: 40px; height: 40px; border: 1px solid rgba(150,150,150,0.2);
+      width: 40px; height: 40px; 
       display: flex; align-items: center; justify-content: center;
-      font-family: sans-serif;
-      font-size: 16px; flex-shrink: 0; border-radius: 4px;
-      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-      color: var(--off-white);
+      flex-shrink: 0;
     }
-    .contact-link-item:hover .contact-link-icon {
-      background: var(--accent); border-color: var(--accent); color: var(--black);
+    .contact-link-icon img {
+      width: 100%; height: 100%; object-fit: contain;
     }
     .contact-link-label {
       font-family: 'DM Mono', monospace;
@@ -677,6 +688,10 @@
       outline: none; resize: none;
       transition: border-color 0.3s ease, color 0.4s ease;
       appearance: none;
+    }
+    .form-field input[type="file"] {
+      padding-bottom: 0;
+      color: var(--grey);
     }
     .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
       border-bottom-color: var(--accent);
@@ -738,8 +753,8 @@
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
 
-    /* ── MOBILE ── */
-    @media (max-width: 900px) {
+    /* ── MOBILE & TABLET (Expanded breakpoint to 1024px to fix iPad Pro lag & layout) ── */
+    @media (max-width: 1024px) {
       nav { padding: 22px 24px; }
       nav.scrolled { padding: 14px 24px; }
       .nav-links { display: none; }
@@ -803,27 +818,6 @@
 </head>
 <body>
 
-  <!-- INVISIBLE SVG FILTER FOR LOGO TRANSPARENCY -->
-  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
-    <defs>
-      <filter id="remove-black" color-interpolation-filters="sRGB">
-        <!-- High contrast threshold to cleanly separate logo from its JPG background -->
-        <feComponentTransfer>
-          <feFuncR type="linear" slope="5" intercept="-1" />
-          <feFuncG type="linear" slope="5" intercept="-1" />
-          <feFuncB type="linear" slope="5" intercept="-1" />
-        </feComponentTransfer>
-        <!-- Maps the white logo to solid white (RGB) and pure transparency for the black -->
-        <feColorMatrix type="matrix" values="
-          0 0 0 0 1
-          0 0 0 0 1
-          0 0 0 0 1
-          1 0 0 0 0
-        " />
-      </filter>
-    </defs>
-  </svg>
-
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="#about">About</a>
@@ -865,12 +859,12 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
-      </div>
-      <h1 class="hero-title">Art For you</h1>
-      <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
     </div>
-    <div class="hero-scroll">
+    <h1 class="hero-title">Bringing Narratives to Life</h1>
+    <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+  </div>
+  <div class="hero-scroll">
       <div class="scroll-arrow">↓</div>
     </div>
   </section>
@@ -1058,6 +1052,23 @@
           </div>
         </div>
       </div>
+
+      <!-- CUSTOM STORYBOARD CALCULATOR -->
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
+      <div class="calculator-box">
+        <p style="font-size: 13px; color: var(--grey); margin-bottom: 24px;">Need more than 50 frames? Calculate your exact project cost here (₦6,500 per frame).</p>
+        <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label>Number of Frames</label>
+            <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent);" />
+          </div>
+          <div style="flex: 1; min-width: 150px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
+            <div class="price-amount" id="calcTotal">₦331,500</div>
+          </div>
+          <button type="button" class="add-to-cart-btn" id="calcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Cart</button>
+        </div>
+      </div>
     </div>
 
     <!-- PORTRAIT -->
@@ -1214,18 +1225,27 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <form id="cartForm" onsubmit="handleCartSubmit(event)">
+      <form id="cartForm" onsubmit="handleCartSubmit(event)" enctype="multipart/form-data">
         <div class="form-field">
           <label>Your Name</label>
           <input type="text" name="name" placeholder="Full name" required />
         </div>
         <div class="form-field">
-          <label>Email / WhatsApp</label>
-          <input type="text" name="contact" placeholder="How to reach you" required />
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-field">
+          <label>WhatsApp Number</label>
+          <input type="tel" name="whatsapp" placeholder="+234..." required />
         </div>
         <div class="form-field">
           <label>Order Notes</label>
           <textarea name="brief" placeholder="Any specific requirements or references for these items?"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Attachment (Max 1 File, 25MB)</label>
+          <input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt" />
+          <p style="font-size: 9px; color: var(--grey); margin-top: 6px;">Additional Materials for the brief e.g script, shot list, reference image, etc</p>
         </div>
         <button type="submit" class="form-submit">
           Place Order <span class="form-submit-arrow">→</span>
@@ -1364,21 +1384,21 @@
         </p>
         <div class="contact-links">
           <a href="https://wa.me/2349033547114" class="contact-link-item" target="_blank" rel="noopener">
-            <div class="contact-link-icon">✉</div>
+            <div class="contact-link-icon"><img src="Whatsapp%20Logo.png" alt="WhatsApp" /></div>
             <div>
               <div class="contact-link-label">WhatsApp</div>
               <div class="contact-link-value">Message Directly</div>
             </div>
           </a>
           <a href="https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr" class="contact-link-item" target="_blank" rel="noopener">
-            <div class="contact-link-icon">◎</div>
+            <div class="contact-link-icon"><img src="Instagram%20Logo.png" alt="Instagram" /></div>
             <div>
               <div class="contact-link-label">Instagram</div>
               <div class="contact-link-value">@timilehin.taiwo</div>
             </div>
           </a>
           <a href="mailto:olasunkanmitimilehintaiwo@gmail.com" class="contact-link-item">
-            <div class="contact-link-icon">@</div>
+            <div class="contact-link-icon"><img src="Gmail%20Logo.png" alt="Email" /></div>
             <div>
               <div class="contact-link-label">Email</div>
               <div class="contact-link-value">olasunkanmitimilehintaiwo@gmail.com</div>
@@ -1389,18 +1409,29 @@
 
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
-        <form id="contactForm" onsubmit="handleContactSubmit(event)">
+        <form id="generalContactForm" onsubmit="handleContactSubmit(event)" enctype="multipart/form-data">
           <div class="form-field">
             <label>Your Name</label>
             <input type="text" name="name" placeholder="Full name" required />
           </div>
-          <div class="form-field">
-            <label>Email / WhatsApp</label>
-            <input type="text" name="contact" placeholder="How to reach you" required />
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <div class="form-field" style="flex: 1; min-width: 150px;">
+              <label>Email Address</label>
+              <input type="email" name="email" placeholder="your@email.com" required />
+            </div>
+            <div class="form-field" style="flex: 1; min-width: 150px;">
+              <label>WhatsApp Number</label>
+              <input type="tel" name="whatsapp" placeholder="+234..." required />
+            </div>
           </div>
           <div class="form-field">
             <label>Message / Brief</label>
             <textarea name="brief" placeholder="Tell me about your idea..."></textarea>
+          </div>
+          <div class="form-field">
+            <label>Attachment (Max 1 File, 25MB)</label>
+            <input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt" />
+            <p style="font-size: 9px; color: var(--grey); margin-top: 6px;">Additional Materials for the brief e.g script, shot list, reference image, etc</p>
           </div>
           <button type="submit" class="form-submit">
             Send Message <span class="form-submit-arrow">→</span>
@@ -1483,6 +1514,39 @@
       });
     });
 
+    // ── STORYBOARD CALCULATOR ──
+    const calcFrames = document.getElementById('calcFrames');
+    const calcTotal = document.getElementById('calcTotal');
+    const calcAddToCart = document.getElementById('calcAddToCart');
+    const RATE_PER_FRAME = 6500;
+
+    function updateCalculator() {
+      const frames = Math.max(1, parseInt(calcFrames.value) || 0);
+      const total = frames * RATE_PER_FRAME;
+      calcTotal.textContent = '₦' + total.toLocaleString();
+    }
+
+    calcFrames.addEventListener('input', updateCalculator);
+
+    calcAddToCart.addEventListener('click', (e) => {
+      const frames = Math.max(1, parseInt(calcFrames.value) || 0);
+      const total = frames * RATE_PER_FRAME;
+      const name = `${frames} Frames Custom Storyboard`;
+      
+      cart.push({ name, price: total });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
+
     // ── GALLERY FILTER & RANDOM SLIDESHOW ──
     let randomPanInterval;
     let currentPanIndex = 0;
@@ -1493,30 +1557,26 @@
       const items = Array.from(document.querySelectorAll('.gallery-item'));
       
       randomPanInterval = setInterval(() => {
-        // 1. Prevent vertical page jumps by checking if the gallery is actually in view
         const rect = container.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-        // 2. Pause panning if off-screen, hovered, or actively scrolling
         if (!isVisible || container.matches(':hover') || container.matches(':active')) return;
         
         currentPanIndex = (currentPanIndex + 1) % items.length;
         const nextItem = items[currentPanIndex];
         
-        // 3. Use strictly horizontal scrollTo instead of scrollIntoView to NEVER affect the vertical window scroll
         const paddingLeft = parseInt(window.getComputedStyle(container).paddingLeft) || 0;
         container.scrollTo({ 
           left: nextItem.offsetLeft - paddingLeft, 
           behavior: 'smooth' 
         });
-      }, 3000); // Pans every 3 seconds
+      }, 3000); 
     }
 
     function stopRandomPanning() {
       clearInterval(randomPanInterval);
     }
 
-    // Start panning immediately on load
     startRandomPanning();
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1529,7 +1589,6 @@
           startRandomPanning();
         } else {
           stopRandomPanning();
-          // Reset scroll to start when viewing a specific category
           document.getElementById('galleryGrid').scrollTo({ left: 0, behavior: 'smooth' });
         }
 
@@ -1549,7 +1608,7 @@
     const cartModal = document.getElementById('cartModal');
     
     // Add to Cart
-    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'));
@@ -1559,9 +1618,11 @@
         const originalText = e.target.textContent;
         e.target.textContent = "Added!";
         e.target.style.background = "var(--white)";
+        e.target.style.color = "var(--black)";
         setTimeout(() => { 
           e.target.textContent = originalText; 
           e.target.style.background = "transparent"; 
+          e.target.style.color = "var(--accent)";
         }, 1000);
       });
     });
@@ -1590,7 +1651,6 @@
       }
     }
 
-    // Must attach to window for inline onclick to work
     window.removeFromCart = function(index) {
       cart.splice(index, 1);
       updateCartUI();
@@ -1599,7 +1659,7 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // Cart Order Submit
+    // Cart Order Submit (FormData handling for files)
     function handleCartSubmit(e) {
       e.preventDefault();
       if (cart.length === 0) return alert("Your cart is empty!");
@@ -1610,26 +1670,23 @@
       btn.textContent = 'Processing...';
 
       const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      formData.append("FormType", "Shopping Cart Order");
+      formData.append("_captcha", "false");
 
-      // Generate Order Summary Text
       let orderSummaryText = "ORDER SUMMARY:\n";
       cart.forEach(item => { orderSummaryText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
+      formData.append("OrderSummary", orderSummaryText);
 
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          FormType: "Shopping Cart Order",
-          Name: data.name,
-          Contact: data.contact,
-          OrderSummary: orderSummaryText,
-          ClientNotes: data.brief,
-          _captcha: "false"
-        })
+        headers: { 'Accept': 'application/json' }, // Exclude Content-Type so browser sets boundaries for FormData
+        body: formData
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(result => {
         form.style.display = 'none';
         document.getElementById('cartFormMsg').style.display = 'block';
@@ -1638,11 +1695,11 @@
       .catch(error => {
         console.error('Error:', error);
         btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem submitting your order. Please try again.");
+        alert("Oops! There was a problem submitting your order. Please check your network connection and try again.");
       });
     }
 
-    // General Contact Submit (Bottom of Page)
+    // General Contact Submit (FormData handling for files)
     function handleContactSubmit(e) {
       e.preventDefault();
       const form = e.target;
@@ -1651,20 +1708,18 @@
       btn.textContent = 'Sending...';
 
       const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
+      formData.append("FormType", "General Enquiry");
+      formData.append("_captcha", "false");
 
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          FormType: "General Enquiry",
-          Name: data.name,
-          Contact: data.contact,
-          Message: data.brief,
-          _captcha: "false"
-        })
+        headers: { 'Accept': 'application/json' }, // Exclude Content-Type so browser sets boundaries for FormData
+        body: formData
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
       .then(result => {
         form.style.display = 'none';
         document.getElementById('formMsg').style.display = 'block';
@@ -1672,7 +1727,7 @@
       .catch(error => {
         console.error('Error:', error);
         btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem sending your message. Please try again.");
+        alert("Oops! There was a problem sending your message. Please check your network connection and try again.");
       });
     }
 
@@ -1688,11 +1743,9 @@
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     
-    // Expand Images on Click
     document.querySelectorAll('.price-img-wrapper, .gallery-item').forEach(container => {
       container.addEventListener('click', (e) => {
         const img = container.querySelector('img');
-        // Only open if an image actually exists (skips placeholders)
         if (img) {
           lightboxImg.src = img.src;
           lightbox.classList.add('open');
@@ -1700,9 +1753,7 @@
       });
     });
 
-    // Close Lightbox
     lightbox.addEventListener('click', (e) => {
-      // Close if clicking anywhere except the image itself
       if (e.target !== lightboxImg) {
         lightbox.classList.remove('open');
       }
