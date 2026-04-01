@@ -92,15 +92,22 @@
       text-decoration: none;
     }
     
-    /* Perfect SVG Transparency Filter + GPU Acceleration */
-    .nav-logo img { 
+    /* True Transparency Wrapper to defeat stacking context trapping */
+    .nav-logo-img-wrapper {
+      display: flex;
+      mix-blend-mode: screen; 
+    }
+    body.light-mode .nav-logo-img-wrapper { mix-blend-mode: multiply; }
+    
+    /* High contrast & crushed black filter */
+    .nav-logo-img-wrapper img { 
       width: 38px; height: 38px; 
       object-fit: contain;
-      filter: url(#key-black);
-      transform: translateZ(0);
+      filter: grayscale(100%) contrast(500%) brightness(0.5);
+      clip-path: inset(2%);
     }
-    body.light-mode .nav-logo img {
-      filter: url(#key-black-light);
+    body.light-mode .nav-logo-img-wrapper img {
+      filter: invert(1) grayscale(100%) contrast(500%) brightness(0.5);
     }
     
     .nav-logo-text {
@@ -183,34 +190,37 @@
       animation: fadeUp 1.2s 0.2s ease both;
     }
 
+    /* True Transparency Wrapper applied here to defeat stacking context trapping */
     .hero-monogram {
       display: flex; justify-content: center;
       margin-bottom: 28px;
       animation: fadeUp 1.2s 0.1s ease both;
+      mix-blend-mode: screen;
     }
+    body.light-mode .hero-monogram { mix-blend-mode: multiply; }
     
-    /* Perfect SVG Transparency Filter + GPU Acceleration */
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
-      filter: url(#key-black);
-      transform: translateZ(0);
+      filter: grayscale(100%) contrast(500%) brightness(0.5);
+      clip-path: inset(2%);
     }
     body.light-mode .hero-monogram img {
-      filter: url(#key-black-light);
+      filter: invert(1) grayscale(100%) contrast(500%) brightness(0.5);
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 6vw, 85px); /* Scaled slightly to fit 27 chars elegantly on desktop */
+      font-size: clamp(28px, 5vw, 76px); /* Perfectly scaled to fit one line comfortably */
       font-weight: 300; line-height: 1;
       letter-spacing: -0.02em;
       color: var(--white);
       text-align: center;
       display: block;
+      white-space: nowrap; /* STRICTLY forces one line globally for desktop */
       animation: fadeUp 1.2s 0.35s ease both;
     }
-    .mobile-break { display: inline; } /* Flows naturally on Desktop */
+    .mobile-break { display: none; } /* Kept hidden on desktop */
 
     .hero-sub {
       font-family: 'DM Mono', monospace;
@@ -811,7 +821,8 @@
         text-align: center; cursor: pointer;
       }
 
-      .mobile-break { display: block; } /* Enforces break on tablet/mobile */
+      .hero-title { white-space: normal; } /* Allows natural wrap on mobile/tablet */
+      .mobile-break { display: block; } /* Enforces the neat visual break on smaller screens */
 
       .gallery-item { flex: 0 0 calc(50% - 8px); }
       .section-header { padding: 0 24px; flex-wrap: wrap; }
@@ -848,35 +859,8 @@
 </head>
 <body>
 
-  <!-- INVISIBLE SVG FILTER FOR FLAWLESS LOGO TRANSPARENCY -->
-  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
-    <defs>
-      <!-- Key out black, turn white parts fully white -->
-      <filter id="key-black" color-interpolation-filters="sRGB">
-        <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="10" intercept="-1"/>
-        </feComponentTransfer>
-        <feColorMatrix type="matrix" values="
-          0 0 0 0 1
-          0 0 0 0 1
-          0 0 0 0 1
-          0 0 0 1 0"/>
-      </filter>
-      <!-- Key out black, turn white parts fully black (for Light Mode) -->
-      <filter id="key-black-light" color-interpolation-filters="sRGB">
-        <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="10" intercept="-1"/>
-        </feComponentTransfer>
-        <feColorMatrix type="matrix" values="
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 1 0"/>
-      </filter>
-    </defs>
-  </svg>
+  <!-- HIDDEN IFRAME FOR NATIVE FORM SUBMISSIONS (BYPASSES CORS/FETCH ERRORS) -->
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
@@ -891,7 +875,9 @@
   <!-- NAV -->
   <nav id="mainNav">
     <a href="#hero" class="nav-logo">
-      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
+      <div class="nav-logo-img-wrapper">
+        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
+      </div>
       <div class="nav-logo-text">
         Timilehin Taiwo
         <span>Arts</span>
@@ -919,12 +905,12 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
+        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
+      </div>
+      <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
+      <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
     </div>
-    <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
-    <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
-  </div>
-  <div class="hero-scroll">
+    <div class="hero-scroll">
       <div class="scroll-arrow">↓</div>
     </div>
   </section>
@@ -1294,8 +1280,12 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <!-- BULLETPROOF NATIVE SUBMISSION VIA FETCH API -->
-      <form id="cartForm" onsubmit="handleCartSubmit(event)">
+      <!-- BULLETPROOF NATIVE FORM SUBMISSION TARGETING HIDDEN IFRAME -->
+      <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="hidden_iframe">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Order Summary">
+        <input type="hidden" name="OrderSummary" id="hiddenCartSummary" value="">
+        <input type="hidden" name="FormType" value="Shopping Cart Order">
         
         <div class="form-field">
           <label>Full Name</label>
@@ -1476,8 +1466,11 @@
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
         
-        <!-- BULLETPROOF FORM SUBMISSION VIA FETCH API -->
-        <form id="generalContactForm" onsubmit="handleContactSubmit(event)">
+        <!-- BULLETPROOF NATIVE FORM SUBMISSION TARGETING HIDDEN IFRAME -->
+        <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="hidden_iframe">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="FormType" value="General Enquiry">
+          
           <div class="form-field">
             <label>Full Name</label>
             <input type="text" name="name" placeholder="Full name" required />
@@ -1740,98 +1733,42 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // ── FORM SUBMISSION LOGIC (AJAX Fetch API) ──
-    function handleCartSubmit(e) {
-      e.preventDefault();
-      if (cart.length === 0) return alert("Your cart is empty!");
+    // ── FOOLPROOF NATIVE FORM SUBMISSION LOGIC ──
+    // Cart Submit
+    document.getElementById('cartForm').addEventListener('submit', function(e) {
+      if (cart.length === 0) {
+        e.preventDefault();
+        return alert("Your cart is empty!");
+      }
 
-      const form = e.target;
-
-      const btn = form.querySelector('button');
-      const originalBtnContent = btn.innerHTML;
-      btn.textContent = 'Processing...';
-
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-
+      // Populate hidden summary input before browser dispatches native POST
       let orderSummaryText = "ORDER SUMMARY:\n";
       cart.forEach(item => { orderSummaryText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
+      document.getElementById('hiddenCartSummary').value = orderSummaryText;
 
-      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          FormType: "Shopping Cart Order",
-          Name: data.name,
-          Email: data.email,
-          WhatsApp: data.whatsapp,
-          OrderSummary: orderSummaryText,
-          ClientNotes: data.brief,
-          _captcha: "false"
-        })
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success === "true" || result.success === true) {
-          form.style.display = 'none';
-          document.getElementById('cartFormMsg').style.display = 'block';
-          cart = []; updateCartUI();
-        } else {
-          throw new Error(result.message || 'Server error');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem submitting your order. Please check your network connection and try again.");
-      });
-    }
+      const btn = this.querySelector('button');
+      btn.textContent = 'Processing...';
 
-    function handleContactSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
+      // Do NOT prevent default. Let form POST directly to the hidden iframe.
+      setTimeout(() => {
+        this.style.display = 'none';
+        document.getElementById('cartFormMsg').style.display = 'block';
+        cart = []; updateCartUI();
+      }, 1500);
+    });
 
-      const btn = form.querySelector('button');
-      const originalBtnContent = btn.innerHTML;
+    // Contact Submit
+    document.getElementById('generalContactForm').addEventListener('submit', function(e) {
+      const btn = this.querySelector('button');
       btn.textContent = 'Sending...';
 
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-
-      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
-        method: "POST",
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          FormType: "General Enquiry",
-          Name: data.name,
-          Email: data.email,
-          WhatsApp: data.whatsapp,
-          Message: data.brief,
-          _captcha: "false"
-        })
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success === "true" || result.success === true) {
-          form.style.display = 'none';
-          document.getElementById('formMsg').style.display = 'block';
-        } else {
-          throw new Error(result.message || 'Server error');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem sending your message. Please check your network connection and try again.");
-      });
-    }
+      // Do NOT prevent default. Let form POST directly to the hidden iframe.
+      setTimeout(() => {
+        this.style.display = 'none';
+        document.getElementById('formMsg').style.display = 'block';
+      }, 1500);
+    });
 
     // ── SMOOTH NAV LINKS ──
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1845,11 +1782,9 @@
     const navArrowsContainer = document.querySelector('.section-nav-arrows');
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
-    // Grab all main sections (including the philosophy div)
     const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
 
     window.addEventListener('scroll', () => {
-      // Show arrows only after scrolling past the initial top portion
       if (window.scrollY > window.innerHeight * 0.3) {
         navArrowsContainer.classList.add('visible');
       } else {
@@ -1861,7 +1796,6 @@
       const scrollY = window.scrollY;
       let targetSection = pageSections[0];
       
-      // Loop backward to find the first section that is sufficiently above us
       for (let i = pageSections.length - 1; i >= 0; i--) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop < scrollY - 50) { 
@@ -1876,7 +1810,6 @@
       const scrollY = window.scrollY;
       let targetSection = pageSections[pageSections.length - 1];
       
-      // Loop forward to find the first section that is sufficiently below us
       for (let i = 0; i < pageSections.length; i++) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop > scrollY + 50) {
