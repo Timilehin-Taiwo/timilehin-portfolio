@@ -1320,11 +1320,6 @@
           <label>Order Notes</label>
           <textarea name="brief" placeholder="Any specific requirements or references for these items?"></textarea>
         </div>
-        <div class="form-field">
-          <label>Attachment (Max 1 File, 25MB)</label>
-          <input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt" class="file-validator" />
-          <p style="font-size: 9px; color: var(--grey); margin-top: 6px;">Additional Materials for the brief e.g script, shot list, reference image, etc</p>
-        </div>
         <button type="submit" class="form-submit">
           Place Order <span class="form-submit-arrow">→</span>
         </button>
@@ -1508,11 +1503,6 @@
           <div class="form-field">
             <label>Message / Brief</label>
             <textarea name="brief" placeholder="Tell me about your idea..."></textarea>
-          </div>
-          <div class="form-field">
-            <label>Attachment (Max 1 File, 25MB)</label>
-            <input type="file" name="attachment" accept="image/*,.pdf,.doc,.docx,.txt" class="file-validator" />
-            <p style="font-size: 9px; color: var(--grey); margin-top: 6px;">Additional Materials for the brief e.g script, shot list, reference image, etc</p>
           </div>
           <button type="submit" class="form-submit">
             Send Message <span class="form-submit-arrow">→</span>
@@ -1760,33 +1750,12 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // ── FILE UPLOAD SIZE VALIDATION (25MB LIMIT) ──
-    function validateFileSize(inputElement) {
-      if (inputElement.files && inputElement.files[0]) {
-        const fileSizeMB = inputElement.files[0].size / 1024 / 1024;
-        if (fileSizeMB > 25) {
-          alert("The attached file exceeds the 25MB limit. Please choose a smaller file.");
-          inputElement.value = ""; // Clears the input
-          return false;
-        }
-      }
-      return true;
-    }
-
-    document.querySelectorAll('.file-validator').forEach(input => {
-      input.addEventListener('change', function() {
-        validateFileSize(this);
-      });
-    });
-
     // ── FORM SUBMISSION LOGIC (AJAX Fetch API) ──
     function handleCartSubmit(e) {
       e.preventDefault();
       if (cart.length === 0) return alert("Your cart is empty!");
 
       const form = e.target;
-      const fileInput = form.querySelector('input[type="file"]');
-      if (!validateFileSize(fileInput)) return;
 
       const btn = form.querySelector('button');
       const originalBtnContent = btn.innerHTML;
@@ -1825,9 +1794,6 @@
     function handleContactSubmit(e) {
       e.preventDefault();
       const form = e.target;
-      
-      const fileInput = form.querySelector('input[type="file"]');
-      if (!validateFileSize(fileInput)) return;
 
       const btn = form.querySelector('button');
       const originalBtnContent = btn.innerHTML;
