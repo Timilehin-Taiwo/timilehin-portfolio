@@ -91,16 +91,19 @@
       display: flex; align-items: center; gap: 12px;
       text-decoration: none;
     }
-    /* Logo blends perfectly, dropping black in dark mode, and white in light mode */
+    
+    /* Perfect Transparency Math: Forces any dark greys into pure black before blending */
     .nav-logo img { 
       width: 38px; height: 38px; 
       object-fit: contain;
       mix-blend-mode: screen;
+      filter: brightness(0.6) contrast(500%) grayscale(100%);
     }
     body.light-mode .nav-logo img {
-      filter: invert(1);
       mix-blend-mode: multiply;
+      filter: invert(1) brightness(0.6) contrast(500%) grayscale(100%);
     }
+    
     .nav-logo-text {
       font-family: 'Cormorant Garamond', serif;
       font-size: 14px; font-weight: 600; letter-spacing: 0.2em;
@@ -185,13 +188,17 @@
       margin-bottom: 28px;
       animation: fadeUp 1.2s 0.1s ease both;
     }
+    
+    /* Perfect Transparency Math applied here too */
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
       mix-blend-mode: screen;
-    .hero-monogram img {
-      filter: invert(1) grayscale(100%) contrast(500%);
+      filter: brightness(0.6) contrast(500%) grayscale(100%);
+    }
+    body.light-mode .hero-monogram img {
       mix-blend-mode: multiply;
+      filter: invert(1) brightness(0.6) contrast(500%) grayscale(100%);
     }
 
     .hero-title {
@@ -200,8 +207,8 @@
       font-weight: 300; line-height: 1;
       letter-spacing: -0.02em;
       color: var(--white);
-      text-align: left;
-      display: inline-block;
+      text-align: center;
+      display: block;
       animation: fadeUp 1.2s 0.35s ease both;
     }
 
@@ -651,15 +658,18 @@
       padding-bottom: 20px; border-bottom: 1px solid rgba(150,150,150,0.1);
       text-decoration: none; transition: border-color 0.4s ease;
     }
+    
+    /* Perfect 50% Scaled Down Icons (14px) */
     .contact-link-icon {
-      /* Scaled down 50% from 40px to 20px */
-      width: 20px; height: 20px; 
+      width: 32px; height: 32px; 
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
     .contact-link-icon img {
-      width: 100%; height: 100%; object-fit: contain;
+      width: 14px; height: 14px; 
+      object-fit: contain;
     }
+    
     .contact-link-label {
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.3em; color: var(--grey); text-transform: uppercase;
@@ -752,7 +762,7 @@
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
 
-    /* ── MOBILE & TABLET (Expanded breakpoint to 1024px to fix iPad Pro lag & layout) ── */
+    /* ── MOBILE & TABLET ── */
     @media (max-width: 1024px) {
       nav { padding: 22px 24px; }
       nav.scrolled { padding: 14px 24px; }
@@ -761,7 +771,6 @@
       .hamburger { display: flex; }
 
       .mobile-menu {
-        /* Keep strictly hidden on mobile UNLESS the .open class is active */
         display: none !important; 
         position: fixed;
         top: 0; right: 0; bottom: 0; width: 280px;
@@ -787,8 +796,6 @@
         padding: 12px 16px; border-radius: 4px; text-transform: uppercase;
         text-align: center; cursor: pointer;
       }
-
-      .hero-title { text-align: center; }
 
       .gallery-item { flex: 0 0 calc(50% - 8px); }
       .section-header { padding: 0 24px; flex-wrap: wrap; }
@@ -863,12 +870,12 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
-      </div>
-      <h1 class="hero-title">Bringing Narratives<br/>To Life</h1>
-      <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
     </div>
-    <div class="hero-scroll">
+    <h1 class="hero-title">Bringing Narratives<br/>To Life</h1>
+    <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+  </div>
+  <div class="hero-scroll">
       <div class="scroll-arrow">↓</div>
     </div>
   </section>
@@ -1060,14 +1067,13 @@
       <!-- CUSTOM STORYBOARD CALCULATOR -->
       <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
       <div class="calculator-box">
-        <p style="font-size: 13px; color: var(--grey); margin-bottom: 24px;">Need more than 50 frames? Calculate your custom project cost here.</p>
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
-            <label>Number of Frames</label>
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <button type="button" id="calcMinus" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); width: 32px; height: 32px; font-size: 16px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
-              <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none;" />
-              <button type="button" id="calcPlus" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); width: 32px; height: 32px; font-size: 16px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+            <label style="margin-bottom: 12px;">Number of Frames</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" id="calcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="calcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
             </div>
           </div>
           <div style="flex: 1; min-width: 150px;">
@@ -1233,8 +1239,15 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <!-- Removed headers via JS below for successful FormData transfer -->
-      <form id="cartForm" onsubmit="handleCartSubmit(event)" enctype="multipart/form-data">
+      <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
+      <iframe name="cart_iframe" id="cart_iframe" style="display:none;" onload="cartSuccess()"></iframe>
+      <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="cart_iframe" enctype="multipart/form-data" onsubmit="handleCartSubmit(event)">
+        <!-- Config for FormSubmit -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Order Summary">
+        <input type="hidden" name="OrderSummary" id="hiddenCartSummary" value="">
+        <input type="hidden" name="FormType" value="Shopping Cart Order">
+        
         <div class="form-field">
           <label>Your Name</label>
           <input type="text" name="name" placeholder="Full name" required />
@@ -1418,7 +1431,14 @@
 
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
-        <form id="generalContactForm" onsubmit="handleContactSubmit(event)" enctype="multipart/form-data">
+        
+        <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
+        <iframe name="contact_iframe" id="contact_iframe" style="display:none;" onload="contactSuccess()"></iframe>
+        <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="contact_iframe" enctype="multipart/form-data" onsubmit="handleContactSubmit(event)">
+          <!-- Config for FormSubmit -->
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="FormType" value="General Enquiry">
+          
           <div class="form-field">
             <label>Your Name</label>
             <input type="text" name="name" placeholder="Full name" required />
@@ -1466,7 +1486,7 @@
     // ── LIGHT/DARK MODE 3-WAY TOGGLE (System/Dark/Light) ──
     const themeToggleBtn = document.getElementById('themeToggle');
     const mobileThemeToggleBtn = document.getElementById('mobileThemeToggle');
-    let currentTheme = localStorage.getItem('portfolio-theme') || 'system';
+    let currentTheme = localStorage.getItem('portfolio-theme') || 'dark';
 
     function applyTheme(theme) {
       if (theme === 'system') {
@@ -1499,12 +1519,11 @@
     themeToggleBtn.addEventListener('click', cycleTheme);
     mobileThemeToggleBtn.addEventListener('click', cycleTheme);
 
-    // Watch for system preference changes while in "system" mode
     window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
       if (currentTheme === 'system') applyTheme('system');
     });
 
-    applyTheme(currentTheme); // Initialize Theme
+    applyTheme(currentTheme);
 
     // ── NAV & MOBILE MENU ──
     const nav = document.getElementById('mainNav');
@@ -1542,7 +1561,7 @@
 
     function updateCalculator() {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-      calcFrames.value = frames; // Keep input visual in sync with constraints
+      calcFrames.value = frames; // Keep sync
       const total = frames * RATE_PER_FRAME;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
@@ -1636,7 +1655,6 @@
     const cartToggleBtn = document.getElementById('cartToggleBtn');
     const cartModal = document.getElementById('cartModal');
     
-    // Add to Cart
     document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const name = e.target.getAttribute('data-name');
@@ -1688,75 +1706,48 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // Cart Order Submit 
+    // ── FOOLPROOF IFRAME FORM SUBMISSION LOGIC ──
+    let cartSubmitted = false;
+    let contactSubmitted = false;
+
     function handleCartSubmit(e) {
-      e.preventDefault();
-      if (cart.length === 0) return alert("Your cart is empty!");
+      if (cart.length === 0) {
+        e.preventDefault();
+        return alert("Your cart is empty!");
+      }
 
-      const form = e.target;
-      const btn = form.querySelector('button');
-      const originalBtnContent = btn.innerHTML;
-      btn.textContent = 'Processing...';
-
-      const formData = new FormData(form);
-      formData.append("FormType", "Shopping Cart Order");
-      formData.append("_captcha", "false");
-
+      // Generate Order Summary Text to the hidden input before submission proceeds
       let orderSummaryText = "ORDER SUMMARY:\n";
       cart.forEach(item => { orderSummaryText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
-      formData.append("OrderSummary", orderSummaryText);
+      document.getElementById('hiddenCartSummary').value = orderSummaryText;
 
-      // Sent without explicit headers so browser accurately handles boundary boundaries for form files
-      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) throw new Error('Network error');
-        return response.json();
-      })
-      .then(result => {
-        form.style.display = 'none';
-        document.getElementById('cartFormMsg').style.display = 'block';
-        cart = []; updateCartUI();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem submitting your order. Make sure you activated your FormSubmit email via your inbox.");
-      });
+      cartSubmitted = true;
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Processing...';
     }
 
-    // General Contact Submit 
+    function cartSuccess() {
+      if (cartSubmitted) {
+        document.getElementById('cartForm').style.display = 'none';
+        document.getElementById('cartFormMsg').style.display = 'block';
+        cart = []; updateCartUI();
+        cartSubmitted = false;
+      }
+    }
+
     function handleContactSubmit(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = form.querySelector('button');
-      const originalBtnContent = btn.innerHTML;
+      contactSubmitted = true;
+      const btn = e.target.querySelector('button');
       btn.textContent = 'Sending...';
+    }
 
-      const formData = new FormData(form);
-      formData.append("FormType", "General Enquiry");
-      formData.append("_captcha", "false");
-
-      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
-        method: "POST",
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) throw new Error('Network error');
-        return response.json();
-      })
-      .then(result => {
-        form.style.display = 'none';
+    function contactSuccess() {
+      if (contactSubmitted) {
+        document.getElementById('generalContactForm').style.display = 'none';
         document.getElementById('formMsg').style.display = 'block';
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem sending your message. Make sure you activated your FormSubmit email via your inbox.");
-      });
+        contactSubmitted = false;
+      }
     }
 
     // ── SMOOTH NAV LINKS ──
