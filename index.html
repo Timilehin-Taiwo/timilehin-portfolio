@@ -92,17 +92,14 @@
       text-decoration: none;
     }
     
-    .nav-logo-img-wrapper {
-      display: flex;
-    }
-    
-    .nav-logo-img-wrapper img { 
+    /* Perfect SVG Transparency Filter + GPU Acceleration */
+    .nav-logo img { 
       width: 38px; height: 38px; 
       object-fit: contain;
       filter: url(#key-black);
-      clip-path: inset(2%);
+      transform: translateZ(0);
     }
-    body.light-mode .nav-logo-img-wrapper img {
+    body.light-mode .nav-logo img {
       filter: url(#key-black-light);
     }
     
@@ -192,11 +189,12 @@
       animation: fadeUp 1.2s 0.1s ease both;
     }
     
+    /* Perfect SVG Transparency Filter + GPU Acceleration */
     .hero-monogram img { 
       width: 90px; height: 90px; 
       object-fit: contain;
       filter: url(#key-black);
-      clip-path: inset(2%);
+      transform: translateZ(0);
     }
     body.light-mode .hero-monogram img {
       filter: url(#key-black-light);
@@ -204,16 +202,15 @@
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 5vw, 76px); /* Perfectly scaled to fit one line comfortably */
+      font-size: clamp(32px, 6vw, 85px); /* Scaled slightly to fit 27 chars elegantly on desktop */
       font-weight: 300; line-height: 1;
       letter-spacing: -0.02em;
       color: var(--white);
       text-align: center;
       display: block;
-      white-space: nowrap; /* STRICTLY forces one line globally for desktop */
       animation: fadeUp 1.2s 0.35s ease both;
     }
-    .mobile-break { display: none; } /* Kept hidden on desktop */
+    .mobile-break { display: inline; } /* Flows naturally on Desktop */
 
     .hero-sub {
       font-family: 'DM Mono', monospace;
@@ -814,8 +811,7 @@
         text-align: center; cursor: pointer;
       }
 
-      .hero-title { white-space: normal; } /* Allows natural wrap on mobile/tablet */
-      .mobile-break { display: block; } /* Enforces the neat visual break on smaller screens */
+      .mobile-break { display: block; } /* Enforces break on tablet/mobile */
 
       .gallery-item { flex: 0 0 calc(50% - 8px); }
       .section-header { padding: 0 24px; flex-wrap: wrap; }
@@ -852,8 +848,35 @@
 </head>
 <body>
 
-  <!-- HIDDEN IFRAME FOR NATIVE FORM SUBMISSIONS (BYPASSES CORS/FETCH ERRORS) -->
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+  <!-- INVISIBLE SVG FILTER FOR FLAWLESS LOGO TRANSPARENCY -->
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+      <!-- Key out black, turn white parts fully white -->
+      <filter id="key-black" color-interpolation-filters="sRGB">
+        <feColorMatrix type="luminanceToAlpha"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 1 0"/>
+      </filter>
+      <!-- Key out black, turn white parts fully black (for Light Mode) -->
+      <filter id="key-black-light" color-interpolation-filters="sRGB">
+        <feColorMatrix type="luminanceToAlpha"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 1 0"/>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
@@ -868,9 +891,7 @@
   <!-- NAV -->
   <nav id="mainNav">
     <a href="#hero" class="nav-logo">
-      <div class="nav-logo-img-wrapper">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
-      </div>
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
       <div class="nav-logo-text">
         Timilehin Taiwo
         <span>Arts</span>
@@ -898,12 +919,12 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
-      </div>
-      <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
-      <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
     </div>
-    <div class="hero-scroll">
+    <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
+    <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+  </div>
+  <div class="hero-scroll">
       <div class="scroll-arrow">↓</div>
     </div>
   </section>
@@ -1273,12 +1294,8 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <!-- BULLETPROOF NATIVE FORM SUBMISSION TARGETING HIDDEN IFRAME -->
-      <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="hidden_iframe">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Order Summary">
-        <input type="hidden" name="OrderSummary" id="hiddenCartSummary" value="">
-        <input type="hidden" name="FormType" value="Shopping Cart Order">
+      <!-- BULLETPROOF NATIVE SUBMISSION VIA FETCH API -->
+      <form id="cartForm" onsubmit="handleCartSubmit(event)">
         
         <div class="form-field">
           <label>Full Name</label>
@@ -1321,7 +1338,8 @@
     </div>
 
     <div class="gallery-filter reveal">
-      <button class="filter-btn active" data-filter="illustration">Illustration</button>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="illustration">Illustration</button>
       <button class="filter-btn" data-filter="portrait">Portrait</button>
       <button class="filter-btn" data-filter="cover">Cover Art</button>
       <button class="filter-btn" data-filter="design">Graphics Design</button>
@@ -1458,11 +1476,8 @@
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
         
-        <!-- BULLETPROOF NATIVE FORM SUBMISSION TARGETING HIDDEN IFRAME -->
-        <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="hidden_iframe">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="FormType" value="General Enquiry">
-          
+        <!-- BULLETPROOF FORM SUBMISSION VIA FETCH API -->
+        <form id="generalContactForm" onsubmit="handleContactSubmit(event)">
           <div class="form-field">
             <label>Full Name</label>
             <input type="text" name="name" placeholder="Full name" required />
@@ -1614,71 +1629,58 @@
       }, 1000);
     });
 
-    // ── GALLERY SLIDESHOW & HIGHLIGHT SYNC ──
-    const galleryGrid = document.getElementById('galleryGrid');
-    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    // ── GALLERY FILTER & RANDOM SLIDESHOW ──
     let randomPanInterval;
     let currentPanIndex = 0;
 
-    function updateActiveButton(category) {
-      filterBtns.forEach(b => {
-        b.classList.toggle('active', b.dataset.filter === category);
-      });
-    }
-
-    // Observer to detect which image is currently in view (handles both auto-pan and manual swipe)
-    const galleryObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const category = entry.target.dataset.category;
-          updateActiveButton(category);
-          currentPanIndex = galleryItems.indexOf(entry.target);
-        }
-      });
-    }, {
-      root: galleryGrid,
-      threshold: 0.6 // Trigger when 60% of the image is visible
-    });
-
-    galleryItems.forEach(item => galleryObserver.observe(item));
-
     function startRandomPanning() {
       clearInterval(randomPanInterval);
+      const container = document.getElementById('galleryGrid');
+      const items = Array.from(document.querySelectorAll('.gallery-item'));
+      
       randomPanInterval = setInterval(() => {
-        const rect = galleryGrid.getBoundingClientRect();
+        const rect = container.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-        if (!isVisible || galleryGrid.matches(':hover') || galleryGrid.matches(':active')) return;
+        if (!isVisible || container.matches(':hover') || container.matches(':active')) return;
         
-        currentPanIndex = (currentPanIndex + 1) % galleryItems.length;
-        const nextItem = galleryItems[currentPanIndex];
+        currentPanIndex = (currentPanIndex + 1) % items.length;
+        const nextItem = items[currentPanIndex];
         
-        const paddingLeft = parseInt(window.getComputedStyle(galleryGrid).paddingLeft) || 0;
-        galleryGrid.scrollTo({ 
+        const paddingLeft = parseInt(window.getComputedStyle(container).paddingLeft) || 0;
+        container.scrollTo({ 
           left: nextItem.offsetLeft - paddingLeft, 
           behavior: 'smooth' 
         });
       }, 3000); 
     }
 
+    function stopRandomPanning() {
+      clearInterval(randomPanInterval);
+    }
+
     startRandomPanning();
 
-    // Clicking a header scrolls to the first item in that category
-    filterBtns.forEach(btn => {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         const filter = btn.dataset.filter;
-        const targetItem = galleryItems.find(item => item.dataset.category === filter);
         
-        if (targetItem) {
-          const paddingLeft = parseInt(window.getComputedStyle(galleryGrid).paddingLeft) || 0;
-          galleryGrid.scrollTo({ 
-            left: targetItem.offsetLeft - paddingLeft, 
-            behavior: 'smooth' 
-          });
+        if (filter === 'all') {
+          startRandomPanning();
+        } else {
+          stopRandomPanning();
+          document.getElementById('galleryGrid').scrollTo({ left: 0, behavior: 'smooth' });
         }
-        // Restart panning to pause the timer and prevent an instant jump back
-        startRandomPanning();
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (filter === 'all' || item.dataset.category === filter) {
+            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
+          } else {
+            item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
+          }
+        });
       });
     });
 
@@ -1738,42 +1740,98 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // ── FOOLPROOF NATIVE FORM SUBMISSION LOGIC ──
-    // Cart Submit
-    document.getElementById('cartForm').addEventListener('submit', function(e) {
-      if (cart.length === 0) {
-        e.preventDefault();
-        return alert("Your cart is empty!");
-      }
+    // ── FORM SUBMISSION LOGIC (AJAX Fetch API) ──
+    function handleCartSubmit(e) {
+      e.preventDefault();
+      if (cart.length === 0) return alert("Your cart is empty!");
 
-      // Populate hidden summary input before browser dispatches native POST
+      const form = e.target;
+
+      const btn = form.querySelector('button');
+      const originalBtnContent = btn.innerHTML;
+      btn.textContent = 'Processing...';
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
       let orderSummaryText = "ORDER SUMMARY:\n";
       cart.forEach(item => { orderSummaryText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
-      document.getElementById('hiddenCartSummary').value = orderSummaryText;
 
-      const btn = this.querySelector('button');
-      btn.textContent = 'Processing...';
+      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          FormType: "Shopping Cart Order",
+          Name: data.name,
+          Email: data.email,
+          WhatsApp: data.whatsapp,
+          OrderSummary: orderSummaryText,
+          ClientNotes: data.brief,
+          _captcha: "false"
+        })
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success === "true" || result.success === true) {
+          form.style.display = 'none';
+          document.getElementById('cartFormMsg').style.display = 'block';
+          cart = []; updateCartUI();
+        } else {
+          throw new Error(result.message || 'Server error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        btn.innerHTML = originalBtnContent;
+        alert("Oops! There was a problem submitting your order. Please check your network connection and try again.");
+      });
+    }
 
-      // Do NOT prevent default. Let form POST directly to the hidden iframe.
-      setTimeout(() => {
-        this.style.display = 'none';
-        document.getElementById('cartFormMsg').style.display = 'block';
-        cart = []; updateCartUI();
-      }, 1500);
-    });
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
 
-    // Contact Submit
-    document.getElementById('generalContactForm').addEventListener('submit', function(e) {
-      const btn = this.querySelector('button');
+      const btn = form.querySelector('button');
+      const originalBtnContent = btn.innerHTML;
       btn.textContent = 'Sending...';
 
-      // Do NOT prevent default. Let form POST directly to the hidden iframe.
-      setTimeout(() => {
-        this.style.display = 'none';
-        document.getElementById('formMsg').style.display = 'block';
-      }, 1500);
-    });
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
+        method: "POST",
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          FormType: "General Enquiry",
+          Name: data.name,
+          Email: data.email,
+          WhatsApp: data.whatsapp,
+          Message: data.brief,
+          _captcha: "false"
+        })
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success === "true" || result.success === true) {
+          form.style.display = 'none';
+          document.getElementById('formMsg').style.display = 'block';
+        } else {
+          throw new Error(result.message || 'Server error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        btn.innerHTML = originalBtnContent;
+        alert("Oops! There was a problem sending your message. Please check your network connection and try again.");
+      });
+    }
 
     // ── SMOOTH NAV LINKS ──
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1787,9 +1845,11 @@
     const navArrowsContainer = document.querySelector('.section-nav-arrows');
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
+    // Grab all main sections (including the philosophy div)
     const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
 
     window.addEventListener('scroll', () => {
+      // Show arrows only after scrolling past the initial top portion
       if (window.scrollY > window.innerHeight * 0.3) {
         navArrowsContainer.classList.add('visible');
       } else {
@@ -1801,6 +1861,7 @@
       const scrollY = window.scrollY;
       let targetSection = pageSections[0];
       
+      // Loop backward to find the first section that is sufficiently above us
       for (let i = pageSections.length - 1; i >= 0; i--) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop < scrollY - 50) { 
@@ -1815,6 +1876,7 @@
       const scrollY = window.scrollY;
       let targetSection = pageSections[pageSections.length - 1];
       
+      // Loop forward to find the first section that is sufficiently below us
       for (let i = 0; i < pageSections.length; i++) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop > scrollY + 50) {
