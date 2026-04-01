@@ -659,9 +659,9 @@
       text-decoration: none; transition: border-color 0.4s ease;
     }
     
-    /* Perfect 50% Scaled Down Icons (14px) */
+    /* Perfect 50% Scaled Down Icons */
     .contact-link-icon {
-      width: 32px; height: 32px; 
+      width: 20px; height: 20px; 
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -1240,7 +1240,7 @@
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
       <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
-      <iframe name="cart_iframe" id="cart_iframe" style="display:none;" onload="cartSuccess()"></iframe>
+      <iframe name="cart_iframe" id="cart_iframe" style="display:none;"></iframe>
       <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="cart_iframe" enctype="multipart/form-data" onsubmit="handleCartSubmit(event)">
         <!-- Config for FormSubmit -->
         <input type="hidden" name="_captcha" value="false">
@@ -1433,7 +1433,7 @@
         <div class="contact-form-title">Send a Quick Message</div>
         
         <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
-        <iframe name="contact_iframe" id="contact_iframe" style="display:none;" onload="contactSuccess()"></iframe>
+        <iframe name="contact_iframe" id="contact_iframe" style="display:none;"></iframe>
         <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="contact_iframe" enctype="multipart/form-data" onsubmit="handleContactSubmit(event)">
           <!-- Config for FormSubmit -->
           <input type="hidden" name="_captcha" value="false">
@@ -1709,6 +1709,10 @@
     // ── FOOLPROOF IFRAME FORM SUBMISSION LOGIC ──
     let cartSubmitted = false;
     let contactSubmitted = false;
+
+    // Attach event listeners to iframes to prevent ReferenceError on load
+    document.getElementById('cart_iframe').addEventListener('load', cartSuccess);
+    document.getElementById('contact_iframe').addEventListener('load', contactSuccess);
 
     function handleCartSubmit(e) {
       if (cart.length === 0) {
