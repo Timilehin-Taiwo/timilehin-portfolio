@@ -248,10 +248,16 @@
     .mobile-break { display: inline; } /* Flows naturally on Desktop */
 
     .hero-sub {
+      position: absolute;
+      bottom: 20vh;
+      left: 0;
+      right: 0;
+      z-index: 4;
       font-family: 'DM Mono', monospace;
       font-size: 12px; letter-spacing: 0.3em;
       color: var(--light-grey); text-transform: uppercase;
-      margin-top: 0;
+      text-align: center;
+      padding: 0 24px;
       animation: fadeUp 1.2s 0.5s ease both;
     }
 
@@ -1001,12 +1007,12 @@
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
       <div class="hero-monogram">
-      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
+        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
+      </div>
+      <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
     </div>
-    <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
     <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
-  </div>
-  <div class="hero-scroll">
+    <div class="hero-scroll">
       <div class="scroll-arrow">↓</div>
     </div>
   </section>
