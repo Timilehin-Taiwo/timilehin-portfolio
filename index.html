@@ -31,9 +31,9 @@
       --near-black: #e8e4df;
       --dark: #dcd7d0;
       --mid: #c8b89a;
-      --grey: #444444;       /* Darkened for better contrast */
-      --light-grey: #222222; /* Darkened for better contrast */
-      --off-white: #0a0a0a;  /* Darkened for better contrast */
+      --grey: #333333;       /* Significantly darkened for excellent contrast */
+      --light-grey: #111111; /* Significantly darkened for excellent contrast */
+      --off-white: #050505;  /* Pure dark text */
       --white: #000000;
       --accent: #a68a56; 
       --accent-dim: rgba(166, 138, 86, 0.15);
@@ -70,8 +70,8 @@
       mix-blend-mode: multiply;
     }
     
-    /* Hide Mobile Menu globally on desktop to prevent duplicate blue links bug */
-    .mobile-menu { display: none; }
+    /* Force Hide Mobile Menu globally on desktop to prevent duplicate blue links bug */
+    .mobile-menu { display: none !important; }
 
     /* ── NAV ── */
     nav {
@@ -91,15 +91,14 @@
       display: flex; align-items: center; gap: 12px;
       text-decoration: none;
     }
+    /* Logo blends perfectly, dropping black in dark mode, and white in light mode */
     .nav-logo img { 
       width: 38px; height: 38px; 
       object-fit: contain;
       mix-blend-mode: screen;
-      filter: grayscale(100%) contrast(500%);
-      clip-path: inset(2%);
     }
     body.light-mode .nav-logo img {
-      filter: invert(1) grayscale(100%) contrast(500%);
+      filter: invert(1);
       mix-blend-mode: multiply;
     }
     .nav-logo-text {
@@ -190,20 +189,19 @@
       width: 90px; height: 90px; 
       object-fit: contain;
       mix-blend-mode: screen;
-      filter: grayscale(100%) contrast(500%);
-      clip-path: inset(2%);
     }
     body.light-mode .hero-monogram img {
-      filter: invert(1) grayscale(100%) contrast(500%);
+      filter: invert(1);
       mix-blend-mode: multiply;
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(40px, 8vw, 100px); /* Slightly refined to fit longer text */
+      font-size: clamp(40px, 8vw, 100px); 
       font-weight: 300; line-height: 1;
       letter-spacing: -0.02em;
       color: var(--white);
+      text-align: center;
       animation: fadeUp 1.2s 0.35s ease both;
     }
 
@@ -654,7 +652,8 @@
       text-decoration: none; transition: border-color 0.4s ease;
     }
     .contact-link-icon {
-      width: 40px; height: 40px; 
+      /* Scaled down 50% from 40px to 20px */
+      width: 20px; height: 20px; 
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
     }
@@ -762,14 +761,17 @@
       .hamburger { display: flex; }
 
       .mobile-menu {
-        display: none; position: fixed;
+        /* Keep strictly hidden on mobile UNLESS the .open class is active */
+        display: none !important; 
+        position: fixed;
         top: 0; right: 0; bottom: 0; width: 280px;
         background: var(--near-black);
         border-left: 1px solid rgba(150,150,150,0.1);
         z-index: 999; padding: 80px 40px;
         flex-direction: column; gap: 32px;
       }
-      .mobile-menu.open { display: flex; }
+      .mobile-menu.open { display: flex !important; }
+      
       .mobile-menu a {
         font-family: 'DM Mono', monospace; font-size: 13px;
         letter-spacing: 0.2em; color: var(--off-white);
@@ -861,7 +863,7 @@
       <div class="hero-monogram">
       <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
     </div>
-    <h1 class="hero-title">Bringing Narratives to Life</h1>
+    <h1 class="hero-title" style="text-align: center;">Bringing Narratives<br/>To Life</h1>
     <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
   </div>
   <div class="hero-scroll">
@@ -1056,11 +1058,15 @@
       <!-- CUSTOM STORYBOARD CALCULATOR -->
       <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
       <div class="calculator-box">
-        <p style="font-size: 13px; color: var(--grey); margin-bottom: 24px;">Need more than 50 frames? Calculate your exact project cost here (₦6,500 per frame).</p>
+        <p style="font-size: 13px; color: var(--grey); margin-bottom: 24px;">Need more than 50 frames? Calculate your custom project cost here.</p>
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
             <label>Number of Frames</label>
-            <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent);" />
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button type="button" id="calcMinus" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); width: 32px; height: 32px; font-size: 16px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
+              <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none;" />
+              <button type="button" id="calcPlus" style="background: transparent; border: 1px solid var(--accent); color: var(--accent); width: 32px; height: 32px; font-size: 16px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+            </div>
           </div>
           <div style="flex: 1; min-width: 150px;">
             <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
@@ -1225,6 +1231,7 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
+      <!-- Removed headers via JS below for successful FormData transfer -->
       <form id="cartForm" onsubmit="handleCartSubmit(event)" enctype="multipart/form-data">
         <div class="form-field">
           <label>Your Name</label>
@@ -1414,15 +1421,13 @@
             <label>Your Name</label>
             <input type="text" name="name" placeholder="Full name" required />
           </div>
-          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <div class="form-field" style="flex: 1; min-width: 150px;">
-              <label>Email Address</label>
-              <input type="email" name="email" placeholder="your@email.com" required />
-            </div>
-            <div class="form-field" style="flex: 1; min-width: 150px;">
-              <label>WhatsApp Number</label>
-              <input type="tel" name="whatsapp" placeholder="+234..." required />
-            </div>
+          <div class="form-field">
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-field">
+            <label>WhatsApp Number</label>
+            <input type="tel" name="whatsapp" placeholder="+234..." required />
           </div>
           <div class="form-field">
             <label>Message / Brief</label>
@@ -1456,17 +1461,26 @@
   </footer>
 
   <script>
-    // ── LIGHT/DARK MODE TOGGLE (DESKTOP AND MOBILE) ──
+    // ── LIGHT/DARK MODE 3-WAY TOGGLE (System/Dark/Light) ──
     const themeToggleBtn = document.getElementById('themeToggle');
     const mobileThemeToggleBtn = document.getElementById('mobileThemeToggle');
-    const body = document.body;
+    let currentTheme = localStorage.getItem('portfolio-theme') || 'system';
 
-    const savedTheme = localStorage.getItem('portfolio-theme');
-    const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
-
-    if (savedTheme === 'light' || (!savedTheme && systemPrefersLight)) {
-      body.classList.add('light-mode');
-      updateToggleTexts('🌙 Dark', '🌙 Dark Mode');
+    function applyTheme(theme) {
+      if (theme === 'system') {
+        const systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        if (systemPrefersLight) document.body.classList.add('light-mode');
+        else document.body.classList.remove('light-mode');
+        updateToggleTexts('🖥️ System', '🖥️ System Match');
+      } else if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        updateToggleTexts('☀️ Light', '☀️ Light Mode');
+      } else {
+        document.body.classList.remove('light-mode');
+        updateToggleTexts('🌙 Dark', '🌙 Dark Mode');
+      }
+      localStorage.setItem('portfolio-theme', theme);
+      currentTheme = theme;
     }
 
     function updateToggleTexts(desktopText, mobileText) {
@@ -1474,19 +1488,21 @@
       if(mobileThemeToggleBtn) mobileThemeToggleBtn.textContent = mobileText;
     }
 
-    function handleThemeToggle() {
-      body.classList.toggle('light-mode');
-      if (body.classList.contains('light-mode')) {
-        localStorage.setItem('portfolio-theme', 'light');
-        updateToggleTexts('🌙 Dark', '🌙 Dark Mode');
-      } else {
-        localStorage.setItem('portfolio-theme', 'dark');
-        updateToggleTexts('☀️ Light', '☀️ Light Mode');
-      }
+    function cycleTheme() {
+      if (currentTheme === 'dark') applyTheme('light');
+      else if (currentTheme === 'light') applyTheme('system');
+      else applyTheme('dark');
     }
 
-    themeToggleBtn.addEventListener('click', handleThemeToggle);
-    mobileThemeToggleBtn.addEventListener('click', handleThemeToggle);
+    themeToggleBtn.addEventListener('click', cycleTheme);
+    mobileThemeToggleBtn.addEventListener('click', cycleTheme);
+
+    // Watch for system preference changes while in "system" mode
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+      if (currentTheme === 'system') applyTheme('system');
+    });
+
+    applyTheme(currentTheme); // Initialize Theme
 
     // ── NAV & MOBILE MENU ──
     const nav = document.getElementById('mainNav');
@@ -1518,18 +1534,29 @@
     const calcFrames = document.getElementById('calcFrames');
     const calcTotal = document.getElementById('calcTotal');
     const calcAddToCart = document.getElementById('calcAddToCart');
+    const calcMinus = document.getElementById('calcMinus');
+    const calcPlus = document.getElementById('calcPlus');
     const RATE_PER_FRAME = 6500;
 
     function updateCalculator() {
-      const frames = Math.max(1, parseInt(calcFrames.value) || 0);
+      const frames = Math.max(1, parseInt(calcFrames.value) || 1);
+      calcFrames.value = frames; // Keep input visual in sync with constraints
       const total = frames * RATE_PER_FRAME;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
 
     calcFrames.addEventListener('input', updateCalculator);
+    calcMinus.addEventListener('click', () => {
+        calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
+        updateCalculator();
+    });
+    calcPlus.addEventListener('click', () => {
+        calcFrames.value = parseInt(calcFrames.value) + 1;
+        updateCalculator();
+    });
 
     calcAddToCart.addEventListener('click', (e) => {
-      const frames = Math.max(1, parseInt(calcFrames.value) || 0);
+      const frames = Math.max(1, parseInt(calcFrames.value) || 1);
       const total = frames * RATE_PER_FRAME;
       const name = `${frames} Frames Custom Storyboard`;
       
@@ -1659,7 +1686,7 @@
     cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
     document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
 
-    // Cart Order Submit (FormData handling for files)
+    // Cart Order Submit 
     function handleCartSubmit(e) {
       e.preventDefault();
       if (cart.length === 0) return alert("Your cart is empty!");
@@ -1678,13 +1705,13 @@
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
       formData.append("OrderSummary", orderSummaryText);
 
+      // Sent without explicit headers so browser accurately handles boundary boundaries for form files
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Accept': 'application/json' }, // Exclude Content-Type so browser sets boundaries for FormData
         body: formData
       })
       .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error('Network error');
         return response.json();
       })
       .then(result => {
@@ -1695,11 +1722,11 @@
       .catch(error => {
         console.error('Error:', error);
         btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem submitting your order. Please check your network connection and try again.");
+        alert("Oops! There was a problem submitting your order. Make sure you activated your FormSubmit email via your inbox.");
       });
     }
 
-    // General Contact Submit (FormData handling for files)
+    // General Contact Submit 
     function handleContactSubmit(e) {
       e.preventDefault();
       const form = e.target;
@@ -1713,11 +1740,10 @@
 
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Accept': 'application/json' }, // Exclude Content-Type so browser sets boundaries for FormData
         body: formData
       })
       .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) throw new Error('Network error');
         return response.json();
       })
       .then(result => {
@@ -1727,7 +1753,7 @@
       .catch(error => {
         console.error('Error:', error);
         btn.innerHTML = originalBtnContent;
-        alert("Oops! There was a problem sending your message. Please check your network connection and try again.");
+        alert("Oops! There was a problem sending your message. Make sure you activated your FormSubmit email via your inbox.");
       });
     }
 
