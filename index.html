@@ -716,10 +716,6 @@
       transition: border-color 0.3s ease, color 0.4s ease;
       appearance: none;
     }
-    .form-field input[type="file"] {
-      padding-bottom: 0;
-      color: var(--grey);
-    }
     .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
       border-bottom-color: var(--accent);
     }
@@ -1298,14 +1294,11 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
-      <iframe name="cart_iframe" id="cart_iframe" style="display:none;"></iframe>
-      <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="cart_iframe" enctype="multipart/form-data" onsubmit="handleCartSubmit(event)">
-        <!-- Config for FormSubmit -->
-        <input type="hidden" name="_captcha" value="false">
+      <!-- BULLETPROOF NATIVE SUBMISSION VIA FETCH API -->
+      <form id="cartForm" onsubmit="handleCartSubmit(event)">
         
         <div class="form-field">
-          <label>Your Name</label>
+          <label>Full Name</label>
           <input type="text" name="name" placeholder="Full name" required />
         </div>
         <div class="form-field">
@@ -1483,13 +1476,10 @@
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
         
-        <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
-        <iframe name="contact_iframe" id="contact_iframe" style="display:none;"></iframe>
-        <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="contact_iframe" enctype="multipart/form-data" onsubmit="handleContactSubmit(event)">
-          <!-- Config for FormSubmit -->
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="FormType" value="General Enquiry">
-            <label>Your Name</label>
+        <!-- BULLETPROOF FORM SUBMISSION VIA FETCH API -->
+        <form id="generalContactForm" onsubmit="handleContactSubmit(event)">
+          <div class="form-field">
+            <label>Full Name</label>
             <input type="text" name="name" placeholder="Full name" required />
           </div>
           <div class="form-field">
@@ -1762,17 +1752,27 @@
       btn.textContent = 'Processing...';
 
       const formData = new FormData(form);
-      formData.append("FormType", "Shopping Cart Order");
+      const data = Object.fromEntries(formData.entries());
 
       let orderSummaryText = "ORDER SUMMARY:\n";
       cart.forEach(item => { orderSummaryText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       orderSummaryText += `\nTOTAL AMOUNT: ₦${document.getElementById('cartTotalAmt').textContent}\n`;
-      formData.append("OrderSummary", orderSummaryText);
 
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Accept': 'application/json' },
-        body: formData
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          FormType: "Shopping Cart Order",
+          Name: data.name,
+          Email: data.email,
+          WhatsApp: data.whatsapp,
+          OrderSummary: orderSummaryText,
+          ClientNotes: data.brief,
+          _captcha: "false"
+        })
       })
       .then(response => response.json())
       .then(result => {
@@ -1800,12 +1800,22 @@
       btn.textContent = 'Sending...';
 
       const formData = new FormData(form);
-      formData.append("FormType", "General Enquiry");
+      const data = Object.fromEntries(formData.entries());
 
       fetch("https://formsubmit.co/ajax/olasunkanmitimilehintaiwo@gmail.com", {
         method: "POST",
-        headers: { 'Accept': 'application/json' },
-        body: formData
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          FormType: "General Enquiry",
+          Name: data.name,
+          Email: data.email,
+          WhatsApp: data.whatsapp,
+          Message: data.brief,
+          _captcha: "false"
+        })
       })
       .then(response => response.json())
       .then(result => {
