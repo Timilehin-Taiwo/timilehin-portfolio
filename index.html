@@ -473,6 +473,24 @@
     }
     .calculator-box:hover { border-color: rgba(200,184,154,0.3); }
 
+    /* ── SECTION NAV ARROWS ── */
+    .section-nav-arrows {
+      position: fixed; bottom: 40px; left: 40px; z-index: 9998;
+      display: flex; flex-direction: column; gap: 10px;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .section-nav-arrows.visible { opacity: 1; pointer-events: auto; }
+    .section-nav-arrows button {
+      background: var(--near-black); color: var(--accent);
+      border: 1px solid rgba(150,150,150,0.2);
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; transition: all 0.3s ease;
+    }
+    .section-nav-arrows button:hover {
+      background: var(--accent); color: var(--black);
+    }
+
     /* ── CART UI SYSTEM ── */
     #cartToggleBtn {
       position: fixed; bottom: 40px; right: 40px; z-index: 9999;
@@ -817,6 +835,9 @@
 
       #philosophy { padding: 80px 24px; }
       
+      .section-nav-arrows { bottom: 20px; left: 20px; }
+      .section-nav-arrows button { width: 38px; height: 38px; font-size: 16px; }
+
       #cartToggleBtn { bottom: 20px; right: 20px; padding: 12px 20px; }
       .cart-content { padding: 32px 24px; }
     }
@@ -1257,6 +1278,12 @@
     </div>
   </section>
 
+  <!-- SECTION NAVIGATION ARROWS -->
+  <div class="section-nav-arrows">
+    <button id="navArrowUp" aria-label="Previous Section">↑</button>
+    <button id="navArrowDown" aria-label="Next Section">↓</button>
+  </div>
+
   <!-- FLOATING CART COMPONENT -->
   <button id="cartToggleBtn">
     🛒 Cart (<span id="cartCount">0</span>)
@@ -1271,8 +1298,9 @@
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
-      <!-- BULLETPROOF FORM SUBMISSION -->
-      <form id="cartForm" onsubmit="handleCartSubmit(event)">
+      <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
+      <iframe name="cart_iframe" id="cart_iframe" style="display:none;"></iframe>
+      <form id="cartForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="cart_iframe" enctype="multipart/form-data" onsubmit="handleCartSubmit(event)">
         <!-- Config for FormSubmit -->
         <input type="hidden" name="_captcha" value="false">
         
@@ -1460,12 +1488,12 @@
       <div class="contact-form-side reveal reveal-delay-1">
         <div class="contact-form-title">Send a Quick Message</div>
         
-        <!-- BULLETPROOF FORM SUBMISSION -->
-        <form id="generalContactForm" onsubmit="handleContactSubmit(event)">
+        <!-- BULLETPROOF NATIVE SUBMISSION VIA IFRAME -->
+        <iframe name="contact_iframe" id="contact_iframe" style="display:none;"></iframe>
+        <form id="generalContactForm" action="https://formsubmit.co/olasunkanmitimilehintaiwo@gmail.com" method="POST" target="contact_iframe" enctype="multipart/form-data" onsubmit="handleContactSubmit(event)">
           <!-- Config for FormSubmit -->
           <input type="hidden" name="_captcha" value="false">
-          
-          <div class="form-field">
+          <input type="hidden" name="FormType" value="General Enquiry">
             <label>Your Name</label>
             <input type="text" name="name" placeholder="Full name" required />
           </div>
@@ -1835,6 +1863,52 @@
         const target = document.querySelector(a.getAttribute('href'));
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
       });
+    });
+
+    // ── SECTION NAVIGATION ARROWS ──
+    const navArrowsContainer = document.querySelector('.section-nav-arrows');
+    const navArrowUp = document.getElementById('navArrowUp');
+    const navArrowDown = document.getElementById('navArrowDown');
+    // Grab all main sections (including the philosophy div)
+    const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
+
+    window.addEventListener('scroll', () => {
+      // Show arrows only after scrolling past the initial top portion
+      if (window.scrollY > window.innerHeight * 0.3) {
+        navArrowsContainer.classList.add('visible');
+      } else {
+        navArrowsContainer.classList.remove('visible');
+      }
+    });
+
+    navArrowUp.addEventListener('click', () => {
+      const scrollY = window.scrollY;
+      let targetSection = pageSections[0];
+      
+      // Loop backward to find the first section that is sufficiently above us
+      for (let i = pageSections.length - 1; i >= 0; i--) {
+        const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
+        if (secTop < scrollY - 50) { 
+          targetSection = pageSections[i];
+          break;
+        }
+      }
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    navArrowDown.addEventListener('click', () => {
+      const scrollY = window.scrollY;
+      let targetSection = pageSections[pageSections.length - 1];
+      
+      // Loop forward to find the first section that is sufficiently below us
+      for (let i = 0; i < pageSections.length; i++) {
+        const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
+        if (secTop > scrollY + 50) {
+          targetSection = pageSections[i];
+          break;
+        }
+      }
+      targetSection.scrollIntoView({ behavior: 'smooth' });
     });
 
     // ── LIGHTBOX SYSTEM ──
