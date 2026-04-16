@@ -215,23 +215,6 @@
       animation: fadeUp 1.2s 0.2s ease both;
     }
 
-    .hero-monogram {
-      display: flex; justify-content: center;
-      margin-bottom: 32px;
-      animation: fadeUp 1.2s 0.1s ease both;
-    }
-    
-    /* Perfect SVG Transparency Filter + GPU Acceleration */
-    .hero-monogram img { 
-      width: 90px; height: 90px; 
-      object-fit: contain;
-      filter: url(#key-black);
-      transform: translateZ(0);
-    }
-    body.light-mode .hero-monogram img {
-      filter: url(#key-black-light);
-    }
-
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
       /* Font size increased 20% & explicitly bolded as requested */
@@ -242,7 +225,7 @@
       color: var(--white);
       text-align: center;
       display: block;
-      margin-bottom: 24px;
+      margin-bottom: 0;
       animation: fadeUp 1.2s 0.35s ease both;
     }
     .mobile-break { display: inline; } /* Flows naturally on Desktop */
@@ -1006,9 +989,6 @@
     <div class="hero-bg-lines"></div>
     <div class="hero-content">
       <div class="hero-eyebrow">Lagos · Nigeria</div>
-      <div class="hero-monogram">
-        <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Logo" />
-      </div>
       <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
     </div>
     <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
@@ -1297,8 +1277,8 @@
             <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000">+ Add to Cart</button>
+            <div class="price-amount">₦40,000</div>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="40000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
@@ -1308,8 +1288,8 @@
             <div class="price-card-desc">Single-character album or song cover illustration</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000">+ Add to Cart</button>
+            <div class="price-amount">₦40,000</div>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="40000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
@@ -1319,8 +1299,8 @@
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦100,000</div>
-            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000">+ Add to Cart</button>
+            <div class="price-amount">₦80,000</div>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="80000">+ Add to Cart</button>
           </div>
         </div>
       </div>
