@@ -254,6 +254,7 @@
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
+      /* Font size increased 20% & explicitly bolded as requested */
       font-size: clamp(42px, 8vw, 110px); 
       font-weight: 700; 
       line-height: 1.05;
@@ -679,22 +680,15 @@
     }
     .lightbox-close:hover { color: var(--accent); }
 
-    /* ── GALLERY (HORIZONTAL & CONTINUOUS) ── */
+    /* ── GALLERY (NATIVE HORIZONTAL SCROLL) ── */
     #gallery {
       background: var(--near-black);
-      height: 100vh; /* Perfectly fits the screen to avoid 75% cut-off issue */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0; 
-      overflow: hidden; /* hides overflowing horizontal items securely */
+      position: relative;
     }
-    
-    #gallery .section-header { margin-bottom: 24px; padding: 0 48px; }
     
     .gallery-filter {
       display: flex; gap: 8px;
-      padding: 0 48px; margin-bottom: 32px;
+      padding: 0 48px; margin-bottom: 40px;
       flex-wrap: wrap;
     }
     .filter-btn {
@@ -709,8 +703,17 @@
     }
     
     .gallery-slideshow-wrapper {
-      width: 100%; overflow: hidden; 
+      width: 100%; 
+      overflow-x: auto; 
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 24px;
+      cursor: grab;
     }
+    /* Hide scrollbar for seamless trackpad scrolling */
+    .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
+    .gallery-slideshow-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
 
     .gallery-slideshow {
       display: flex; gap: 24px;
@@ -721,10 +724,10 @@
     }
     
     .gallery-item {
-      /* Square items structured to dynamically fit well inside the remaining 100vh space */
       width: 35vw; max-width: 450px; min-width: 280px;
       height: 35vw; max-height: 450px; min-height: 280px;
       flex-shrink: 0;
+      scroll-snap-align: center;
       position: relative; overflow: hidden;
       background: var(--dark);
       border: 1px solid rgba(150,150,150,0.1);
@@ -762,6 +765,19 @@
       text-align: center;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
       z-index: 2;
+    }
+
+    /* ── SCROLL HINT TEXT ── */
+    .gallery-scroll-hint {
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.2em;
+      color: var(--grey); text-transform: uppercase;
+      margin-top: 32px;
+      transition: opacity 0.4s ease;
+    }
+    .gallery-scroll-hint span {
+      font-family: sans-serif; font-size: 14px; margin-left: 4px;
     }
 
     /* ── PROCESS ── */
@@ -964,9 +980,7 @@
 
       .mobile-break { display: block; } /* Enforces break on tablet/mobile */
 
-      #gallery { height: auto; padding: 100px 0; }
-      .gallery-slideshow { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 24px; }
-      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; scroll-snap-align: start; }
+      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; }
       .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
       .section-line { display: none; }
 
@@ -1013,25 +1027,13 @@
     <defs>
       <filter id="key-black" color-interpolation-filters="sRGB">
         <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="10" intercept="-1"/>
-        </feComponentTransfer>
-        <feColorMatrix type="matrix" values="
-          0 0 0 0 1
-          0 0 0 0 1
-          0 0 0 0 1
-          0 0 0 1 0"/>
+        <feComponentTransfer><feFuncA type="linear" slope="10" intercept="-1"/></feComponentTransfer>
+        <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
       </filter>
       <filter id="key-black-light" color-interpolation-filters="sRGB">
         <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer>
-          <feFuncA type="linear" slope="10" intercept="-1"/>
-        </feComponentTransfer>
-        <feColorMatrix type="matrix" values="
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 0 0
-          0 0 0 1 0"/>
+        <feComponentTransfer><feFuncA type="linear" slope="10" intercept="-1"/></feComponentTransfer>
+        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
       </filter>
     </defs>
   </svg>
@@ -1494,68 +1496,70 @@
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
-    <div class="gallery-slideshow-wrapper">
+    <div class="gallery-slideshow-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
-        
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
       </div>
+    </div>
+    <div class="gallery-scroll-hint" id="galleryScrollHint">
+      Swipe down to scroll <span>→</span>
     </div>
   </section>
 
@@ -1904,114 +1908,76 @@
       }, 1000);
     });
 
-    // ── CINEMATIC HORIZONTAL GALLERY SCROLL (Seamless Category Transition) ──
-    let horizontalTween;
-    let categoryOffsets = [];
-    let filterBtns = Array.from(document.querySelectorAll('#gallery .filter-btn'));
-    const galleryCategories = ['illustration', 'portrait', 'cover', 'design'];
+    // ── NATIVE HORIZONTAL SCROLL INTERCEPTION & HINT TEXT ──
+    const galleryWrapper = document.getElementById('galleryWrapper');
+    const scrollHint = document.getElementById('galleryScrollHint');
 
-    function initHorizontalScroll() {
-      if (window.innerWidth < 1025) return; // Disable horizontal pinning on mobile
+    // Desktop Wheel Event to translate vertical wheel into horizontal scroll
+    galleryWrapper.addEventListener('wheel', (e) => {
+      if (window.innerWidth < 1025) return;
       
-      if (horizontalTween) {
-        horizontalTween.kill();
-        gsap.set('#galleryGrid', { clearProps: "all" });
+      // Permit native horizontal trackpad scrolling directly
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
+
+      const isAtStart = galleryWrapper.scrollLeft <= 0;
+      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 1;
+
+      // Only hijack the vertical scroll if there's room to scroll horizontally
+      if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
+        e.preventDefault();
+        galleryWrapper.scrollLeft += e.deltaY;
       }
+    }, { passive: false });
 
-      const galleryGrid = document.getElementById("galleryGrid");
+    // Update Helper Text based on scroll position
+    function updateScrollHint() {
+      const isScrollable = galleryWrapper.scrollWidth > galleryWrapper.clientWidth;
       
-      // Calculate dynamic offsets for each category to sync with tabs
-      categoryOffsets = [];
-      galleryCategories.forEach(cat => {
-        const firstItem = document.querySelector(`.gallery-item[data-category="${cat}"]`);
-        if (firstItem) {
-          categoryOffsets.push({
-            cat: cat,
-            offset: firstItem.offsetLeft - 48 // Subtracting container padding
-          });
-        }
-      });
-
-      // Total distance to scroll is full grid width minus viewport window + padding buffer
-      let scrollDist = galleryGrid.scrollWidth - window.innerWidth + 96; 
+      if (!isScrollable) {
+        scrollHint.style.opacity = '0';
+        return;
+      }
       
-      if (scrollDist > 0) {
-        horizontalTween = gsap.to(galleryGrid, {
-          x: -scrollDist,
-          ease: "none",
-          scrollTrigger: {
-            trigger: "#gallery",
-            pin: true,
-            scrub: 1,
-            start: "center center",
-            end: () => "+=" + scrollDist,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              // Map scroll progress back to the active category
-              const currentX = self.progress * scrollDist + (window.innerWidth / 3); 
-              let activeCat = galleryCategories[0];
-              
-              for (let i = categoryOffsets.length - 1; i >= 0; i--) {
-                if (currentX >= categoryOffsets[i].offset) {
-                  activeCat = categoryOffsets[i].cat;
-                  break;
-                }
-              }
-              
-              filterBtns.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.filter === activeCat);
-              });
-            }
-          }
-        });
+      scrollHint.style.opacity = '1';
+      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
+      
+      if (isAtEnd) {
+         scrollHint.innerHTML = 'Swipe up to scroll <span>←</span>';
+      } else {
+         scrollHint.innerHTML = 'Swipe down to scroll <span>→</span>';
       }
     }
+    
+    galleryWrapper.addEventListener('scroll', updateScrollHint);
+    window.addEventListener('resize', updateScrollHint);
 
-    window.addEventListener('load', () => setTimeout(initHorizontalScroll, 100));
-    window.addEventListener('resize', initHorizontalScroll);
-
-    // Tab click handles scrolling gracefully instead of display:none breaking the grid
-    filterBtns.forEach(btn => {
+    // Tab Filtering logic
+    document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
         const filter = btn.dataset.filter;
         
-        if (window.innerWidth >= 1025 && horizontalTween) {
-           const targetData = categoryOffsets.find(c => c.cat === filter);
-           if (targetData) {
-              const st = horizontalTween.scrollTrigger;
-              const scrollDist = document.getElementById("galleryGrid").scrollWidth - window.innerWidth + 96;
-              // Move viewport exactly to the calculated item ratio
-              const progress = Math.min(targetData.offset / scrollDist, 1);
-              const scrollPos = st.start + (st.end - st.start) * progress;
-              lenis.scrollTo(scrollPos, { duration: 1.5 });
-           }
-        } else {
-           // Mobile fallback native scroll jumping
-           const firstItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
-           if (firstItem) {
-             document.querySelector('.gallery-slideshow').scrollTo({ left: firstItem.offsetLeft - 24, behavior: 'smooth' });
-           }
-        }
+        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (item.dataset.category === filter) {
+            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
+          } else {
+            item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
+          }
+        });
+
+        // Trigger scroll event to quickly evaluate and update hint text
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+          galleryWrapper.dispatchEvent(new Event('scroll'));
+        }, 450); 
       });
     });
 
-    // Mobile specific intersection observer to update tabs natively
-    const mobileGalleryObserver = new IntersectionObserver((entries) => {
-      if (window.innerWidth >= 1025) return; 
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const activeCat = entry.target.dataset.category;
-          filterBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.filter === activeCat);
-          });
-        }
-      });
-    }, {
-      root: document.querySelector('.gallery-slideshow'),
-      threshold: 0.6
-    });
-    document.querySelectorAll('.gallery-item').forEach(item => mobileGalleryObserver.observe(item));
+    // Run hint evaluation on load
+    window.addEventListener('load', () => setTimeout(updateScrollHint, 200));
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
