@@ -322,8 +322,29 @@
     }
 
     /* ── ABOUT (Editorial Asymmetry) ── */
+    .about-top {
+      max-width: 900px; margin: 0 auto 100px auto; padding: 0 48px; text-align: center;
+    }
+    .about-statement {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 300; line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+    .about-body {
+      font-size: 13px; line-height: 2.2;
+      color: var(--light-grey); letter-spacing: 0.02em;
+      text-align: left;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .about-body p { margin-bottom: 24px; }
+    .about-body p:last-child { margin-bottom: 0; }
+
     .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr; /* Restored 1fr 1fr grid */
+      display: grid; grid-template-columns: 1fr 1fr;
       align-items: center;
       gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 48px;
     }
@@ -332,71 +353,44 @@
       padding-right: 40px; border-right: none;
       transition: border-color 0.4s ease;
     }
-    /* Asymmetrical Editorial Overlay Number */
-    .about-left::before {
-      content: '01';
-      position: absolute;
-      top: -120px; left: -40px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 300px; line-height: 1; font-weight: 300;
-      color: var(--accent-dim);
-      z-index: 0; pointer-events: none;
-    }
     .about-img {
       width: 100%; max-width: 480px; height: auto;
-      border-radius: 4px; margin-bottom: 48px;
+      border-radius: 4px; margin: 0 auto; display: block;
       border: 1px solid rgba(150,150,150,0.1);
       position: relative; z-index: 1;
     }
-    .about-statement {
-      position: relative; z-index: 2;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(24px, 3vw, 38px);
-      font-weight: 300; line-height: 1.4;
-      letter-spacing: -0.01em;
-      color: var(--white);
-      margin-bottom: 48px;
-    }
-    .about-statement em { font-style: italic; color: var(--accent); }
-    .about-body {
-      font-size: 13px; line-height: 2;
-      color: var(--light-grey); letter-spacing: 0.01em;
-      position: relative; z-index: 2;
-    }
     .about-right {
       position: relative; z-index: 2;
-      display: flex; flex-direction: column; justify-content: space-between;
+      display: flex; flex-direction: column; justify-content: center;
     }
     .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 80px 40px; /* Increased vertical gap */
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px 40px;
     }
     .stat-number {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(60px, 7vw, 96px); /* Made significantly bigger */
+      font-size: clamp(60px, 7vw, 96px);
       font-weight: 300;
       color: var(--accent); line-height: 1;
     }
     .stat-label {
       font-family: 'DM Mono', monospace;
-      font-size: 12px; /* Increased font size */
-      letter-spacing: 0.4em; /* Expanded tracking */
+      font-size: 10px; letter-spacing: 0.3em;
       color: var(--grey); text-transform: uppercase;
-      margin-top: 16px; /* Increased margin */
+      margin-top: 16px;
     }
     .services-header {
-      font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.2em;
-      color: var(--white); text-transform: uppercase; margin-bottom: 24px; margin-top: 80px;
+      font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em;
+      color: var(--white); text-transform: uppercase; margin-bottom: 32px; margin-top: 80px;
     }
     .about-disciplines {
-      display: flex; flex-direction: column; gap: 16px;
-      padding-top: 24px; border-top: 1px solid rgba(150,150,150,0.1);
-      transition: border-color 0.4s ease;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px;
     }
     .discipline-tag {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 0; border-bottom: 1px solid rgba(150,150,150,0.1);
-      font-size: 12px; letter-spacing: 0.1em; color: var(--light-grey);
-      transition: border-color 0.4s ease;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 11px; letter-spacing: 0.1em; color: var(--light-grey);
+    }
+    .discipline-tag::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--off-white); opacity: 0.5;
     }
 
     /* ── PHILOSOPHY BREAK ── */
@@ -710,7 +704,6 @@
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 24px;
-      cursor: grab;
     }
     /* Hide scrollbar for seamless trackpad scrolling */
     .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
@@ -973,10 +966,11 @@
       .section-line { display: none; }
 
       /* Reset grid stagger on mobile */
-      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
-      .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
-      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
+      .about-top { padding: 0 24px; margin-bottom: 64px; }
+      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 64px; }
+      .about-left { padding-right: 0; }
       .about-right { padding-left: 0; padding-top: 0px; }
+      .about-disciplines { grid-template-columns: 1fr; }
 
       .pricing-grid .price-card:nth-child(even) { transform: none; }
 
@@ -1091,17 +1085,21 @@
       <h2 class="section-title">The Artist</h2>
       <div class="section-line"></div>
     </div>
+    
+    <div class="about-top reveal">
+      <p class="about-statement">
+        Seven years of turning vision into image — one frame, one stroke, one story at a time.
+      </p>
+      <div class="about-body">
+        <p>I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.</p>
+        <p>What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.</p>
+        <p>I approach every project as a collaboration, not just a commission.</p>
+      </div>
+    </div>
+
     <div class="about-grid">
       <div class="about-left reveal">
         <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img parallax-img" />
-        <p class="about-statement">
-          Seven years of turning vision into image — one frame, one stroke, one story at a time.
-        </p>
-        <p class="about-body">
-          I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.<br /><br />
-          What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.<br /><br />
-          I approach every project as a collaboration, not just a commission.
-        </p>
       </div>
       <div class="about-right reveal reveal-delay-1">
         <div class="about-stats">
@@ -1122,20 +1120,12 @@
             <div class="stat-label">Lagos Based</div>
           </div>
         </div>
+        <div class="services-header">My Services</div>
         <div class="about-disciplines">
-          <div class="services-header">My Services</div>
-          <div class="discipline-tag">
-            <span>Storyboard &amp; Animation</span>
-          </div>
-          <div class="discipline-tag">
-            <span>Digital Portrait Art</span>
-          </div>
-          <div class="discipline-tag">
-            <span>Album &amp; Cover Illustration</span>
-          </div>
-          <div class="discipline-tag">
-            <span>Logo &amp; Graphic Design</span>
-          </div>
+          <div class="discipline-tag">Storyboard &amp; Animation</div>
+          <div class="discipline-tag">Album &amp; Cover Illustration</div>
+          <div class="discipline-tag">Digital Portrait Art</div>
+          <div class="discipline-tag">Logo &amp; Graphic Design</div>
         </div>
       </div>
     </div>
@@ -2147,8 +2137,8 @@
         
         lightboxImg.src = img.src;
         lightbox.classList.add('open');
-        
-        // Disable Lenis scroll and lock body
+
+        // Disable scrolling when viewing an image
         lenis.stop();
         document.body.style.overflow = 'hidden';
         
@@ -2181,7 +2171,7 @@
             lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             lightbox.classList.remove('open');
             
-            // Re-enable scroll and unlock body
+            // Re-enable scrolling
             lenis.start();
             document.body.style.overflow = '';
             
