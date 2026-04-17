@@ -321,56 +321,74 @@
       margin-left: 20px;
     }
 
-    /* ── ABOUT ── */
+    /* ── ABOUT (Editorial Asymmetry) ── */
     .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0; max-width: 1200px; margin: 0 auto; padding: 0 48px;
+      display: grid; grid-template-columns: 1fr 1fr; /* Restored 1fr 1fr grid */
+      align-items: center;
+      gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 48px;
     }
     .about-left {
-      padding-right: 80px; border-right: 1px solid rgba(150,150,150,0.1);
+      position: relative;
+      padding-right: 40px; border-right: none;
       transition: border-color 0.4s ease;
     }
+    /* Asymmetrical Editorial Overlay Number */
+    .about-left::before {
+      content: '01';
+      position: absolute;
+      top: -120px; left: -40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 300px; line-height: 1; font-weight: 300;
+      color: var(--accent-dim);
+      z-index: 0; pointer-events: none;
+    }
     .about-img {
-      width: 100%; max-width: 380px; height: auto;
-      border-radius: 4px; margin-bottom: 40px;
+      width: 100%; max-width: 480px; height: auto;
+      border-radius: 4px; margin-bottom: 48px;
       border: 1px solid rgba(150,150,150,0.1);
+      position: relative; z-index: 1;
     }
     .about-statement {
+      position: relative; z-index: 2;
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 2.5vw, 34px);
-      font-weight: 300; line-height: 1.5;
+      font-size: clamp(24px, 3vw, 38px);
+      font-weight: 300; line-height: 1.4;
+      letter-spacing: -0.01em;
       color: var(--white);
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
     .about-statement em { font-style: italic; color: var(--accent); }
     .about-body {
-      font-size: 12px; line-height: 1.9;
-      color: var(--light-grey); letter-spacing: 0.02em;
+      font-size: 13px; line-height: 2;
+      color: var(--light-grey); letter-spacing: 0.01em;
+      position: relative; z-index: 2;
     }
     .about-right {
-      padding-left: 80px;
+      position: relative; z-index: 2;
       display: flex; flex-direction: column; justify-content: space-between;
     }
     .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px 40px; /* Increased vertical gap */
     }
     .stat-number {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 56px; font-weight: 300;
+      font-size: clamp(60px, 7vw, 96px); /* Made significantly bigger */
+      font-weight: 300;
       color: var(--accent); line-height: 1;
     }
     .stat-label {
       font-family: 'DM Mono', monospace;
-      font-size: 10px; letter-spacing: 0.3em;
+      font-size: 12px; /* Increased font size */
+      letter-spacing: 0.4em; /* Expanded tracking */
       color: var(--grey); text-transform: uppercase;
-      margin-top: 6px;
+      margin-top: 16px; /* Increased margin */
     }
     .services-header {
       font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.2em;
-      color: var(--white); text-transform: uppercase; margin-bottom: 20px; margin-top: 48px;
+      color: var(--white); text-transform: uppercase; margin-bottom: 24px; margin-top: 80px;
     }
     .about-disciplines {
-      display: flex; flex-direction: column; gap: 14px;
+      display: flex; flex-direction: column; gap: 16px;
       padding-top: 24px; border-top: 1px solid rgba(150,150,150,0.1);
       transition: border-color 0.4s ease;
     }
@@ -692,6 +710,7 @@
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 24px;
+      cursor: grab;
     }
     /* Hide scrollbar for seamless trackpad scrolling */
     .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
@@ -956,7 +975,8 @@
       /* Reset grid stagger on mobile */
       .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
       .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
-      .about-right { padding-left: 0; padding-top: 48px; }
+      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
+      .about-right { padding-left: 0; padding-top: 0px; }
 
       .pricing-grid .price-card:nth-child(even) { transform: none; }
 
@@ -1886,11 +1906,11 @@
       }, 1000);
     });
 
-    // ── NATIVE HORIZONTAL GALLERY SCROLL & TABS ──
+    // ── NATIVE GALLERY SCROLL WITH TABS & AUTO-PAN ──
     const galleryWrapper = document.getElementById('galleryWrapper');
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
-    // Smooth scroll to category on tab click
+    // Tab clicking logic to smooth scroll to categories
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
@@ -1903,7 +1923,7 @@
       });
     });
 
-    // Intersection Observer to highlight active tab dynamically on scroll
+    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
@@ -1922,6 +1942,22 @@
     }, galleryObserverOptions);
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
+
+    // 2-Second Auto-Pan logic
+    let galleryAutoPan = setInterval(() => {
+      // Pause auto-pan if user is hovering over or interacting with the gallery
+      if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
+      
+      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
+      
+      if (isAtEnd) {
+        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const firstItem = document.querySelector('.gallery-item');
+        const itemWidth = firstItem.offsetWidth + 24; // 24px is the flex gap
+        galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
+      }
+    }, 2000);
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
@@ -2112,6 +2148,10 @@
         lightboxImg.src = img.src;
         lightbox.classList.add('open');
         
+        // Disable Lenis scroll and lock body
+        lenis.stop();
+        document.body.style.overflow = 'hidden';
+        
         const scaleX = activeImageRect.width / window.innerWidth;
         const scaleY = activeImageRect.height / window.innerHeight;
         const scale = Math.max(scaleX, scaleY); 
@@ -2141,6 +2181,10 @@
             lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             lightbox.classList.remove('open');
             
+            // Re-enable scroll and unlock body
+            lenis.start();
+            document.body.style.overflow = '';
+            
             setTimeout(() => {
                 if(!lightbox.classList.contains('open')) {
                     lightboxImg.style.transform = 'none';
@@ -2148,6 +2192,8 @@
             }, 500);
         } else {
             lightbox.classList.remove('open');
+            lenis.start();
+            document.body.style.overflow = '';
         }
       }
     });
