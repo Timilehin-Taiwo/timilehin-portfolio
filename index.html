@@ -70,7 +70,8 @@
     }
     body.light-mode #preloader { background: var(--white); }
     .preloader-monogram {
-      width: 180px; height: 180px; /* Made larger */
+      width: 30vw; max-width: 300px; min-width: 150px;
+      aspect-ratio: 1/1;
       object-fit: contain; filter: url(#key-black);
       opacity: 0; transform: scale(0.85);
       animation: drawIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -221,7 +222,7 @@
     .hero-bg-img {
       position: absolute; inset: 0; z-index: 1;
       background: url('Abstract%20ILL.JPG') center/cover no-repeat;
-      opacity: 0.4; /* Left untouched as requested */
+      opacity: 0.4;
       transition: opacity 0.4s ease;
     }
     body.light-mode .hero-bg-img { opacity: 0.6; }
@@ -295,7 +296,6 @@
     #about { background: var(--near-black); }
     #services { background: var(--black); }
     #process { background: var(--black); }
-    #gallery { background: var(--near-black); overflow: hidden; } /* Hidden for pinned scrolling */
     #contact { background: var(--black); }
 
     .section-header {
@@ -679,41 +679,22 @@
     }
     .lightbox-close:hover { color: var(--accent); }
 
-    /* ── PROCESS ── */
-    .process-steps {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0; padding: 0 48px;
+    /* ── GALLERY (HORIZONTAL & CONTINUOUS) ── */
+    #gallery {
+      background: var(--near-black);
+      height: 100vh; /* Perfectly fits the screen to avoid 75% cut-off issue */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0; 
+      overflow: hidden; /* hides overflowing horizontal items securely */
     }
-    .process-step {
-      padding: 64px 48px;
-      border-right: 1px solid rgba(150,150,150,0.1);
-      position: relative; transition: border-color 0.4s ease;
-    }
-    .process-step:last-child { border-right: none; }
-    .process-step::before {
-      content: ''; position: absolute;
-      top: 0; left: 48px; right: 0; height: 1px;
-      background: rgba(150,150,150,0.1);
-    }
-    .step-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 72px; font-weight: 300; line-height: 1;
-      color: rgba(200,184,154,0.25); margin-bottom: 32px;
-    }
-    .step-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px; font-weight: 600;
-      color: var(--white); margin-bottom: 20px;
-    }
-    .step-body {
-      font-size: 12px; line-height: 1.9;
-      color: var(--grey); letter-spacing: 0.02em;
-    }
-
-    /* ── HORIZONTAL CINEMATIC GALLERY SCROLL ── */
+    
+    #gallery .section-header { margin-bottom: 24px; padding: 0 48px; }
+    
     .gallery-filter {
       display: flex; gap: 8px;
-      padding: 0 48px; margin-bottom: 64px;
+      padding: 0 48px; margin-bottom: 32px;
       flex-wrap: wrap;
     }
     .filter-btn {
@@ -733,18 +714,19 @@
 
     .gallery-slideshow {
       display: flex; gap: 24px;
-      padding: 0 48px 64px;
+      padding: 0 48px;
       width: max-content; 
       flex-wrap: nowrap;
       position: relative; 
     }
     
     .gallery-item {
-      width: 40vw; max-width: 500px; min-width: 300px;
+      /* Square items structured to dynamically fit well inside the remaining 100vh space */
+      width: 35vw; max-width: 450px; min-width: 280px;
+      height: 35vw; max-height: 450px; min-height: 280px;
       flex-shrink: 0;
       position: relative; overflow: hidden;
       background: var(--dark);
-      aspect-ratio: 1 / 1; 
       border: 1px solid rgba(150,150,150,0.1);
       border-radius: 4px;
       transition: opacity 0.4s ease;
@@ -780,6 +762,37 @@
       text-align: center;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
       z-index: 2;
+    }
+
+    /* ── PROCESS ── */
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; padding: 0 48px;
+    }
+    .process-step {
+      padding: 64px 48px;
+      border-right: 1px solid rgba(150,150,150,0.1);
+      position: relative; transition: border-color 0.4s ease;
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step::before {
+      content: ''; position: absolute;
+      top: 0; left: 48px; right: 0; height: 1px;
+      background: rgba(150,150,150,0.1);
+    }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px; font-weight: 300; line-height: 1;
+      color: rgba(200,184,154,0.25); margin-bottom: 32px;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 600;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .step-body {
+      font-size: 12px; line-height: 1.9;
+      color: var(--grey); letter-spacing: 0.02em;
     }
 
     /* ── CONTACT ── */
@@ -951,7 +964,9 @@
 
       .mobile-break { display: block; } /* Enforces break on tablet/mobile */
 
-      .gallery-item { width: 80vw; }
+      #gallery { height: auto; padding: 100px 0; }
+      .gallery-slideshow { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 24px; }
+      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; scroll-snap-align: start; }
       .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
       .section-line { display: none; }
 
@@ -966,7 +981,7 @@
       .process-steps { grid-template-columns: 1fr 1fr; padding: 0 24px; }
       .process-step { padding: 32px 24px; }
 
-      .pricing-tabs, .pricing-panel, .gallery-slideshow, .gallery-filter { padding: 0 24px; }
+      .pricing-tabs, .pricing-panel, .gallery-filter { padding: 0 24px; }
       .contact-inner { grid-template-columns: 1fr; gap: 64px; padding: 0 24px; }
       footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
       .footer-links { justify-content: center; }
@@ -983,7 +998,7 @@
     @media (max-width: 500px) {
       .process-steps { grid-template-columns: 1fr; }
       .about-stats { grid-template-columns: 1fr 1fr; }
-      .gallery-item { width: 85vw; }
+      .gallery-item { width: 85vw; height: 85vw; }
       .hero-scroll { left: 24px; }
     }
   </style>
@@ -1481,61 +1496,62 @@
 
     <div class="gallery-slideshow-wrapper">
       <div class="gallery-slideshow" id="galleryGrid">
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        
+        <div class="gallery-item" data-category="illustration">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -1671,7 +1687,7 @@
         const preloader = document.getElementById('preloader');
         preloader.style.opacity = '0';
         setTimeout(() => preloader.style.display = 'none', 1200);
-      }, 1500); // 1.5s delay to let monogram draw elegantly
+      }, 1500);
     });
 
     // ── SMOOTH SCROLLING (Lenis) ──
@@ -1691,10 +1707,10 @@
     }
     requestAnimationFrame(raf);
 
-    // ── LIGHT/DARK MODE 3-WAY TOGGLE (System/Dark/Light) ──
+    // ── LIGHT/DARK MODE 3-WAY TOGGLE ──
     const themeToggleBtn = document.getElementById('themeToggle');
     const mobileThemeToggleBtn = document.getElementById('mobileThemeToggle');
-    let currentTheme = 'dark'; // Always default to dark mode on every site visit
+    let currentTheme = 'dark'; 
 
     function applyTheme(theme) {
       if (theme === 'system') {
@@ -1752,16 +1768,16 @@
         this.size = Math.random() * 15 + 5;
         this.speedX = Math.random() * 2 - 1;
         this.speedY = Math.random() * 2 - 1;
-        this.life = 1; // 1 means full opacity
+        this.life = 1;
       }
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.life -= 0.02; // Decay rate
-        this.size += 0.5; // Spread out like ink
+        this.life -= 0.02; 
+        this.size += 0.5; 
       }
       draw() {
-        ctx.fillStyle = `rgba(200, 184, 154, ${this.life * 0.5})`; // Matches accent color
+        ctx.fillStyle = `rgba(200, 184, 154, ${this.life * 0.5})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -1808,7 +1824,6 @@
     // ── REVEAL ON SCROLL & GSAP PARALLAX ──
     gsap.registerPlugin(ScrollTrigger);
 
-    // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time)=>{
       lenis.raf(time * 1000)
@@ -1821,7 +1836,6 @@
     }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
 
-    // GSAP Parallax implementation on images
     gsap.utils.toArray('.parallax-img').forEach(img => {
       gsap.to(img, {
         y: -40,
@@ -1836,13 +1850,13 @@
     });
 
     // ── PRICING TABS ──
-    document.querySelectorAll('.tab-btn').forEach(btn => {
+    document.querySelectorAll('#pricingTabs .tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#pricingTabs .tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        ScrollTrigger.refresh(); // Refresh triggers in case heights changed
+        ScrollTrigger.refresh();
       });
     });
 
@@ -1856,7 +1870,7 @@
 
     function updateCalculator() {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-      calcFrames.value = frames; // Keep sync
+      calcFrames.value = frames;
       const total = frames * RATE_PER_FRAME;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
@@ -1890,75 +1904,114 @@
       }, 1000);
     });
 
-    // ── CINEMATIC HORIZONTAL GALLERY SCROLL ──
-    let currentFilter = 'illustration'; // Matches the newly active default tab
+    // ── CINEMATIC HORIZONTAL GALLERY SCROLL (Seamless Category Transition) ──
     let horizontalTween;
+    let categoryOffsets = [];
+    let filterBtns = Array.from(document.querySelectorAll('#gallery .filter-btn'));
+    const galleryCategories = ['illustration', 'portrait', 'cover', 'design'];
 
     function initHorizontalScroll() {
-      if (window.innerWidth < 1025) return; // Disable horizontal pinning on mobile/tablets
+      if (window.innerWidth < 1025) return; // Disable horizontal pinning on mobile
       
       if (horizontalTween) {
         horizontalTween.kill();
-        gsap.set('#galleryGrid', { clearProps: "all" }); // clear previous transforms
+        gsap.set('#galleryGrid', { clearProps: "all" });
       }
 
       const galleryGrid = document.getElementById("galleryGrid");
-      const visibleItems = Array.from(document.querySelectorAll('.gallery-item')).filter(item => item.style.display !== 'none');
       
-      if (visibleItems.length > 0) {
-        // Calculate the actual scroll distance based on only visible items
-        let totalContentWidth = 0;
-        visibleItems.forEach(item => {
-          totalContentWidth += item.offsetWidth + 24; // width + gap
-        });
-
-        let scrollDist = totalContentWidth - window.innerWidth + 96; // 96 for padding
-        
-        if (scrollDist > 0) {
-          horizontalTween = gsap.to(galleryGrid, {
-            x: -scrollDist,
-            ease: "none",
-            scrollTrigger: {
-              trigger: "#gallery",
-              pin: true,
-              scrub: 1,
-              start: "top top",
-              end: () => "+=" + scrollDist,
-              anticipatePin: 1,
-              invalidateOnRefresh: true
-            }
+      // Calculate dynamic offsets for each category to sync with tabs
+      categoryOffsets = [];
+      galleryCategories.forEach(cat => {
+        const firstItem = document.querySelector(`.gallery-item[data-category="${cat}"]`);
+        if (firstItem) {
+          categoryOffsets.push({
+            cat: cat,
+            offset: firstItem.offsetLeft - 48 // Subtracting container padding
           });
         }
+      });
+
+      // Total distance to scroll is full grid width minus viewport window + padding buffer
+      let scrollDist = galleryGrid.scrollWidth - window.innerWidth + 96; 
+      
+      if (scrollDist > 0) {
+        horizontalTween = gsap.to(galleryGrid, {
+          x: -scrollDist,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#gallery",
+            pin: true,
+            scrub: 1,
+            start: "center center",
+            end: () => "+=" + scrollDist,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              // Map scroll progress back to the active category
+              const currentX = self.progress * scrollDist + (window.innerWidth / 3); 
+              let activeCat = galleryCategories[0];
+              
+              for (let i = categoryOffsets.length - 1; i >= 0; i--) {
+                if (currentX >= categoryOffsets[i].offset) {
+                  activeCat = categoryOffsets[i].cat;
+                  break;
+                }
+              }
+              
+              filterBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === activeCat);
+              });
+            }
+          }
+        });
       }
     }
 
-    // Delay init to allow CSS to calculate sizes accurately on load
     window.addEventListener('load', () => setTimeout(initHorizontalScroll, 100));
     window.addEventListener('resize', initHorizontalScroll);
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Tab click handles scrolling gracefully instead of display:none breaking the grid
+    filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
+        const filter = btn.dataset.filter;
         
-        // Reset translation temporarily
-        gsap.set(document.getElementById('galleryGrid'), { x: 0 });
-
-        document.querySelectorAll('.gallery-item').forEach(item => {
-          if (item.dataset.category === currentFilter) {
-            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
-          } else {
-            item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
-          }
-        });
-
-        setTimeout(() => {
-          ScrollTrigger.refresh();
-          initHorizontalScroll();
-        }, 450); 
+        if (window.innerWidth >= 1025 && horizontalTween) {
+           const targetData = categoryOffsets.find(c => c.cat === filter);
+           if (targetData) {
+              const st = horizontalTween.scrollTrigger;
+              const scrollDist = document.getElementById("galleryGrid").scrollWidth - window.innerWidth + 96;
+              // Move viewport exactly to the calculated item ratio
+              const progress = Math.min(targetData.offset / scrollDist, 1);
+              const scrollPos = st.start + (st.end - st.start) * progress;
+              lenis.scrollTo(scrollPos, { duration: 1.5 });
+           }
+        } else {
+           // Mobile fallback native scroll jumping
+           const firstItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
+           if (firstItem) {
+             document.querySelector('.gallery-slideshow').scrollTo({ left: firstItem.offsetLeft - 24, behavior: 'smooth' });
+           }
+        }
       });
     });
+
+    // Mobile specific intersection observer to update tabs natively
+    const mobileGalleryObserver = new IntersectionObserver((entries) => {
+      if (window.innerWidth >= 1025) return; 
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const activeCat = entry.target.dataset.category;
+          filterBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === activeCat);
+          });
+        }
+      });
+    }, {
+      root: document.querySelector('.gallery-slideshow'),
+      threshold: 0.6
+    });
+    document.querySelectorAll('.gallery-item').forEach(item => mobileGalleryObserver.observe(item));
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
@@ -2029,7 +2082,6 @@
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      // Format the Cart data for WhatsApp
       let whatsappText = "*COMMISSION REQUEST*\n\n";
       whatsappText += `*Name:* ${data.name}\n`;
       whatsappText += `*Email:* ${data.email}\n`;
@@ -2043,11 +2095,9 @@
         whatsappText += `\n*Commission Notes:*\n${data.brief}`;
       }
 
-      // Encode and open WhatsApp URL
       const whatsappUrl = `https://wa.me/2349033547114?text=${encodeURIComponent(whatsappText)}`;
       window.open(whatsappUrl, '_blank');
 
-      // Reset the form and clear cart after redirecting
       setTimeout(() => {
         btn.innerHTML = originalBtnContent;
         form.reset();
@@ -2067,7 +2117,6 @@
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      // Format the Contact form data for WhatsApp
       let whatsappText = `*New General Enquiry*\n\n`;
       whatsappText += `*Name:* ${data.name}\n`;
       whatsappText += `*Email:* ${data.email}\n`;
@@ -2077,11 +2126,9 @@
         whatsappText += `\n*Message / Brief:*\n${data.brief}`;
       }
 
-      // Encode and open WhatsApp URL
       const whatsappUrl = `https://wa.me/2349033547114?text=${encodeURIComponent(whatsappText)}`;
       window.open(whatsappUrl, '_blank');
 
-      // Reset the form after redirecting
       setTimeout(() => {
         btn.innerHTML = originalBtnContent;
         form.reset();
@@ -2096,7 +2143,7 @@
         const target = document.querySelector(a.getAttribute('href'));
         if (target) { 
           e.preventDefault(); 
-          lenis.scrollTo(target, { offset: 0 }); // Utilize lenis for precise smooth scroll routing
+          lenis.scrollTo(target, { offset: 0 }); 
         }
       });
     });
@@ -2105,11 +2152,9 @@
     const navArrowsContainer = document.querySelector('.section-nav-arrows');
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
-    // Grab all main sections (including the philosophy div)
     const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
 
     window.addEventListener('scroll', () => {
-      // Show arrows only after scrolling past the initial top portion
       if (window.scrollY > window.innerHeight * 0.3) {
         navArrowsContainer.classList.add('visible');
       } else {
@@ -2152,14 +2197,11 @@
     
     document.querySelectorAll('.price-img-wrapper img, .gallery-item img').forEach(img => {
       img.addEventListener('click', (e) => {
-        // 1. Get exact position of clicked image
         activeImageRect = img.getBoundingClientRect();
         
-        // 2. Assign image and open lightbox container
         lightboxImg.src = img.src;
         lightbox.classList.add('open');
         
-        // 3. Immediately scale and translate it to match the clicked thumbnail
         const scaleX = activeImageRect.width / window.innerWidth;
         const scaleY = activeImageRect.height / window.innerHeight;
         const scale = Math.max(scaleX, scaleY); 
@@ -2170,8 +2212,7 @@
         lightboxImg.style.transition = 'none';
         lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
         
-        // 4. Force reflow then animate it to center screen (scale 1)
-        lightboxImg.offsetHeight; // Reflow
+        lightboxImg.offsetHeight; 
         lightboxImg.style.transition = 'transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)';
         lightboxImg.style.transform = 'translate(0px, 0px) scale(1)';
       });
@@ -2180,7 +2221,6 @@
     lightbox.addEventListener('click', (e) => {
       if (e.target !== lightboxImg) {
         if(activeImageRect) {
-            // Animate back to original thumbnail position
             const scaleX = activeImageRect.width / window.innerWidth;
             const scaleY = activeImageRect.height / window.innerHeight;
             const scale = Math.max(scaleX, scaleY); 
@@ -2192,7 +2232,6 @@
             lightbox.classList.remove('open');
             
             setTimeout(() => {
-                // Clear transform after fade out
                 if(!lightbox.classList.contains('open')) {
                     lightboxImg.style.transform = 'none';
                 }
