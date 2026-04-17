@@ -254,7 +254,6 @@
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      /* Font size increased 20% & explicitly bolded as requested */
       font-size: clamp(42px, 8vw, 110px); 
       font-weight: 700; 
       line-height: 1.05;
@@ -980,7 +979,7 @@
 
       .mobile-break { display: block; } /* Enforces break on tablet/mobile */
 
-      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; }
+      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; scroll-snap-align: start; }
       .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
       .section-line { display: none; }
 
@@ -1027,13 +1026,25 @@
     <defs>
       <filter id="key-black" color-interpolation-filters="sRGB">
         <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer><feFuncA type="linear" slope="10" intercept="-1"/></feComponentTransfer>
-        <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 1 0"/>
       </filter>
       <filter id="key-black-light" color-interpolation-filters="sRGB">
         <feColorMatrix type="luminanceToAlpha"/>
-        <feComponentTransfer><feFuncA type="linear" slope="10" intercept="-1"/></feComponentTransfer>
-        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 1 0"/>
       </filter>
     </defs>
   </svg>
@@ -1691,7 +1702,7 @@
         const preloader = document.getElementById('preloader');
         preloader.style.opacity = '0';
         setTimeout(() => preloader.style.display = 'none', 1200);
-      }, 1500);
+      }, 1500); // 1.5s delay to let monogram draw elegantly
     });
 
     // ── SMOOTH SCROLLING (Lenis) ──
