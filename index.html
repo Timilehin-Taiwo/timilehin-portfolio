@@ -322,8 +322,8 @@
     }
 
     /* ── ABOUT (Editorial Asymmetry) ── */
-    .about-top {
-      max-width: 900px; margin: 0 auto 100px auto; padding: 0 48px; text-align: center;
+    .about-bottom {
+      max-width: 900px; margin: 100px auto 0 auto; padding: 0 48px; text-align: center;
     }
     .about-statement {
       font-family: 'Cormorant Garamond', serif;
@@ -704,6 +704,7 @@
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 24px;
+      cursor: grab;
     }
     /* Hide scrollbar for seamless trackpad scrolling */
     .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
@@ -966,7 +967,7 @@
       .section-line { display: none; }
 
       /* Reset grid stagger on mobile */
-      .about-top { padding: 0 24px; margin-bottom: 64px; }
+      .about-bottom { padding: 0 24px; margin-top: 64px; }
       .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 64px; }
       .about-left { padding-right: 0; }
       .about-right { padding-left: 0; padding-top: 0px; }
@@ -1085,17 +1086,6 @@
       <h2 class="section-title">The Artist</h2>
       <div class="section-line"></div>
     </div>
-    
-    <div class="about-top reveal">
-      <p class="about-statement">
-        Seven years of turning vision into image — one frame, one stroke, one story at a time.
-      </p>
-      <div class="about-body">
-        <p>I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.</p>
-        <p>What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.</p>
-        <p>I approach every project as a collaboration, not just a commission.</p>
-      </div>
-    </div>
 
     <div class="about-grid">
       <div class="about-left reveal">
@@ -1123,10 +1113,21 @@
         <div class="services-header">My Services</div>
         <div class="about-disciplines">
           <div class="discipline-tag">Storyboard &amp; Animation</div>
-          <div class="discipline-tag">Album &amp; Cover Illustration</div>
           <div class="discipline-tag">Digital Portrait Art</div>
+          <div class="discipline-tag">Album &amp; Cover Illustration</div>
           <div class="discipline-tag">Logo &amp; Graphic Design</div>
         </div>
+      </div>
+    </div>
+    
+    <div class="about-bottom reveal">
+      <p class="about-statement">
+        Seven years of turning vision into image — one frame, one stroke, one story at a time.
+      </p>
+      <div class="about-body">
+        <p>I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.</p>
+        <p>What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.</p>
+        <p>I approach every project as a collaboration, not just a commission.</p>
       </div>
     </div>
   </section>
