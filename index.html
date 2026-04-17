@@ -10,11 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   
-  <!-- LUXURY ANIMATION LIBRARIES -->
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
   <style>
     :root {
       /* Dark Theme (Default) */
@@ -46,8 +41,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Lenis Smooth Scroll requirement */
-    html { scroll-behavior: auto; }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--black);
@@ -61,31 +55,6 @@
     
     a, button, select, input, textarea, .price-img-wrapper, .gallery-item {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
-    }
-
-    /* ── PRELOADER ── */
-    #preloader {
-      position: fixed; inset: 0; z-index: 999999;
-      background: var(--black);
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1), visibility 1.2s;
-    }
-    body.light-mode #preloader { background: var(--white); }
-    .preloader-monogram {
-      width: 180px; height: 180px;
-      object-fit: contain; filter: url(#key-black);
-      opacity: 0; transform: scale(0.85);
-      animation: drawIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    body.light-mode .preloader-monogram { filter: url(#key-black-light); }
-    
-    @keyframes drawIn {
-      0% { opacity: 0; transform: scale(0.85); filter: blur(15px) url(#key-black); }
-      100% { opacity: 1; transform: scale(1); filter: blur(0px) url(#key-black); }
-    }
-    body.light-mode @keyframes drawIn {
-      0% { opacity: 0; transform: scale(0.85); filter: blur(15px) url(#key-black-light); }
-      100% { opacity: 1; transform: scale(1); filter: blur(0px) url(#key-black-light); }
     }
 
     /* ── NOISE OVERLAY ── */
@@ -214,19 +183,13 @@
       overflow: hidden;
     }
 
-    /* Interactive Fluid Canvas */
-    #heroCanvas {
-      position: absolute; inset: 0; z-index: 1;
-      pointer-events: none; opacity: 0.65;
-    }
-
     .hero-bg-img {
       position: absolute; inset: 0; z-index: 1;
       background: url('Abstract%20ILL.JPG') center/cover no-repeat;
-      opacity: 0.15; /* Dimmed to allow canvas to shine */
+      opacity: 0.4;
       transition: opacity 0.4s ease;
     }
-    body.light-mode .hero-bg-img { opacity: 0.25; }
+    body.light-mode .hero-bg-img { opacity: 0.6; }
 
     .hero-bg-lines {
       position: absolute; inset: 0; z-index: 2;
@@ -240,7 +203,6 @@
       position: relative; z-index: 3;
       text-align: center;
       animation: fadeUp 1.4s ease both;
-      animation-delay: 1.8s; /* Wait for preloader */
       padding: 0 24px;
       width: 100%;
     }
@@ -250,11 +212,12 @@
       font-size: 11px; letter-spacing: 0.5em;
       color: var(--accent); text-transform: uppercase;
       margin-bottom: 40px;
-      animation: fadeUp 1.2s 1.9s ease both;
+      animation: fadeUp 1.2s 0.2s ease both;
     }
 
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
+      /* Font size increased 20% & explicitly bolded as requested */
       font-size: clamp(42px, 8vw, 110px); 
       font-weight: 700; 
       line-height: 1.05;
@@ -263,7 +226,7 @@
       text-align: center;
       display: block;
       margin-bottom: 0;
-      animation: fadeUp 1.2s 2s ease both;
+      animation: fadeUp 1.2s 0.35s ease both;
     }
     .mobile-break { display: inline; } /* Flows naturally on Desktop */
 
@@ -278,14 +241,14 @@
       color: var(--light-grey); text-transform: uppercase;
       text-align: center;
       padding: 0 24px;
-      animation: fadeUp 1.2s 2.2s ease both;
+      animation: fadeUp 1.2s 0.5s ease both;
     }
 
     .hero-scroll {
       position: absolute; bottom: 48px; left: 48px;
       display: flex; flex-direction: column; align-items: center;
       z-index: 4;
-      animation: fadeUp 1.2s 2.4s ease both;
+      animation: fadeUp 1.2s 0.8s ease both;
     }
     .scroll-arrow {
       font-size: 24px; color: var(--accent);
@@ -297,7 +260,7 @@
     #about { background: var(--near-black); }
     #services { background: var(--black); }
     #process { background: var(--black); }
-    #gallery { background: var(--near-black); overflow: hidden; } /* Hidden for pinned scrolling */
+    #gallery { background: var(--near-black); }
     #contact { background: var(--black); }
 
     .section-header {
@@ -323,35 +286,21 @@
       margin-left: 20px;
     }
 
-    /* ── ABOUT (Editorial Asymmetry) ── */
+    /* ── ABOUT ── */
     .about-grid {
-      display: grid; grid-template-columns: 1.2fr 0.8fr; /* Broken the strict grid */
-      align-items: center;
-      gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 48px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; max-width: 1200px; margin: 0 auto; padding: 0 48px;
     }
     .about-left {
-      position: relative;
-      padding-right: 0px; border-right: none;
+      padding-right: 80px; border-right: 1px solid rgba(150,150,150,0.1);
       transition: border-color 0.4s ease;
     }
-    /* Asymmetrical Editorial Overlay Number */
-    .about-left::before {
-      content: '01';
-      position: absolute;
-      top: -120px; left: -40px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 300px; line-height: 1; font-weight: 300;
-      color: var(--accent-dim);
-      z-index: 0; pointer-events: none;
-    }
     .about-img {
-      width: 100%; max-width: 480px; height: auto;
+      width: 100%; max-width: 380px; height: auto;
       border-radius: 4px; margin-bottom: 48px;
       border: 1px solid rgba(150,150,150,0.1);
-      position: relative; z-index: 1;
     }
     .about-statement {
-      position: relative; z-index: 2;
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(24px, 3vw, 38px);
       font-weight: 300; line-height: 1.4;
@@ -363,10 +312,9 @@
     .about-body {
       font-size: 13px; line-height: 2;
       color: var(--light-grey); letter-spacing: 0.01em;
-      position: relative; z-index: 2;
     }
     .about-right {
-      position: relative; z-index: 2;
+      padding-left: 80px;
       display: flex; flex-direction: column; justify-content: space-between;
     }
     .about-stats {
@@ -476,16 +424,11 @@
     }
     .pricing-sub-heading:first-child { margin-top: 0; }
 
-    /* Asymmetrical Staggered Editorial Grid */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
       margin-bottom: 24px;
-    }
-    @media (min-width: 1024px) {
-      .pricing-grid .price-card:nth-child(even) { transform: translateY(40px); }
-      .pricing-grid { padding-bottom: 40px; }
     }
 
     .price-card {
@@ -598,7 +541,7 @@
       background: var(--accent); color: var(--black);
     }
 
-    /* ── CONCIERGE CART UI SYSTEM ── */
+    /* ── CART UI SYSTEM ── */
     #cartToggleBtn {
       position: fixed; bottom: 40px; right: 40px; z-index: 9999;
       background: var(--accent); color: var(--black);
@@ -612,36 +555,28 @@
     #cartToggleBtn:hover { transform: translateY(-4px); }
 
     .cart-modal {
-      position: fixed; inset: 0; background: rgba(8,8,8,0.85);
-      z-index: 10000; display: flex; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+      z-index: 10000; display: flex; justify-content: flex-end;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+      backdrop-filter: blur(4px);
     }
-    body.light-mode .cart-modal { background: rgba(245,242,238,0.85); }
     .cart-modal.open { opacity: 1; pointer-events: auto; }
-    
     .cart-content {
-      width: 100%; max-width: 600px; background: transparent;
-      height: auto; max-height: 90vh; padding: 48px; overflow-y: auto;
-      transform: translateY(30px) scale(0.95); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-      border: none;
+      width: 100%; max-width: 480px; background: var(--near-black);
+      height: 100%; padding: 48px; overflow-y: auto;
+      transform: translateX(100%); transition: transform 0.4s ease;
+      border-left: 1px solid rgba(150,150,150,0.1);
     }
-    .cart-modal.open .cart-content { transform: translateY(0) scale(1); }
-    
-    /* Hide scrollbar for cart overlay for premium feel */
-    .cart-content::-webkit-scrollbar { display: none; }
-    .cart-content { -ms-overflow-style: none; scrollbar-width: none; }
-
+    .cart-modal.open .cart-content { transform: translateX(0); }
     .cart-close {
       background: none; border: none; color: var(--grey);
-      font-size: 32px; cursor: pointer; position: absolute; right: 40px; top: 40px;
-      transition: color 0.3s ease; font-family: sans-serif;
+      font-size: 20px; cursor: pointer; float: right;
+      transition: color 0.3s ease;
     }
     .cart-close:hover { color: var(--accent); }
     .cart-title {
-      font-family: 'Cormorant Garamond', serif; font-size: 36px;
-      color: var(--white); margin-bottom: 40px; font-weight: 300; text-align: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 32px;
+      color: var(--white); margin-bottom: 40px; font-weight: 300;
     }
     .cart-item {
       display: flex; justify-content: space-between; align-items: center;
@@ -657,22 +592,21 @@
       color: var(--accent); text-align: right; margin: 40px 0; font-weight: 600;
     }
 
-    /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
+    /* ── LIGHTBOX (IMAGE EXPANSION) ── */
     .lightbox {
-      position: fixed; inset: 0; background: transparent;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.92);
       z-index: 100000; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      backdrop-filter: blur(5px);
     }
     .lightbox.open { opacity: 1; pointer-events: auto; }
     .lightbox img {
       max-width: 90vw; max-height: 90vh;
       object-fit: contain; border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-      transform-origin: top left; /* Crucial for FLIP math */
-      will-change: transform;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transform: scale(0.95); transition: transform 0.3s ease;
     }
+    .lightbox.open img { transform: scale(1); }
     .lightbox-close {
       position: absolute; top: 30px; right: 40px;
       background: none; border: none; color: var(--grey);
@@ -712,7 +646,7 @@
       color: var(--grey); letter-spacing: 0.02em;
     }
 
-    /* ── HORIZONTAL CINEMATIC GALLERY SCROLL ── */
+    /* ── GALLERY (SLIDESHOW) ── */
     .gallery-filter {
       display: flex; gap: 8px;
       padding: 0 48px; margin-bottom: 64px;
@@ -729,21 +663,18 @@
       background: var(--accent); color: var(--black); border-color: var(--accent);
     }
     
-    .gallery-slideshow-wrapper {
-      width: 100%; overflow: hidden; 
-    }
-
     .gallery-slideshow {
       display: flex; gap: 24px;
       padding: 0 48px 64px;
-      width: max-content; 
-      flex-wrap: nowrap;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
       position: relative; 
     }
+    .gallery-slideshow::-webkit-scrollbar { display: none; } 
     
     .gallery-item {
-      width: 40vw; max-width: 500px; min-width: 300px;
-      flex-shrink: 0;
+      flex: 0 0 calc(33.333% - 16px);
+      scroll-snap-align: start;
       position: relative; overflow: hidden;
       background: var(--dark);
       aspect-ratio: 1 / 1; 
@@ -953,17 +884,13 @@
 
       .mobile-break { display: block; } /* Enforces break on tablet/mobile */
 
-      .gallery-item { width: 80vw; }
+      .gallery-item { flex: 0 0 calc(50% - 12px); }
       .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
       .section-line { display: none; }
 
-      /* Reset grid stagger on mobile */
-      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
+      .about-grid { grid-template-columns: 1fr; padding: 0 24px; }
       .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
-      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
-      .about-right { padding-left: 0; padding-top: 0px; }
-
-      .pricing-grid .price-card:nth-child(even) { transform: none; }
+      .about-right { padding-left: 0; padding-top: 48px; }
 
       .process-steps { grid-template-columns: 1fr 1fr; padding: 0 24px; }
       .process-step { padding: 32px 24px; }
@@ -985,17 +912,12 @@
     @media (max-width: 500px) {
       .process-steps { grid-template-columns: 1fr; }
       .about-stats { grid-template-columns: 1fr 1fr; }
-      .gallery-item { width: 85vw; }
+      .gallery-item { flex: 0 0 100%; }
       .hero-scroll { left: 24px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- BESPOKE PRELOADER -->
-  <div id="preloader">
-    <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" class="preloader-monogram" alt="T" />
-  </div>
 
   <!-- INVISIBLE SVG FILTER FOR FLAWLESS LOGO TRANSPARENCY -->
   <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
@@ -1063,9 +985,6 @@
 
   <!-- HERO -->
   <section id="hero">
-    <!-- INTERACTIVE INK CANVAS -->
-    <canvas id="heroCanvas"></canvas>
-    
     <div class="hero-bg-img"></div>
     <div class="hero-bg-lines"></div>
     <div class="hero-content">
@@ -1087,7 +1006,7 @@
     </div>
     <div class="about-grid">
       <div class="about-left reveal">
-        <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img parallax-img" />
+        <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img" />
         <p class="about-statement">
           Seven years of turning vision into image — one frame, one stroke, one story at a time.
         </p>
@@ -1169,36 +1088,36 @@
       <div class="pricing-sub-heading">Coloured Storyboards</div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 1.jpeg" alt="Coloured Storyboard 1" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 1.jpeg" alt="Coloured Storyboard 1" loading="lazy" /></div>
           <div>
             <div class="price-card-name">10 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Full-colour sequential frames for pitch or production</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦120,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 2.jpeg" alt="Coloured Storyboard 2" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 2.jpeg" alt="Coloured Storyboard 2" loading="lazy" /></div>
           <div>
             <div class="price-card-name">20 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Extended colour sequence for short films &amp; ads</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦240,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 3.jpeg" alt="Coloured Storyboard 3" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 3.jpeg" alt="Coloured Storyboard 3" loading="lazy" /></div>
           <div>
             <div class="price-card-name">30 Frames Coloured Storyboard</div>
             <div class="price-card-desc">Full production-ready colour board for full scenes</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦360,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1206,58 +1125,58 @@
       <div class="pricing-sub-heading">Black &amp; White Storyboards</div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%201.jpeg" alt="B&W Storyboard 1" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%201.jpeg" alt="B&W Storyboard 1" loading="lazy" /></div>
           <div>
             <div class="price-card-name">10 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Clean greyscale frames for narrative direction</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦65,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%202.jpeg" alt="B&W Storyboard 2" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%202.jpeg" alt="B&W Storyboard 2" loading="lazy" /></div>
           <div>
             <div class="price-card-name">20 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Mid-length greyscale board for scene mapping</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦130,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%203.jpeg" alt="B&W Storyboard 3" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%203.jpeg" alt="B&W Storyboard 3" loading="lazy" /></div>
           <div>
             <div class="price-card-name">30 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Extended greyscale production board</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦195,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
           <div>
             <div class="price-card-name">40 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Full-length greyscale board — full scene sequences</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦260,000</div>
-            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" /></div>
           <div>
             <div class="price-card-name">50 Frames B&amp;W Storyboard</div>
             <div class="price-card-desc">Complete feature-level storyboard in greyscale</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦325,000</div>
-            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1278,7 +1197,7 @@
             <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
             <div class="price-amount" id="calcTotal">₦331,500</div>
           </div>
-          <button type="button" class="add-to-cart-btn" id="calcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Collection</button>
+          <button type="button" class="add-to-cart-btn" id="calcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Cart</button>
         </div>
       </div>
     </div>
@@ -1293,36 +1212,36 @@
       <div class="pricing-sub-heading">Individual Portraits</div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-portrait"><img src="12 x 16 Inches - Demilade.jpeg" alt="12 x 16 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-portrait"><img src="12 x 16 Inches - Demilade.jpeg" alt="12 x 16 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">12 × 16 Inches Portrait</div>
             <div class="price-card-desc">Coloured digital portrait printed on glittered canvas</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦60,000</div>
-            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-portrait"><img src="18 x 24 Inches - Mares Aunty.jpeg" alt="18 x 24 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-portrait"><img src="18 x 24 Inches - Mares Aunty.jpeg" alt="18 x 24 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">16×24 / 18×24 Inches Portrait</div>
             <div class="price-card-desc">Mid-large format coloured digital portrait on glittered canvas</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦75,000</div>
-            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-portrait"><img src="24 x 30 Inches - American client.jpeg" alt="24 x 30 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-portrait"><img src="24 x 30 Inches - American client.jpeg" alt="24 x 30 Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">24 × 30 Inches Portrait</div>
             <div class="price-card-desc">Large-format statement portrait on glittered canvas</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦150,000</div>
-            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1330,14 +1249,14 @@
       <div class="pricing-sub-heading">Couple Portraits</div>
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-landscape"><img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Couple Portrait" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-landscape"><img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Couple Portrait" loading="lazy" /></div>
           <div>
             <div class="price-card-name">16/18 × 20/24 Inches Couple Portrait</div>
             <div class="price-card-desc">Coloured digital couple portrait printed on glittered canvas</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦90,000</div>
-            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1352,36 +1271,36 @@
 
       <div class="pricing-grid">
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Digital Illustration (Softcopy)</div>
             <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="40000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" /></div>
           <div>
             <div class="price-card-name">1 Character Song Cover Art</div>
             <div class="price-card-desc">Single-character album or song cover illustration</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="40000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Multi-Character Song Cover Art</div>
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦80,000</div>
-            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="80000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="80000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1405,18 +1324,18 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦30,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Cart</button>
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Art%20Base%20-%20Logo.jpeg" alt="Logo Design" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Art%20Base%20-%20Logo.jpeg" alt="Logo Design" loading="lazy" /></div>
           <div>
             <div class="price-card-name">Logo Design</div>
             <div class="price-card-desc">Brand mark and logo — multiple concepts, full delivery</div>
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000">+ Add to Cart</button>
           </div>
         </div>
       </div>
@@ -1442,21 +1361,22 @@
     <button id="navArrowDown" aria-label="Next Section">↓</button>
   </div>
 
-  <!-- CONCIERGE CART COMPONENT -->
+  <!-- FLOATING CART COMPONENT -->
   <button id="cartToggleBtn">
-    Private Commission (<span id="cartCount">0</span>)
+    🛒 Cart (<span id="cartCount">0</span>)
   </button>
 
   <div id="cartModal" class="cart-modal">
     <div class="cart-content">
       <button class="cart-close" id="cartClose">✕</button>
-      <h3 class="cart-title">Your Collection</h3>
+      <h3 class="cart-title">Your Order</h3>
       <div id="cartItemsList" class="cart-items-list">
          <!-- Items appended via JS -->
       </div>
       <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
       
       <form id="cartForm" onsubmit="handleCartSubmit(event)">
+        
         <div class="form-field">
           <label>Full Name</label>
           <input type="text" name="name" placeholder="Full name" required />
@@ -1470,20 +1390,20 @@
           <input type="tel" name="whatsapp" placeholder="+234..." required />
         </div>
         <div class="form-field">
-          <label>Commission Notes</label>
-          <textarea name="brief" placeholder="Any specific requirements or references for these pieces?"></textarea>
+          <label>Order Notes</label>
+          <textarea name="brief" placeholder="Any specific requirements or references for these items?"></textarea>
         </div>
         <button type="submit" class="form-submit">
-          Request Commission <span class="form-submit-arrow">→</span>
+          Place Order <span class="form-submit-arrow">→</span>
         </button>
       </form>
       <p id="cartFormMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
-        Commission request initiated. Expect an email response within 24 hours.
+        Order securely placed. Expect an email response within 24 hours.
       </p>
     </div>
   </div>
 
-  <!-- LIGHTBOX COMPONENT (Shared Element / FLIP) -->
+  <!-- LIGHTBOX COMPONENT -->
   <div id="lightbox" class="lightbox">
     <button class="lightbox-close" id="lightboxClose">✕</button>
     <img id="lightboxImg" src="" alt="Expanded Image" />
@@ -1505,71 +1425,68 @@
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
-    <!-- GSAP Horizontal Slideshow Container -->
-    <div class="gallery-slideshow-wrapper">
-      <div class="gallery-slideshow" id="galleryGrid">
-        <!-- Illustrations -->
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
+    <div class="gallery-slideshow" id="galleryGrid">
+      <!-- Illustrations -->
+      <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
+      </div>
+      <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
+      </div>
+      <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
+      </div>
+      <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
+      </div>
+      <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
+      </div>
 
-        <!-- Portraits -->
-        <div class="gallery-item" data-category="portrait" style="display:none;">
-          <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
-          <div class="gallery-item-caption">12 x 16 inches portrait</div>
-        </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
-          <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
-          <div class="gallery-item-caption">16 x 24 inches portrait</div>
-        </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
-          <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
-          <div class="gallery-item-caption">18 x 24 inches portrait</div>
-        </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
-          <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
-          <div class="gallery-item-caption">24 x 30 inches portrait</div>
-        </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
-          <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
-          <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
-        </div>
+      <!-- Portraits -->
+      <div class="gallery-item" data-category="portrait" style="display:none;">
+        <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-item-caption">12 x 16 inches portrait</div>
+      </div>
+      <div class="gallery-item" data-category="portrait" style="display:none;">
+        <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-item-caption">16 x 24 inches portrait</div>
+      </div>
+      <div class="gallery-item" data-category="portrait" style="display:none;">
+        <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-item-caption">18 x 24 inches portrait</div>
+      </div>
+      <div class="gallery-item" data-category="portrait" style="display:none;">
+        <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-item-caption">24 x 30 inches portrait</div>
+      </div>
+      <div class="gallery-item" data-category="portrait" style="display:none;">
+        <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
+        <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
+      </div>
 
-        <!-- Cover Art -->
-        <div class="gallery-item" data-category="cover" style="display:none;">
-          <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
-          <div class="gallery-item-caption">single character cover art</div>
-        </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
-          <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
-          <div class="gallery-item-caption">single character cover art</div>
-        </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
-          <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
-          <div class="gallery-item-caption">multiple character cover art</div>
-        </div>
+      <!-- Cover Art -->
+      <div class="gallery-item" data-category="cover" style="display:none;">
+        <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-item-caption">single character cover art</div>
+      </div>
+      <div class="gallery-item" data-category="cover" style="display:none;">
+        <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-item-caption">single character cover art</div>
+      </div>
+      <div class="gallery-item" data-category="cover" style="display:none;">
+        <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
+        <div class="gallery-item-caption">multiple character cover art</div>
+      </div>
 
-        <!-- Design -->
-        <div class="gallery-item" data-category="design" style="display:none;">
-          <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
-          <div class="gallery-item-caption">logo design</div>
-        </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
-          <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
-          <div class="gallery-item-caption">logo design</div>
-        </div>
+      <!-- Design -->
+      <div class="gallery-item" data-category="design" style="display:none;">
+        <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
+        <div class="gallery-item-caption">logo design</div>
+      </div>
+      <div class="gallery-item" data-category="design" style="display:none;">
+        <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
+        <div class="gallery-item-caption">logo design</div>
       </div>
     </div>
   </section>
@@ -1699,32 +1616,6 @@
   </footer>
 
   <script>
-    // ── PRELOADER LOGIC ──
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const preloader = document.getElementById('preloader');
-        preloader.style.opacity = '0';
-        setTimeout(() => preloader.style.display = 'none', 1200);
-      }, 1500); // 1.5s delay to let monogram draw elegantly
-    });
-
-    // ── SMOOTH SCROLLING (Lenis) ──
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
     // ── LIGHT/DARK MODE 3-WAY TOGGLE (System/Dark/Light) ──
     const themeToggleBtn = document.getElementById('themeToggle');
     const mobileThemeToggleBtn = document.getElementById('mobileThemeToggle');
@@ -1766,70 +1657,6 @@
 
     applyTheme(currentTheme);
 
-    // ── INTERACTIVE INK/PAINT CANVAS ──
-    const canvas = document.getElementById('heroCanvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
-
-    function resizeCanvas() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 15 + 5;
-        this.speedX = Math.random() * 2 - 1;
-        this.speedY = Math.random() * 2 - 1;
-        this.life = 1; // 1 means full opacity
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life -= 0.02; // Decay rate
-        this.size += 0.5; // Spread out like ink
-      }
-      draw() {
-        ctx.fillStyle = `rgba(200, 184, 154, ${this.life * 0.5})`; // Matches accent color
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function addParticles(e) {
-      const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      for (let i = 0; i < 3; i++) {
-        particles.push(new Particle(x, y));
-      }
-    }
-
-    canvas.addEventListener('mousemove', addParticles);
-    canvas.addEventListener('touchmove', (e) => {
-      addParticles(e.touches[0]);
-    });
-
-    function animateCanvas() {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].life <= 0) {
-          particles.splice(i, 1);
-          i--;
-        }
-      }
-      requestAnimationFrame(animateCanvas);
-    }
-    animateCanvas();
-
     // ── NAV & MOBILE MENU ──
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
@@ -1839,35 +1666,12 @@
     hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
     mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-    // ── REVEAL ON SCROLL & GSAP PARALLAX ──
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Sync Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time)=>{
-      lenis.raf(time * 1000)
-    });
-    gsap.ticker.lagSmoothing(0);
-
+    // ── REVEAL ON SCROLL ──
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
     }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
-
-    // GSAP Parallax implementation on images
-    gsap.utils.toArray('.parallax-img').forEach(img => {
-      gsap.to(img, {
-        y: -40,
-        ease: "none",
-        scrollTrigger: {
-          trigger: img,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-    });
 
     // ── PRICING TABS ──
     document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1876,7 +1680,6 @@
         document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        ScrollTrigger.refresh(); // Refresh triggers in case heights changed
       });
     });
 
@@ -1924,51 +1727,44 @@
       }, 1000);
     });
 
-    // ── CINEMATIC HORIZONTAL GALLERY SCROLL ──
+    // ── GALLERY FILTER & RANDOM SLIDESHOW ──
+    let randomPanInterval;
+    let currentPanIndex = 0;
     let currentFilter = 'illustration'; // Matches the newly active default tab
-    let horizontalTween;
 
-    function initHorizontalScroll() {
-      if (window.innerWidth < 1025) return; // Disable horizontal pinning on mobile/tablets
+    function startRandomPanning() {
+      clearInterval(randomPanInterval);
+      const container = document.getElementById('galleryGrid');
+      const allItems = Array.from(document.querySelectorAll('.gallery-item'));
       
-      if (horizontalTween) {
-        horizontalTween.kill();
-        gsap.set('#galleryGrid', { clearProps: "all" }); // clear previous transforms
-      }
+      randomPanInterval = setInterval(() => {
+        const rect = container.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
-      const galleryGrid = document.getElementById("galleryGrid");
-      const visibleItems = Array.from(document.querySelectorAll('.gallery-item')).filter(item => item.style.display !== 'none');
-      
-      if (visibleItems.length > 0) {
-        // Calculate the actual scroll distance based on only visible items
-        let totalContentWidth = 0;
-        visibleItems.forEach(item => {
-          totalContentWidth += item.offsetWidth + 24; // width + gap
-        });
-
-        let scrollDist = totalContentWidth - window.innerWidth + 96; // 96 for padding
+        if (!isVisible || container.matches(':hover') || container.matches(':active')) return;
         
-        if (scrollDist > 0) {
-          horizontalTween = gsap.to(galleryGrid, {
-            x: -scrollDist,
-            ease: "none",
-            scrollTrigger: {
-              trigger: "#gallery",
-              pin: true,
-              scrub: 1,
-              start: "top top",
-              end: () => "+=" + scrollDist,
-              anticipatePin: 1,
-              invalidateOnRefresh: true
-            }
+        // Panning only strictly visible items belonging to the selected category
+        const visibleItems = allItems.filter(item => item.dataset.category === currentFilter);
+        if(visibleItems.length <= 1) return;
+
+        currentPanIndex = (currentPanIndex + 1) % visibleItems.length;
+        const nextItem = visibleItems[currentPanIndex];
+        
+        if (nextItem) {
+          const paddingLeft = parseInt(window.getComputedStyle(container).paddingLeft) || 0;
+          container.scrollTo({ 
+            left: nextItem.offsetLeft - paddingLeft, 
+            behavior: 'smooth' 
           });
         }
-      }
+      }, 3000); 
     }
 
-    // Delay init to allow CSS to calculate sizes accurately on load
-    window.addEventListener('load', () => setTimeout(initHorizontalScroll, 100));
-    window.addEventListener('resize', initHorizontalScroll);
+    function stopRandomPanning() {
+      clearInterval(randomPanInterval);
+    }
+
+    startRandomPanning();
 
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1976,8 +1772,9 @@
         btn.classList.add('active');
         currentFilter = btn.dataset.filter;
         
-        // Reset translation temporarily
-        gsap.set(document.getElementById('galleryGrid'), { x: 0 });
+        stopRandomPanning();
+        currentPanIndex = 0;
+        document.getElementById('galleryGrid').scrollTo({ left: 0, behavior: 'smooth' });
 
         document.querySelectorAll('.gallery-item').forEach(item => {
           if (item.dataset.category === currentFilter) {
@@ -1987,10 +1784,8 @@
           }
         });
 
-        setTimeout(() => {
-          ScrollTrigger.refresh();
-          initHorizontalScroll();
-        }, 450); 
+        // Small delay to allow CSS opacity transition to complete before starting to pan again
+        setTimeout(startRandomPanning, 450); 
       });
     });
 
@@ -2053,7 +1848,7 @@
     // ── FORM SUBMISSION LOGIC (WHATSAPP REDIRECT) ──
     function handleCartSubmit(e) {
       e.preventDefault();
-      if (cart.length === 0) return alert("Your collection is empty!");
+      if (cart.length === 0) return alert("Your cart is empty!");
 
       const form = e.target;
       const btn = form.querySelector('button');
@@ -2064,17 +1859,17 @@
       const data = Object.fromEntries(formData.entries());
 
       // Format the Cart data for WhatsApp
-      let whatsappText = "*COMMISSION REQUEST*\n\n";
+      let whatsappText = "*NEW ORDER*\n\n";
       whatsappText += `*Name:* ${data.name}\n`;
       whatsappText += `*Email:* ${data.email}\n`;
       whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
-      whatsappText += "*COLLECTION SUMMARY:*\n";
+      whatsappText += "*ORDER SUMMARY:*\n";
       cart.forEach(item => { whatsappText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
       whatsappText += `\n*TOTAL AMOUNT:* ₦${document.getElementById('cartTotalAmt').textContent}\n`;
       
       if (data.brief) {
-        whatsappText += `\n*Commission Notes:*\n${data.brief}`;
+        whatsappText += `\n*Order Notes:*\n${data.brief}`;
       }
 
       // Encode and open WhatsApp URL
@@ -2128,10 +1923,7 @@
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
         const target = document.querySelector(a.getAttribute('href'));
-        if (target) { 
-          e.preventDefault(); 
-          lenis.scrollTo(target, { offset: 0 }); // Utilize lenis for precise smooth scroll routing
-        }
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
 
@@ -2139,9 +1931,11 @@
     const navArrowsContainer = document.querySelector('.section-nav-arrows');
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
+    // Grab all main sections (including the philosophy div)
     const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
 
     window.addEventListener('scroll', () => {
+      // Show arrows only after scrolling past the initial top portion
       if (window.scrollY > window.innerHeight * 0.3) {
         navArrowsContainer.classList.add('visible');
       } else {
@@ -2153,6 +1947,7 @@
       const scrollY = window.scrollY;
       let targetSection = pageSections[0];
       
+      // Loop backward to find the first section that is sufficiently above us
       for (let i = pageSections.length - 1; i >= 0; i--) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop < scrollY - 50) { 
@@ -2160,13 +1955,14 @@
           break;
         }
       }
-      lenis.scrollTo(targetSection);
+      targetSection.scrollIntoView({ behavior: 'smooth' });
     });
 
     navArrowDown.addEventListener('click', () => {
       const scrollY = window.scrollY;
       let targetSection = pageSections[pageSections.length - 1];
       
+      // Loop forward to find the first section that is sufficiently below us
       for (let i = 0; i < pageSections.length; i++) {
         const secTop = pageSections[i].getBoundingClientRect().top + scrollY;
         if (secTop > scrollY + 50) {
@@ -2174,64 +1970,26 @@
           break;
         }
       }
-      lenis.scrollTo(targetSection);
+      targetSection.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // ── DYNAMIC SHARED-ELEMENT LIGHTBOX (FLIP) ──
+    // ── LIGHTBOX SYSTEM ──
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
-    let activeImageRect = null;
     
-    document.querySelectorAll('.price-img-wrapper img, .gallery-item img').forEach(img => {
-      img.addEventListener('click', (e) => {
-        // 1. Get exact position of clicked image
-        activeImageRect = img.getBoundingClientRect();
-        
-        // 2. Assign image and open lightbox container
-        lightboxImg.src = img.src;
-        lightbox.classList.add('open');
-        
-        // 3. Immediately scale and translate it to match the clicked thumbnail
-        const scaleX = activeImageRect.width / window.innerWidth;
-        const scaleY = activeImageRect.height / window.innerHeight;
-        const scale = Math.max(scaleX, scaleY); 
-        
-        const x = activeImageRect.left + activeImageRect.width/2 - window.innerWidth/2;
-        const y = activeImageRect.top + activeImageRect.height/2 - window.innerHeight/2;
-
-        lightboxImg.style.transition = 'none';
-        lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-        
-        // 4. Force reflow then animate it to center screen (scale 1)
-        lightboxImg.offsetHeight; // Reflow
-        lightboxImg.style.transition = 'transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)';
-        lightboxImg.style.transform = 'translate(0px, 0px) scale(1)';
+    document.querySelectorAll('.price-img-wrapper, .gallery-item').forEach(container => {
+      container.addEventListener('click', (e) => {
+        const img = container.querySelector('img');
+        if (img) {
+          lightboxImg.src = img.src;
+          lightbox.classList.add('open');
+        }
       });
     });
 
     lightbox.addEventListener('click', (e) => {
       if (e.target !== lightboxImg) {
-        if(activeImageRect) {
-            // Animate back to original thumbnail position
-            const scaleX = activeImageRect.width / window.innerWidth;
-            const scaleY = activeImageRect.height / window.innerHeight;
-            const scale = Math.max(scaleX, scaleY); 
-            
-            const x = activeImageRect.left + activeImageRect.width/2 - window.innerWidth/2;
-            const y = activeImageRect.top + activeImageRect.height/2 - window.innerHeight/2;
-
-            lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-            lightbox.classList.remove('open');
-            
-            setTimeout(() => {
-                // Clear transform after fade out
-                if(!lightbox.classList.contains('open')) {
-                    lightboxImg.style.transform = 'none';
-                }
-            }, 500);
-        } else {
-            lightbox.classList.remove('open');
-        }
+        lightbox.classList.remove('open');
       }
     });
   </script>
