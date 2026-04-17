@@ -321,54 +321,38 @@
       margin-left: 20px;
     }
 
-    /* ── ABOUT (Editorial Asymmetry) ── */
+    /* ── ABOUT ── */
     .about-grid {
-      display: grid; grid-template-columns: 1.2fr 0.8fr; /* Broken the strict grid */
-      align-items: center;
-      gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 48px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0; max-width: 1200px; margin: 0 auto; padding: 0 48px;
     }
     .about-left {
-      position: relative;
-      padding-right: 0px; border-right: none;
+      padding-right: 80px; border-right: 1px solid rgba(150,150,150,0.1);
       transition: border-color 0.4s ease;
     }
-    /* Asymmetrical Editorial Overlay Number */
-    .about-left::before {
-      content: '01';
-      position: absolute;
-      top: -120px; left: -40px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 300px; line-height: 1; font-weight: 300;
-      color: var(--accent-dim);
-      z-index: 0; pointer-events: none;
-    }
     .about-img {
-      width: 100%; max-width: 480px; height: auto;
-      border-radius: 4px; margin-bottom: 48px;
+      width: 100%; max-width: 380px; height: auto;
+      border-radius: 4px; margin-bottom: 40px;
       border: 1px solid rgba(150,150,150,0.1);
-      position: relative; z-index: 1;
     }
     .about-statement {
-      position: relative; z-index: 2;
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(24px, 3vw, 38px);
-      font-weight: 300; line-height: 1.4;
-      letter-spacing: -0.01em;
+      font-size: clamp(22px, 2.5vw, 34px);
+      font-weight: 300; line-height: 1.5;
       color: var(--white);
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
     .about-statement em { font-style: italic; color: var(--accent); }
     .about-body {
-      font-size: 13px; line-height: 2;
-      color: var(--light-grey); letter-spacing: 0.01em;
-      position: relative; z-index: 2;
+      font-size: 12px; line-height: 1.9;
+      color: var(--light-grey); letter-spacing: 0.02em;
     }
     .about-right {
-      position: relative; z-index: 2;
+      padding-left: 80px;
       display: flex; flex-direction: column; justify-content: space-between;
     }
     .about-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 48px 40px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
     }
     .stat-number {
       font-family: 'Cormorant Garamond', serif;
@@ -379,14 +363,14 @@
       font-family: 'DM Mono', monospace;
       font-size: 10px; letter-spacing: 0.3em;
       color: var(--grey); text-transform: uppercase;
-      margin-top: 12px;
+      margin-top: 6px;
     }
     .services-header {
       font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: 0.2em;
-      color: var(--white); text-transform: uppercase; margin-bottom: 24px; margin-top: 64px;
+      color: var(--white); text-transform: uppercase; margin-bottom: 20px; margin-top: 48px;
     }
     .about-disciplines {
-      display: flex; flex-direction: column; gap: 16px;
+      display: flex; flex-direction: column; gap: 14px;
       padding-top: 24px; border-top: 1px solid rgba(150,150,150,0.1);
       transition: border-color 0.4s ease;
     }
@@ -708,7 +692,6 @@
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 24px;
-      cursor: grab;
     }
     /* Hide scrollbar for seamless trackpad scrolling */
     .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
@@ -764,19 +747,6 @@
       text-align: center;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
       z-index: 2;
-    }
-
-    /* ── SCROLL HINT TEXT ── */
-    .gallery-scroll-hint {
-      text-align: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.2em;
-      color: var(--grey); text-transform: uppercase;
-      margin-top: 32px;
-      transition: opacity 0.4s ease;
-    }
-    .gallery-scroll-hint span {
-      font-family: sans-serif; font-size: 14px; margin-left: 4px;
     }
 
     /* ── PROCESS ── */
@@ -986,8 +956,7 @@
       /* Reset grid stagger on mobile */
       .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
       .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
-      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
-      .about-right { padding-left: 0; padding-top: 0px; }
+      .about-right { padding-left: 0; padding-top: 48px; }
 
       .pricing-grid .price-card:nth-child(even) { transform: none; }
 
@@ -1507,70 +1476,68 @@
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
-    <div class="gallery-slideshow-wrapper" id="galleryWrapper" data-lenis-prevent>
+    <div class="gallery-slideshow-wrapper" id="galleryWrapper">
       <div class="gallery-slideshow" id="galleryGrid">
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        
+        <div class="gallery-item" data-category="illustration">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
       </div>
-    </div>
-    <div class="gallery-scroll-hint" id="galleryScrollHint">
-      Swipe down to scroll <span>→</span>
     </div>
   </section>
 
@@ -1702,7 +1669,7 @@
         const preloader = document.getElementById('preloader');
         preloader.style.opacity = '0';
         setTimeout(() => preloader.style.display = 'none', 1200);
-      }, 1500); // 1.5s delay to let monogram draw elegantly
+      }, 1500);
     });
 
     // ── SMOOTH SCROLLING (Lenis) ──
@@ -1919,76 +1886,42 @@
       }, 1000);
     });
 
-    // ── NATIVE HORIZONTAL SCROLL INTERCEPTION & HINT TEXT ──
+    // ── NATIVE HORIZONTAL GALLERY SCROLL & TABS ──
     const galleryWrapper = document.getElementById('galleryWrapper');
-    const scrollHint = document.getElementById('galleryScrollHint');
+    const filterBtns = document.querySelectorAll('.filter-btn');
 
-    // Desktop Wheel Event to translate vertical wheel into horizontal scroll
-    galleryWrapper.addEventListener('wheel', (e) => {
-      if (window.innerWidth < 1025) return;
-      
-      // Permit native horizontal trackpad scrolling directly
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
-
-      const isAtStart = galleryWrapper.scrollLeft <= 0;
-      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 1;
-
-      // Only hijack the vertical scroll if there's room to scroll horizontally
-      if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
-        e.preventDefault();
-        galleryWrapper.scrollLeft += e.deltaY;
-      }
-    }, { passive: false });
-
-    // Update Helper Text based on scroll position
-    function updateScrollHint() {
-      const isScrollable = galleryWrapper.scrollWidth > galleryWrapper.clientWidth;
-      
-      if (!isScrollable) {
-        scrollHint.style.opacity = '0';
-        return;
-      }
-      
-      scrollHint.style.opacity = '1';
-      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
-      
-      if (isAtEnd) {
-         scrollHint.innerHTML = 'Swipe up to scroll <span>←</span>';
-      } else {
-         scrollHint.innerHTML = 'Swipe down to scroll <span>→</span>';
-      }
-    }
-    
-    galleryWrapper.addEventListener('scroll', updateScrollHint);
-    window.addEventListener('resize', updateScrollHint);
-
-    // Tab Filtering logic
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    // Smooth scroll to category on tab click
+    filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
         const filter = btn.dataset.filter;
+        const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
         
-        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
-
-        document.querySelectorAll('.gallery-item').forEach(item => {
-          if (item.dataset.category === filter) {
-            item.style.display = 'flex'; setTimeout(() => item.style.opacity = '1', 50);
-          } else {
-            item.style.opacity = '0'; setTimeout(() => item.style.display = 'none', 400);
-          }
-        });
-
-        // Trigger scroll event to quickly evaluate and update hint text
-        setTimeout(() => {
-          ScrollTrigger.refresh();
-          galleryWrapper.dispatchEvent(new Event('scroll'));
-        }, 450); 
+        if (targetItem) {
+          const paddingLeft = parseInt(window.getComputedStyle(galleryWrapper).paddingLeft) || 0;
+          galleryWrapper.scrollTo({ left: targetItem.offsetLeft - paddingLeft, behavior: 'smooth' });
+        }
       });
     });
 
-    // Run hint evaluation on load
-    window.addEventListener('load', () => setTimeout(updateScrollHint, 200));
+    // Intersection Observer to highlight active tab dynamically on scroll
+    const galleryObserverOptions = {
+      root: galleryWrapper,
+      rootMargin: '0px',
+      threshold: 0.6 // Trigger when 60% of image is in view
+    };
+
+    const galleryObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const activeCat = entry.target.dataset.category;
+          filterBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.filter === activeCat);
+          });
+        }
+      });
+    }, galleryObserverOptions);
+
+    document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
