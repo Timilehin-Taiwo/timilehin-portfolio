@@ -736,6 +736,97 @@
     }
     .chatbot-option:hover { background: var(--accent); color: var(--black); }
 
+    /* ── EMAIL SUGGESTIONS ── */
+    .email-field-wrap { position: relative; }
+    .email-suggestions {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--near-black); border: 1px solid rgba(150,150,150,0.2);
+      border-radius: 4px; margin-top: 4px; z-index: 10;
+      display: none; flex-direction: column; overflow: hidden;
+    }
+    .email-suggestions.open { display: flex; }
+    .email-suggestion-item {
+      padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 12px;
+      color: var(--light-grey); cursor: pointer; transition: background 0.2s ease;
+      border-bottom: 1px solid rgba(150,150,150,0.1);
+    }
+    .email-suggestion-item:last-child { border-bottom: none; }
+    .email-suggestion-item:hover { background: var(--dark); color: var(--accent); }
+
+    /* ── CALCULATOR TOGGLES ── */
+    .calc-toggle-wrap {
+      display: flex; gap: 0; margin-bottom: 24px;
+      border: 1px solid rgba(150,150,150,0.2); border-radius: 4px; overflow: hidden;
+    }
+    .calc-toggle {
+      flex: 1; background: transparent; border: none;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--grey); padding: 14px 20px; cursor: pointer;
+      transition: all 0.3s ease; border-right: 1px solid rgba(150,150,150,0.2);
+    }
+    .calc-toggle:last-child { border-right: none; }
+    .calc-toggle.active {
+      background: var(--accent); color: var(--black); font-weight: 600;
+    }
+    .calc-toggle:hover:not(.active) { background: var(--dark); color: var(--off-white); }
+
+    /* ── ADMIN LOGIN OVERLAY ── */
+    .admin-login-overlay {
+      position: absolute; inset: 0; background: var(--black);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 10; transition: opacity 0.4s ease;
+    }
+    .admin-login-overlay.hidden { opacity: 0; pointer-events: none; }
+    .admin-login-form {
+      max-width: 400px; width: 100%; padding: 40px;
+      border: 1px solid rgba(150,150,150,0.2); border-radius: 4px;
+      background: var(--near-black);
+    }
+    .admin-login-form h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 28px;
+      color: var(--white); margin-bottom: 32px; text-align: center; font-weight: 300;
+    }
+    .admin-login-form .form-field { margin-bottom: 24px; }
+    .admin-login-form .form-field:last-of-type { margin-bottom: 32px; }
+    .admin-login-form input {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(150,150,150,0.2);
+      padding: 16px 0; color: var(--off-white);
+      font-family: 'DM Mono', monospace; font-size: 13px; outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .admin-login-form input:focus { border-bottom-color: var(--accent); }
+    .admin-login-form button.form-submit { width: 100%; justify-content: center; }
+    .admin-reset-link {
+      display: block; text-align: center; margin-top: 20px;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase;
+      background: none; border: none; cursor: pointer; transition: color 0.3s ease;
+    }
+    .admin-reset-link:hover { color: var(--accent); }
+    .secret-form { display: none; }
+    .secret-form.open { display: block; }
+    .admin-error {
+      color: #ff6b6b; font-size: 11px; text-align: center;
+      margin-top: 12px; font-family: 'DM Mono', monospace;
+    }
+    .admin-success {
+      color: #51cf66; font-size: 11px; text-align: center;
+      margin-top: 12px; font-family: 'DM Mono', monospace;
+    }
+    .download-invoice-btn {
+      background: transparent; border: 1px solid var(--accent);
+      color: var(--accent); font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 14px; border-radius: 4px; cursor: pointer;
+      transition: all 0.3s ease; margin-top: 16px;
+    }
+    .download-invoice-btn:hover { background: var(--accent); color: var(--black); }
+
+    /* Gallery filter hidden state */
+    .gallery-item.hidden { display: none !important; }
+
     /* ── ADMIN / OWNER DASHBOARD PANE ── */
     .admin-panel {
       position: fixed; inset: 0; background: rgba(8,8,8,0.98);
@@ -747,36 +838,10 @@
     .admin-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Cormorant Garamond', serif; font-size: 32px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 20px; margin-bottom: 20px; }
     .admin-close { background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; transition: color 0.3s ease;}
     .admin-close:hover { color: var(--accent); }
-    .admin-auth-box {
-      background: var(--near-black); padding: 40px; border-radius: 8px;
-      max-width: 400px; width: 100%; margin: auto; text-align: center;
-      border: 1px solid rgba(150,150,150,0.2);
-    }
-    .admin-auth-box input {
-      width: 100%; padding: 12px; margin-bottom: 16px; background: transparent;
-      border: 1px solid rgba(150,150,150,0.4); color: var(--white);
-      border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px;
-    }
-    .admin-auth-box button {
-      width: 100%; padding: 12px; background: var(--accent); color: var(--black);
-      border: none; font-weight: bold; text-transform: uppercase; cursor: pointer;
-      border-radius: 4px; transition: opacity 0.3s; margin-bottom: 10px;
-    }
-    .admin-auth-box button:hover { opacity: 0.8; }
-    .admin-auth-box a { display: inline-block; margin-top: 16px; color: var(--grey); font-size: 12px; text-decoration: none; }
-    .admin-auth-box a:hover { color: var(--accent); }
-    
-    .admin-body { overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
+    .admin-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
     .admin-body::-webkit-scrollbar { display: none; }
     .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; }
     .invoice-card h4 { color: var(--accent); margin-bottom: 16px; font-size: 18px; font-family: 'Cormorant Garamond', serif; }
-    .download-inv-btn {
-      background: transparent; border: 1px solid var(--accent);
-      color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px;
-      padding: 8px 12px; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
-      margin-top: 10px; text-transform: uppercase;
-    }
-    .download-inv-btn:hover { background: var(--accent); color: var(--black); }
 
     /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
     .lightbox {
@@ -959,7 +1024,7 @@
     }
     .video-container video {
       width: 100%;
-      height: 100%;
+      height: auto;
       max-height: 85vh;
       object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
@@ -1228,9 +1293,6 @@
       
       .comparison-item { width: 85vw; padding: 16px; }
       .comp-images { gap: 12px; }
-      
-      .admin-auth-box { margin: 20px; width: auto; }
-      .admin-panel { padding: 20px; }
     }
 
     @media (max-width: 500px) {
@@ -1397,6 +1459,7 @@
     <div class="pricing-tabs" id="pricingTabs">
       <button class="tab-btn active" data-tab="storyboard">Storyboard</button>
       <button class="tab-btn" data-tab="portrait">Portrait Art</button>
+      <button class="tab-btn" data-tab="illustration">Illustrations</button>
       <button class="tab-btn" data-tab="design">Graphics Design</button>
     </div>
 
@@ -1502,13 +1565,10 @@
       </div>
 
       <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
-      <div class="calculator-box">
-        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
-           <label style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--grey); text-transform: uppercase;">Style:</label>
-           <select id="calcSbType" style="background: var(--dark); border: 1px solid rgba(150,150,150,0.2); color: var(--white); padding: 8px 12px; border-radius: 4px; outline: none; font-family: 'DM Mono', monospace;">
-              <option value="6500">Black & White (₦6,500/frame)</option>
-              <option value="12000">Coloured (₦12,000/frame)</option>
-           </select>
+      <div class="calculator-box" id="storyboardCalcBox">
+        <div class="calc-toggle-wrap">
+          <button type="button" class="calc-toggle active" id="sbToggleBw" data-type="bw">Black &amp; White</button>
+          <button type="button" class="calc-toggle" id="sbToggleColor" data-type="color">Coloured</button>
         </div>
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
@@ -1586,23 +1646,65 @@
         </div>
       </div>
 
-      <div class="pricing-sub-heading" style="margin-top: 64px;">Additional Portrait Subjects</div>
-      <div class="calculator-box">
-        <p style="font-size: 11px; color: var(--grey); margin-bottom: 20px; line-height: 1.5;">Base couple portrait includes 2 persons. Calculate cost for additional family members (₦20,000 per extra person).</p>
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Additional Persons Calculator</div>
+      <div class="calculator-box" id="portraitCalcBox">
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
-            <label style="margin-bottom: 12px;">Total Persons</label>
+            <label style="margin-bottom: 12px;">Additional Persons (Base: 2 persons)</label>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <button type="button" id="calcPortMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
-              <input type="number" id="calcPortPersons" min="3" value="3" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
-              <button type="button" id="calcPortPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
+              <button type="button" id="portraitCalcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="portraitCalcPersons" min="0" value="0" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="portraitCalcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
             </div>
           </div>
           <div style="flex: 1; min-width: 150px;">
             <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Additional Cost</div>
-            <div class="price-amount" id="calcPortTotal">₦20,000</div>
+            <div class="price-amount" id="portraitCalcTotal">₦0</div>
           </div>
-          <button type="button" class="add-to-cart-btn" id="calcPortAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Extra Persons</button>
+          <button type="button" class="add-to-cart-btn" id="portraitCalcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add to Collection</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-illustration">
+      <div class="panel-intro">
+        <h3>Illustrations</h3>
+        <p>Cover Art · Character Art · Digital Illustrations</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Digital Illustration (Softcopy)</div>
+            <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">1 Character Song Cover Art</div>
+            <div class="price-card-desc">Single-character album or song cover illustration</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Multi-Character Song Cover Art</div>
+            <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦100,000</div>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000">+ Add to Collection</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1673,10 +1775,16 @@
           <label>Full Name</label>
           <input type="text" name="name" placeholder="Full name" required />
         </div>
-        <div class="form-field" style="position: relative;">
+        <div class="form-field email-field-wrap">
           <label>Email Address</label>
-          <input type="email" id="emailInput" name="email" list="email-options" placeholder="your@email.com" required autocomplete="email" />
-          <datalist id="email-options"></datalist>
+          <input type="email" name="email" id="cartEmail" placeholder="your@email.com" required autocomplete="email" />
+          <div class="email-suggestions" id="emailSuggestions">
+            <div class="email-suggestion-item" data-domain="gmail.com">@gmail.com</div>
+            <div class="email-suggestion-item" data-domain="yahoo.com">@yahoo.com</div>
+            <div class="email-suggestion-item" data-domain="outlook.com">@outlook.com</div>
+            <div class="email-suggestion-item" data-domain="icloud.com">@icloud.com</div>
+            <div class="email-suggestion-item" data-domain="hotmail.com">@hotmail.com</div>
+          </div>
         </div>
         <div class="form-field">
           <label>WhatsApp Number</label>
@@ -1721,31 +1829,44 @@
 
   <div id="adminPanel" class="admin-panel">
     <div class="admin-header">
-      <span>Owner Dashboard</span>
+      <span>Owner Dashboard - Invoices</span>
       <button class="admin-close" id="adminClose">✕</button>
     </div>
-    
-    <div id="adminAuthSection" class="admin-auth-box">
-      <h3 style="margin-bottom: 20px; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--accent);">Admin Login</h3>
-      <form id="adminLoginForm">
-        <input type="text" name="username" autocomplete="username" value="olasunkanmitimilehintaiwo@gmail.com" style="opacity:0; position:absolute; height:0; width:0; z-index:-1;">
-        <input type="password" id="adminPassword" autocomplete="current-password" placeholder="Enter Password" required>
-        <button type="submit">Login</button>
-        <a href="#" id="forgotPasswordBtn">Forgot Password?</a>
-      </form>
-      
-      <form id="adminResetForm" style="display:none;">
-        <p style="font-size: 12px; color: var(--light-grey); margin-bottom: 12px; line-height: 1.4;">Security Question:<br>What is your mothers maiden name?</p>
-        <input type="text" id="adminSecurityAnswer" placeholder="Answer" required>
-        <input type="password" id="adminNewPassword" autocomplete="new-password" placeholder="New Password" required>
-        <button type="submit">Reset & Login</button>
-        <br>
-        <a href="#" id="backToLoginBtn">Back to Login</a>
-      </form>
-    </div>
-
-    <div class="admin-body" id="adminBody" style="display:none;">
+    <div style="position: relative; flex: 1; overflow: hidden;">
+      <!-- Login Overlay -->
+      <div class="admin-login-overlay" id="adminLoginOverlay">
+        <div class="admin-login-form">
+          <h3>Dashboard Access</h3>
+          <div class="form-field">
+            <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password" />
+          </div>
+          <button type="button" class="form-submit" id="adminLoginBtn">Access Dashboard</button>
+          <button type="button" class="admin-reset-link" id="adminResetLink">Forgot Password?</button>
+          <div class="admin-error" id="adminLoginError"></div>
+        </div>
+        <!-- Secret Question Form -->
+        <div class="admin-login-form secret-form" id="secretForm">
+          <h3>Password Recovery</h3>
+          <div style="font-size: 12px; color: var(--light-grey); margin-bottom: 24px; text-align: center; line-height: 1.6;">
+            Answer the security question to reset your password.<br>
+            Recovery email: olasunkanmitimilehintaiwo@gmail.com
+          </div>
+          <div class="form-field">
+            <label style="display:block; margin-bottom:12px; color:var(--accent);">What is your mother's maiden name?</label>
+            <input type="text" id="secretAnswer" placeholder="Your answer" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <input type="password" id="newPassword" placeholder="New password" autocomplete="new-password" />
+          </div>
+          <button type="button" class="form-submit" id="secretSubmitBtn">Reset Password</button>
+          <button type="button" class="admin-reset-link" id="backToLogin">Back to Login</button>
+          <div class="admin-error" id="secretError"></div>
+          <div class="admin-success" id="secretSuccess"></div>
+        </div>
       </div>
+      <div class="admin-body" id="adminBody">
+        </div>
+    </div>
   </div>
 
   <div id="lightbox" class="lightbox">
@@ -1771,45 +1892,2048 @@
     <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
 
-        <div class="gallery-item" data-category="portrait" style="display:flex;">
+        <div class="gallery-item" data-category="portrait">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:flex;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:flex;">
+        <div class="gallery-item" data-category="portrait">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:flex;">
+        <div class="gallery-item" data-category="portrait">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:flex;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover" class="hidden">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover" class="hidden">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover" class="hidden">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design" class="hidden">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design" class="hidden">
+          <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
+          <div class="gallery-item-caption">logo design</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reference-comparison">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Reference &amp; Finished Work</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="horizontal-scroll-wrapper" id="comparisonWrapper" data-lenis-prevent>
+      <div class="comparison-slideshow">
+        
+        <div class="comparison-item reveal">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 1.jpg.JPG" alt="Final Artwork 1" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Transforming a raw vision into a refined digital piece.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-1">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 2.jpg.JPG" alt="Final Artwork 2" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Enhancing lighting and establishing a strong background balance.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-2">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Exploring abstract elements in portrait painting.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Headline with Style.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Blending Colour Tones with Background Textures.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Simplicity weilds  power.</div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="comparison-dots" id="compDots">
+      <div class="comp-dot active" data-index="0"></div>
+      <div class="comp-dot" data-index="1"></div>
+      <div class="comp-dot" data-index="2"></div>
+      <div class="comp-dot" data-index="3"></div>
+      <div class="comp-dot" data-index="4"></div>
+      <div class="comp-dot" data-index="5"></div>
+    </div>
+  </section>
+
+  <section id="video-process">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">My Process</h2>
+      <div class="section-line"></div>
+    </div>
+ body.light-mode {
+      --black: #f5f2ee;
+      --near-black: #e8e4df;
+      --dark: #dcd7d0;
+      --mid: #c8b89a;
+      --grey: #333333;       /* Significantly darkened for excellent contrast */
+      --light-grey: #111111; /* Significantly darkened for excellent contrast */
+      --off-white: #050505;  /* Pure dark text */
+      --white: #000000;
+      --accent: #a68a56; 
+      --accent-dim: rgba(166, 138, 86, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Lenis Smooth Scroll requirement */
+    html { scroll-behavior: auto; }
+
+    body {
+      background: var(--black);
+      color: var(--off-white);
+      font-family: 'DM Mono', monospace;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      /* Custom Paint Brush Cursor */
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23c8b89a" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), auto;
+    }
+    
+    a, button, select, input, textarea, .price-img-wrapper, .gallery-item, .comp-side img, .comp-dot, .chatbot-toggle, .chatbot-option {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
+    }
+    
+    /* Universal Image Sizing */
+    img, video { max-width: 100%; object-fit: contain; }
+
+    /* ── PRELOADER ── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 999999;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1), visibility 1.2s;
+    }
+    body.light-mode #preloader { background: var(--white); }
+    .preloader-monogram {
+      width: 30vw; max-width: 300px; min-width: 150px;
+      aspect-ratio: 1/1;
+      object-fit: contain; filter: url(#key-black);
+      opacity: 0; transform: scale(0.85);
+      animation: drawIn 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    body.light-mode .preloader-monogram { filter: url(#key-black-light); }
+    
+    @keyframes drawIn {
+      0% { opacity: 0; transform: scale(0.85); filter: blur(15px) url(#key-black); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0px) url(#key-black); }
+    }
+    body.light-mode @keyframes drawIn {
+      0% { opacity: 0; transform: scale(0.85); filter: blur(15px) url(#key-black-light); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0px) url(#key-black-light); }
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9998;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.035;
+    }
+    body.light-mode::before {
+      opacity: 0.05;
+      mix-blend-mode: multiply;
+    }
+    
+    /* Force Hide Mobile Menu globally on desktop to prevent duplicate blue links bug */
+    .mobile-menu { display: none !important; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 48px;
+      transition: background 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
+    }
+    nav.scrolled {
+      background: var(--black);
+      backdrop-filter: blur(12px);
+      padding: 18px 48px;
+      border-bottom: 1px solid rgba(150,150,150,0.1);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    
+    /* Perfect SVG Transparency Filter + GPU Acceleration */
+    .nav-logo img { 
+      width: 38px; height: 38px; 
+      object-fit: contain;
+      filter: url(#key-black);
+      transform: translateZ(0);
+    }
+    body.light-mode .nav-logo img {
+      filter: url(#key-black-light);
+    }
+    
+    .nav-logo-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; font-weight: 600; letter-spacing: 0.2em;
+      color: var(--off-white); text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .nav-logo-text span { display: block; font-size: 10px; letter-spacing: 0.4em; color: var(--light-grey); font-weight: 300;}
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; color: var(--light-grey); text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -6px; left: 0;
+      width: 0; height: 1px; background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--off-white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta-container { display: flex; gap: 24px; align-items: center; }
+    
+    .commission-btn {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 50px;
+      transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
+    }
+    .commission-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255,255,255,0.1);
+    }
+    body.light-mode .commission-btn {
+      background: var(--black);
+      color: var(--white);
+    }
+    body.light-mode .commission-btn:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .theme-toggle {
+      font-size: 20px;
+      background: transparent;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-toggle:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      background: transparent;
+    }
+
+    /* ── HAMBURGER (mobile) ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 1px; background: var(--off-white); transition: all 0.3s ease; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Interactive Fluid Canvas */
+    #heroCanvas {
+      position: absolute; inset: 0; z-index: 1;
+      pointer-events: none; opacity: 0.65;
+    }
+
+    .hero-bg-img {
+      position: absolute; inset: 0; z-index: 1;
+      background: url('Abstract%20ILL.JPG') center/cover no-repeat;
+      opacity: 0.4;
+      transition: opacity 0.4s ease;
+    }
+    body.light-mode .hero-bg-img { opacity: 0.6; }
+
+    .hero-bg-lines {
+      position: absolute; inset: 0; z-index: 2;
+      background-image:
+        linear-gradient(to right, rgba(150,150,150,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(150,150,150,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    .hero-content {
+      position: relative; z-index: 3;
+      text-align: center;
+      animation: fadeUp 1.4s ease both;
+      animation-delay: 1.8s; /* Wait for preloader */
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.5em;
+      color: var(--accent); text-transform: uppercase;
+      margin-bottom: 40px;
+      animation: fadeUp 1.2s 1.9s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(42px, 8vw, 110px); 
+      font-weight: 700; 
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      text-align: center;
+      display: block;
+      margin-bottom: 0;
+      animation: fadeUp 1.2s 2s ease both;
+    }
+    .mobile-break { display: inline; } /* Flows naturally on Desktop */
+
+    .hero-sub {
+      position: absolute;
+      bottom: 20vh;
+      left: 0;
+      right: 0;
+      z-index: 4;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px; letter-spacing: 0.3em;
+      color: var(--light-grey); text-transform: uppercase;
+      text-align: center;
+      padding: 0 24px;
+      animation: fadeUp 1.2s 2.2s ease both;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 48px; left: 48px;
+      display: flex; flex-direction: column; align-items: center;
+      z-index: 4;
+      animation: fadeUp 1.2s 2.4s ease both;
+    }
+    .scroll-arrow {
+      font-size: 24px; color: var(--accent);
+      animation: bounce 2s infinite;
+    }
+
+    /* ── SECTION DEFAULTS ── */
+    section { padding: 140px 0; transition: background-color 0.4s ease; }
+    #about { background: var(--near-black); }
+    #services { background: var(--black); }
+    #gallery { background: var(--near-black); position: relative; }
+    #reference-comparison { background: var(--black); position: relative; }
+    #video-process { background: var(--near-black); }
+    #process { background: var(--black); }
+    #contact { background: var(--near-black); }
+
+    .section-header {
+      display: flex; align-items: baseline; gap: 24px;
+      margin-bottom: 80px;
+      padding: 0 48px;
+    }
+    .section-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.3em;
+      color: var(--accent); opacity: 0.8;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 68px);
+      font-weight: 300; line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+    .section-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, rgba(200,184,154,0.3), transparent);
+      margin-left: 20px;
+    }
+
+    /* ── ABOUT (Editorial Asymmetry) ── */
+    .about-bottom {
+      max-width: 900px; margin: 100px auto 0 auto; padding: 0 48px; text-align: center;
+    }
+    .about-statement {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 300; line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: var(--white);
+      margin-bottom: 48px;
+    }
+    .about-body {
+      font-size: 13px; line-height: 2.2;
+      color: var(--light-grey); letter-spacing: 0.02em;
+      text-align: left;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .about-body p { margin-bottom: 24px; }
+    .about-body p:last-child { margin-bottom: 0; }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px; max-width: 1200px; margin: 0 auto; padding: 0 48px;
+    }
+    .about-left {
+      position: relative;
+      padding-right: 40px; border-right: none;
+      transition: border-color 0.4s ease;
+    }
+    .about-img {
+      width: 100%; max-width: 480px; height: auto;
+      border-radius: 4px; margin: 0 auto; display: block;
+      border: 1px solid rgba(150,150,150,0.1);
+      position: relative; z-index: 1;
+    }
+    .about-right {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px 40px;
+    }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(60px, 7vw, 96px);
+      font-weight: 300;
+      color: var(--accent); line-height: 1;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.3em;
+      color: var(--grey); text-transform: uppercase;
+      margin-top: 16px;
+    }
+    .services-header {
+      font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.2em;
+      color: var(--white); text-transform: uppercase; margin-bottom: 32px; margin-top: 80px;
+    }
+    .about-disciplines {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px;
+    }
+    .discipline-tag {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 11px; letter-spacing: 0.1em; color: var(--light-grey);
+    }
+    .discipline-tag::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--off-white); opacity: 0.5;
+    }
+
+    /* ── PHILOSOPHY BREAK ── */
+    #philosophy {
+      position: relative;
+      background: var(--near-black);
+      padding: 140px 48px;
+      transition: background-color 0.4s ease;
+      overflow: hidden;
+    }
+    #philosophy::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: url('Timilehin%20Taiwo%20-%20About%20Artist.jpg') center/cover no-repeat;
+      opacity: 0.2;
+    }
+    .philosophy-inner {
+      position: relative; z-index: 2;
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .philosophy-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 300; font-style: italic;
+      line-height: 1.3; color: var(--white);
+      margin-bottom: 48px;
+      letter-spacing: -0.01em;
+    }
+    .philosophy-attribution {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.4em;
+      color: var(--accent); text-transform: uppercase;
+    }
+
+    /* ── SERVICES & PRICING ── */
+    .pricing-tabs {
+      display: flex; gap: 0;
+      padding: 16px 48px 0; margin-bottom: 64px;
+      border-bottom: 1px solid rgba(150,150,150,0.1);
+      overflow-x: auto; transition: border-color 0.4s ease, background-color 0.4s ease;
+      position: sticky;
+      top: 75px;
+      background: var(--black);
+      z-index: 90;
+    }
+    .pricing-tabs::-webkit-scrollbar { display: none; }
+    .pricing-tabs { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .tab-btn {
+      background: none; border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--grey);
+      padding: 16px 28px; border-bottom: 2px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+      white-space: nowrap;
+    }
+    .tab-btn.active { color: var(--off-white); border-bottom-color: var(--accent); }
+    .tab-btn:hover { color: var(--light-grey); }
+
+    .pricing-panel { display: none; padding: 0 48px; }
+    .pricing-panel.active { display: block; }
+
+    .panel-intro {
+      display: flex; align-items: baseline; gap: 24px;
+      margin-bottom: 56px;
+    }
+    .panel-intro h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px; font-weight: 300; color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .panel-intro p {
+      font-size: 11px; letter-spacing: 0.2em; color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    .pricing-sub-heading {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 32px; margin-top: 64px;
+      opacity: 0.8;
+    }
+    .pricing-sub-heading:first-child { margin-top: 0; }
+
+    /* Asymmetrical Staggered Editorial Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    @media (min-width: 1024px) {
+      .pricing-grid .price-card:nth-child(even) { transform: translateY(40px); }
+      .pricing-grid { padding-bottom: 40px; }
+    }
+
+    .price-card {
+      background: var(--near-black);
+      border: 1px solid rgba(150,150,150,0.1);
+      padding: 32px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .price-card:hover { background: var(--dark); border-color: rgba(200,184,154,0.3); }
+
+    /* SPECIFIC IMAGE RATIOS IMPLEMENTATION */
+    .price-img-wrapper {
+      width: 100%; height: auto;
+      margin-bottom: 24px; border-radius: 4px;
+      overflow: hidden; background: var(--dark);
+      border: 1px solid rgba(150,150,150,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ratio-col-sb { aspect-ratio: 1179 / 1397; }
+    .ratio-bw-sb-1 { aspect-ratio: 1017 / 1977; }
+    .ratio-bw-sb-2 { aspect-ratio: 1015 / 1285; }
+    .ratio-portrait { aspect-ratio: 3 / 4; }
+    .ratio-landscape { aspect-ratio: 4 / 3; }
+    .ratio-square { aspect-ratio: 1 / 1; }
+
+    .price-img-wrapper img {
+      width: 100%; height: 100%; 
+      object-fit: contain; /* Ensures nothing is cut off */
+      transition: transform 0.5s ease;
+    }
+    .price-card:hover .price-img-wrapper img { transform: scale(1.05); }
+
+    .price-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 600; color: var(--white);
+      line-height: 1.3; margin-bottom: 12px;
+    }
+    .price-card-desc {
+      font-size: 11px; letter-spacing: 0.1em;
+      color: var(--grey); line-height: 1.6;
+      flex: 1;
+    }
+    .price-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 24px; padding-top: 24px;
+      border-top: 1px solid rgba(150,150,150,0.1);
+    }
+    .price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 600;
+      color: var(--accent);
+    }
+    
+    /* CART BUTTONS & CALCULATOR */
+    .add-to-cart-btn {
+      background: transparent; border: 1px solid var(--accent);
+      color: var(--accent); font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 16px; border-radius: 4px; cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .add-to-cart-btn:hover { background: var(--accent); color: var(--black); }
+    
+    .calculator-box {
+      background: var(--near-black); padding: 40px; 
+      border: 1px solid rgba(150,150,150,0.1); border-radius: 4px;
+      margin-top: 32px; transition: border-color 0.3s ease;
+    }
+    .calculator-box:hover { border-color: rgba(200,184,154,0.3); }
+
+    /* ── NOTABLE BRANDS SECTION ── */
+    .brands-section {
+      margin-top: 100px;
+      padding-top: 100px;
+      border-top: 1px solid rgba(150,150,150,0.1);
+      text-align: center;
+    }
+    .brands-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 64px; opacity: 0.8;
+    }
+    .brands-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; 
+      gap: 64px 80px; padding: 0 48px;
+    }
+    .brands-grid img {
+      max-width: 120px; height: auto; max-height: 60px; object-fit: contain;
+      opacity: 0.6; filter: grayscale(100%); transition: all 0.4s ease;
+    }
+    .brands-grid img:hover { opacity: 1; filter: grayscale(0%); }
+
+    /* ── DYNAMIC SECTION NAV ARROWS ── */
+    .nav-arrow-dynamic {
+      position: fixed; left: 50%; z-index: 9998;
+      background: var(--near-black); color: var(--accent);
+      border: 1px solid rgba(150,150,150,0.2);
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; cursor: pointer; 
+      transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      opacity: 0; pointer-events: none;
+    }
+    .nav-arrow-dynamic:hover {
+      background: var(--accent); color: var(--black);
+    }
+    .nav-arrow-up { top: 90px; transform: translate(-50%, -20px); }
+    .nav-arrow-up.visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+    
+    .nav-arrow-down { bottom: 40px; transform: translate(-50%, 20px); }
+    .nav-arrow-down.visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+
+    /* ── CONCIERGE CART UI SYSTEM ── */
+    #cartToggleBtn {
+      position: fixed; bottom: 40px; right: 40px; z-index: 9999;
+      background: var(--accent); color: var(--black);
+      font-family: 'DM Mono', monospace; font-size: 12px; font-weight: bold;
+      padding: 16px 24px; border-radius: 50px; cursor: pointer; border: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      opacity: 0; pointer-events: none; transition: all 0.3s ease;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    #cartToggleBtn.visible { opacity: 1; pointer-events: auto; }
+    #cartToggleBtn:hover { transform: translateY(-4px); }
+
+    .cart-modal {
+      position: fixed; inset: 0; background: rgba(8,8,8,0.85);
+      z-index: 10000; display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    body.light-mode .cart-modal { background: rgba(245,242,238,0.85); }
+    .cart-modal.open { opacity: 1; pointer-events: auto; }
+    
+    .cart-content {
+      width: 100%; max-width: 600px; background: transparent;
+      height: auto; max-height: 90vh; padding: 48px; overflow-y: auto;
+      transform: translateY(30px) scale(0.95); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+      border: none;
+    }
+    .cart-modal.open .cart-content { transform: translateY(0) scale(1); }
+    
+    /* Hide scrollbar for cart overlay for premium feel */
+    .cart-content::-webkit-scrollbar { display: none; }
+    .cart-content { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .cart-close {
+      background: none; border: none; color: var(--grey);
+      font-size: 32px; cursor: pointer; position: absolute; right: 40px; top: 40px;
+      transition: color 0.3s ease; font-family: sans-serif;
+    }
+    .cart-close:hover { color: var(--accent); }
+    .cart-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 36px;
+      color: var(--white); margin-bottom: 40px; font-weight: 300; text-align: center;
+    }
+    .cart-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; border-bottom: 1px solid rgba(150,150,150,0.1);
+      font-family: 'DM Mono', monospace; font-size: 11px; color: var(--light-grey);
+      line-height: 1.4;
+    }
+    .cart-item button {
+      background: none; border: none; color: var(--accent); margin-left: 12px; cursor: pointer;
+    }
+    .cart-total {
+      font-family: 'Cormorant Garamond', serif; font-size: 28px;
+      color: var(--accent); text-align: right; margin: 40px 0; font-weight: 600;
+    }
+
+    /* ── CHATBOT ASSISTANT ── */
+    .chatbot-toggle {
+      position: fixed; bottom: 40px; left: 40px; z-index: 9999;
+      background: var(--near-black); color: var(--accent);
+      border: 1px solid rgba(150,150,150,0.2);
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .chatbot-toggle:hover { background: var(--accent); color: var(--black); transform: translateY(-4px); }
+    
+    .chatbot-panel {
+      position: fixed; bottom: 100px; left: 40px; z-index: 10000;
+      width: 320px; background: rgba(17,17,17,0.95);
+      border: 1px solid rgba(150,150,150,0.2); border-radius: 8px;
+      display: flex; flex-direction: column; overflow: hidden;
+      opacity: 0; pointer-events: none; transform: translateY(20px);
+      transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    }
+    body.light-mode .chatbot-panel { background: rgba(232,228,223,0.95); }
+    .chatbot-panel.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    
+    .chatbot-header {
+      padding: 20px; border-bottom: 1px solid rgba(150,150,150,0.1);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .chatbot-header span { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--white); }
+    .chatbot-close { background: none; border: none; color: var(--grey); font-size: 20px; cursor: pointer; }
+    .chatbot-close:hover { color: var(--accent); }
+    
+    .chatbot-body {
+      padding: 20px; height: 300px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 16px;
+      font-size: 12px; line-height: 1.6; color: var(--light-grey);
+    }
+    .chatbot-body::-webkit-scrollbar { width: 4px; }
+    .chatbot-body::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.3); border-radius: 4px; }
+    
+    .chat-msg { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 4px; border-left: 2px solid var(--accent); }
+    body.light-mode .chat-msg { background: rgba(0,0,0,0.03); }
+    
+    .chatbot-options { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid rgba(150,150,150,0.1); padding-top: 20px; }
+    .chatbot-option {
+      background: transparent; border: 1px solid rgba(150,150,150,0.2);
+      color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px;
+      padding: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+      border-radius: 4px; transition: all 0.3s ease; text-align: left;
+    }
+    .chatbot-option:hover { background: var(--accent); color: var(--black); }
+
+    /* ── EMAIL SUGGESTIONS ── */
+    .email-field-wrap { position: relative; }
+    .email-suggestions {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--near-black); border: 1px solid rgba(150,150,150,0.2);
+      border-radius: 4px; margin-top: 4px; z-index: 10;
+      display: none; flex-direction: column; overflow: hidden;
+    }
+    .email-suggestions.open { display: flex; }
+    .email-suggestion-item {
+      padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 12px;
+      color: var(--light-grey); cursor: pointer; transition: background 0.2s ease;
+      border-bottom: 1px solid rgba(150,150,150,0.1);
+    }
+    .email-suggestion-item:last-child { border-bottom: none; }
+    .email-suggestion-item:hover { background: var(--dark); color: var(--accent); }
+
+    /* ── CALCULATOR TOGGLES ── */
+    .calc-toggle-wrap {
+      display: flex; gap: 0; margin-bottom: 24px;
+      border: 1px solid rgba(150,150,150,0.2); border-radius: 4px; overflow: hidden;
+    }
+    .calc-toggle {
+      flex: 1; background: transparent; border: none;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--grey); padding: 14px 20px; cursor: pointer;
+      transition: all 0.3s ease; border-right: 1px solid rgba(150,150,150,0.2);
+    }
+    .calc-toggle:last-child { border-right: none; }
+    .calc-toggle.active {
+      background: var(--accent); color: var(--black); font-weight: 600;
+    }
+    .calc-toggle:hover:not(.active) { background: var(--dark); color: var(--off-white); }
+
+    /* ── ADMIN LOGIN OVERLAY ── */
+    .admin-login-overlay {
+      position: absolute; inset: 0; background: var(--black);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 10; transition: opacity 0.4s ease;
+    }
+    .admin-login-overlay.hidden { opacity: 0; pointer-events: none; }
+    .admin-login-form {
+      max-width: 400px; width: 100%; padding: 40px;
+      border: 1px solid rgba(150,150,150,0.2); border-radius: 4px;
+      background: var(--near-black);
+    }
+    .admin-login-form h3 {
+      font-family: 'Cormorant Garamond', serif; font-size: 28px;
+      color: var(--white); margin-bottom: 32px; text-align: center; font-weight: 300;
+    }
+    .admin-login-form .form-field { margin-bottom: 24px; }
+    .admin-login-form .form-field:last-of-type { margin-bottom: 32px; }
+    .admin-login-form input {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(150,150,150,0.2);
+      padding: 16px 0; color: var(--off-white);
+      font-family: 'DM Mono', monospace; font-size: 13px; outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .admin-login-form input:focus { border-bottom-color: var(--accent); }
+    .admin-login-form button.form-submit { width: 100%; justify-content: center; }
+    .admin-reset-link {
+      display: block; text-align: center; margin-top: 20px;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase;
+      background: none; border: none; cursor: pointer; transition: color 0.3s ease;
+    }
+    .admin-reset-link:hover { color: var(--accent); }
+    .secret-form { display: none; }
+    .secret-form.open { display: block; }
+    .admin-error {
+      color: #ff6b6b; font-size: 11px; text-align: center;
+      margin-top: 12px; font-family: 'DM Mono', monospace;
+    }
+    .admin-success {
+      color: #51cf66; font-size: 11px; text-align: center;
+      margin-top: 12px; font-family: 'DM Mono', monospace;
+    }
+    .download-invoice-btn {
+      background: transparent; border: 1px solid var(--accent);
+      color: var(--accent); font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 8px 14px; border-radius: 4px; cursor: pointer;
+      transition: all 0.3s ease; margin-top: 16px;
+    }
+    .download-invoice-btn:hover { background: var(--accent); color: var(--black); }
+
+    /* Gallery filter hidden state */
+    .gallery-item.hidden { display: none !important; }
+
+    /* ── ADMIN / OWNER DASHBOARD PANE ── */
+    .admin-panel {
+      position: fixed; inset: 0; background: rgba(8,8,8,0.98);
+      z-index: 100000; display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+      color: var(--white); padding: 40px;
+    }
+    .admin-panel.open { opacity: 1; pointer-events: auto; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Cormorant Garamond', serif; font-size: 32px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 20px; margin-bottom: 20px; }
+    .admin-close { background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; transition: color 0.3s ease;}
+    .admin-close:hover { color: var(--accent); }
+    .admin-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
+    .admin-body::-webkit-scrollbar { display: none; }
+    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; }
+    .invoice-card h4 { color: var(--accent); margin-bottom: 16px; font-size: 18px; font-family: 'Cormorant Garamond', serif; }
+
+    /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
+    .lightbox {
+      position: fixed; inset: 0; background: transparent;
+      z-index: 100000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transform-origin: top left; /* Crucial for FLIP math */
+      will-change: transform;
+    }
+    .lightbox-close {
+      position: absolute; top: 30px; right: 40px;
+      background: none; border: none; color: var(--grey);
+      font-size: 32px; cursor: pointer; transition: color 0.3s ease;
+      font-family: sans-serif;
+      z-index: 100001; /* Ensure close button stays above image */
+    }
+    .lightbox-close:hover { color: var(--accent); }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); font-size: 24px; width: 50px; height: 50px;
+      border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;
+      transition: background 0.3s ease, transform 0.3s ease; z-index: 100001;
+      opacity: 0; pointer-events: none;
+    }
+    .lightbox.open .lightbox-nav { opacity: 1; pointer-events: auto; }
+    .lightbox-nav:hover { background: var(--accent); color: var(--black); transform: translateY(-50%) scale(1.1); }
+    .lightbox-prev { left: 40px; }
+    .lightbox-next { right: 40px; }
+
+    /* ── GALLERY (NATIVE HORIZONTAL SCROLL) ── */
+    .gallery-filter {
+      display: flex; gap: 8px;
+      padding: 0 48px; margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: none; border: 1px solid rgba(150,150,150,0.2);
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--grey); padding: 12px 24px;
+      transition: all 0.3s ease; border-radius: 4px;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent); color: var(--black); border-color: var(--accent);
+    }
+    
+    .horizontal-scroll-wrapper {
+      width: 100%; 
+      overflow-x: auto; 
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 24px;
+      cursor: grab;
+    }
+    /* Hide scrollbar for seamless trackpad scrolling */
+    .horizontal-scroll-wrapper::-webkit-scrollbar { display: none; }
+    .horizontal-scroll-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .gallery-slideshow {
+      display: flex; gap: 24px;
+      padding: 0 48px;
+      width: max-content; 
+      flex-wrap: nowrap;
+      position: relative; 
+    }
+    
+    .gallery-item {
+      width: 35vw; max-width: 450px; min-width: 280px;
+      height: 35vw; max-height: 450px; min-height: 280px;
+      flex-shrink: 0;
+      scroll-snap-align: center;
+      position: relative; overflow: hidden;
+      background: var(--dark);
+      border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px;
+      transition: opacity 0.4s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+    
+    /* Elegant gradient base to ensure text pop */
+    .gallery-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%; 
+      object-fit: contain;
+      transition: transform 0.6s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    .gallery-item-caption {
+      position: absolute;
+      bottom: 24px;
+      left: 20px;
+      right: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+      z-index: 2;
+    }
+
+    /* ── REFERENCE VS CANVAS ── */
+    .comparison-slideshow {
+      display: flex; gap: 40px; padding: 0 48px; width: max-content; flex-wrap: nowrap;
+    }
+    .comparison-item {
+      width: 60vw; max-width: 900px; min-width: 320px;
+      flex-shrink: 0; scroll-snap-align: center;
+      background: var(--dark); border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px; padding: 24px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .comp-images {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1;
+    }
+    .comp-side {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .comp-label {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em;
+      color: var(--accent); text-transform: uppercase; text-align: center;
+    }
+    .comp-side img {
+      width: 100%; height: auto; aspect-ratio: 4/5; object-fit: contain; border-radius: 2px;
+      transition: transform 0.4s ease;
+      display: block; background: rgba(0,0,0,0.2);
+    }
+    .comp-side img:hover { transform: scale(1.02); }
+    .comp-caption {
+      font-size: 12px; line-height: 1.6; color: var(--light-grey);
+      text-align: center; border-top: 1px solid rgba(150,150,150,0.1);
+      padding-top: 16px; font-style: italic;
+    }
+
+    /* ── COMPARISON DOTS PROGRESS TRACKER ── */
+    .comparison-dots {
+      display: flex; justify-content: center; gap: 12px;
+      margin-top: 32px; padding-bottom: 24px;
+    }
+    .comp-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(150,150,150,0.3);
+      transition: background 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .comp-dot.active {
+      background: var(--accent);
+      transform: scale(1.5);
+    }
+
+    /* ── VIDEO PROCESS SECTION ── */
+    .video-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 85vh; /* Limits portrait videos so they don't overflow the screen */
+    }
+    .video-container video {
+      width: 100%;
+      height: auto;
+      max-height: 85vh;
+      object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
+      background: var(--dark);
+      border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px;
+    }
+    .video-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px; height: 80px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: var(--white);
+      font-size: 24px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+      z-index: 2;
+    }
+    .video-play-btn:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: var(--accent);
+      color: var(--black);
+    }
+    .video-play-btn.hidden {
+      opacity: 0; pointer-events: none;
+    }
+
+    /* ── PROCESS STEPS ── */
+    .process-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; padding: 0 48px;
+    }
+    .process-step {
+      padding: 64px 48px;
+      border-right: 1px solid rgba(150,150,150,0.1);
+      position: relative; transition: border-color 0.4s ease;
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step::before {
+      content: ''; position: absolute;
+      top: 0; left: 48px; right: 0; height: 1px;
+      background: rgba(150,150,150,0.1);
+    }
+    .step-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px; font-weight: 300; line-height: 1;
+      color: rgba(200,184,154,0.25); margin-bottom: 32px;
+    }
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 600;
+      color: var(--white); margin-bottom: 20px;
+    }
+    .step-body {
+      font-size: 12px; line-height: 1.9;
+      color: var(--grey); letter-spacing: 0.02em;
+    }
+
+    /* ── CONTACT ── */
+    .contact-inner {
+      padding: 0 48px; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 100px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .contact-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 4.5vw, 68px);
+      font-weight: 300; line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--white); margin-bottom: 40px;
+    }
+    .contact-headline em { font-style: italic; color: var(--accent); }
+    .contact-body {
+      font-size: 13px; line-height: 2;
+      color: var(--light-grey); margin-bottom: 56px;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 24px; }
+    .contact-link-item {
+      display: flex; align-items: center; gap: 24px;
+      padding-bottom: 24px; border-bottom: 1px solid rgba(150,150,150,0.1);
+      text-decoration: none; transition: border-color 0.4s ease;
+    }
+    
+    /* Perfect 50% Scaled Down Icons */
+    .contact-link-icon {
+      width: 24px; height: 24px; 
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-link-icon img {
+      width: 16px; height: 16px; 
+      object-fit: contain;
+    }
+    /* Intelligent Dark/Light Mode Icon Handling */
+    .icon-lm { display: none; }
+    body.light-mode .icon-lm { display: block; }
+    body.light-mode .icon-dm { display: none; }
+    
+    .contact-link-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.3em; color: var(--grey); text-transform: uppercase;
+    }
+    .contact-link-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; color: var(--white); font-weight: 600; margin-top: 4px;
+    }
+
+    .contact-form-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 40px;
+    }
+    .form-field { margin-bottom: 32px; }
+    .form-field label {
+      display: block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em;
+      color: var(--grey); text-transform: uppercase; margin-bottom: 12px;
+    }
+    .form-field input, .form-field textarea, .form-field select {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid rgba(150,150,150,0.2);
+      padding: 16px 0; color: var(--off-white);
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      outline: none; resize: none;
+      transition: border-color 0.3s ease, color 0.4s ease;
+      appearance: none;
+    }
+    .form-field input:focus, .form-field textarea:focus, .form-field select:focus {
+      border-bottom-color: var(--accent);
+    }
+    .form-field select option { background: var(--near-black); color: var(--off-white); }
+    .form-field textarea { height: 120px; }
+    .form-submit {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--off-white); color: var(--black);
+      font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      border: none; padding: 18px 40px; border-radius: 4px;
+      transition: background 0.3s ease; cursor: pointer;
+    }
+    .form-submit:hover { background: var(--accent); }
+    .form-submit-arrow { font-family: sans-serif; font-size: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--near-black);
+      padding: 48px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(150,150,150,0.1);
+      transition: background-color 0.4s ease, border-color 0.4s ease;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px; letter-spacing: 0.25em; color: var(--light-grey);
+      text-transform: uppercase; font-weight: 600;
+    }
+    .footer-copy {
+      font-size: 10px; letter-spacing: 0.15em; color: var(--grey);
+    }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a {
+      font-size: 10px; letter-spacing: 0.2em; color: var(--grey);
+      text-decoration: none; text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(8px); }
+      60% { transform: translateY(4px); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── MOBILE & TABLET ── */
+    @media (max-width: 1024px) {
+      section { padding: 100px 0; }
+      
+      nav { padding: 22px 24px; }
+      nav.scrolled { padding: 14px 24px; }
+      .nav-links { display: none; }
+      /* Commission button hidden in top bar on smaller screens (available in hamburger) */
+      .commission-btn { display: none; } 
+      .nav-cta-container .theme-toggle { display: none; } 
+      .hamburger { display: flex; }
+
+      .mobile-menu {
+        display: none !important; 
+        position: fixed;
+        top: 0; right: 0; bottom: 0; width: 280px;
+        background: var(--near-black);
+        border-left: 1px solid rgba(150,150,150,0.1);
+        z-index: 999; padding: 80px 40px;
+        flex-direction: column; gap: 32px;
+      }
+      .mobile-menu.open { display: flex !important; }
+      
+      .mobile-menu a {
+        font-family: 'DM Mono', monospace; font-size: 13px;
+        letter-spacing: 0.2em; color: var(--off-white);
+        text-decoration: none; text-transform: uppercase;
+        padding-bottom: 16px; border-bottom: 1px solid rgba(150,150,150,0.1);
+      }
+      
+      .mobile-theme-btn {
+        margin-top: auto;
+        font-family: 'DM Mono', monospace; font-size: 11px;
+        letter-spacing: 0.1em; color: var(--black);
+        background: var(--accent); border: none;
+        padding: 12px 16px; border-radius: 4px; text-transform: uppercase;
+        text-align: center; cursor: pointer;
+      }
+
+      .mobile-break { display: block; } /* Enforces break on tablet/mobile */
+
+      .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; scroll-snap-align: start; }
+      .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
+      .section-line { display: none; }
+      .video-container { padding: 0 24px; }
+
+      /* Reset grid stagger on mobile */
+      .about-bottom { padding: 0 24px; margin-top: 64px; }
+      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
+      .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
+      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
+      .about-right { padding-left: 0; padding-top: 0px; }
+
+      .pricing-grid .price-card:nth-child(even) { transform: none; }
+
+      .process-steps { grid-template-columns: 1fr 1fr; padding: 0 24px; }
+      .process-step { padding: 32px 24px; }
+
+      .pricing-tabs, .pricing-panel, .gallery-filter { padding: 0 24px; }
+      .pricing-tabs { top: 66px; padding-top: 12px; }
+      .contact-inner { grid-template-columns: 1fr; gap: 64px; padding: 0 24px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+      .footer-links { justify-content: center; }
+
+      #philosophy { padding: 100px 24px; }
+      
+      .nav-arrow-dynamic { width: 38px; height: 38px; font-size: 16px; }
+      .nav-arrow-up { top: 80px; }
+      .nav-arrow-down { bottom: 20px; }
+
+      #cartToggleBtn { bottom: 20px; right: 20px; padding: 12px 20px; }
+      .cart-content { padding: 32px 24px; }
+      .chatbot-toggle { bottom: 20px; left: 20px; width: 44px; height: 44px; font-size: 18px; }
+      .chatbot-panel { bottom: 80px; left: 20px; right: 20px; width: auto; }
+      
+      .comparison-item { width: 85vw; padding: 16px; }
+      .comp-images { gap: 12px; }
+    }
+
+    @media (max-width: 500px) {
+      .process-steps { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .gallery-item { width: 85vw; height: 85vw; }
+      .hero-scroll { left: 24px; }
+      .comp-side img { aspect-ratio: 4/5; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preloader">
+    <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" class="preloader-monogram" alt="T" />
+  </div>
+
+  <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+    <defs>
+      <filter id="key-black" color-interpolation-filters="sRGB">
+        <feColorMatrix type="luminanceToAlpha"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 0 1
+          0 0 0 1 0"/>
+      </filter>
+      <filter id="key-black-light" color-interpolation-filters="sRGB">
+        <feColorMatrix type="luminanceToAlpha"/>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope="10" intercept="-1"/>
+        </feComponentTransfer>
+        <feColorMatrix type="matrix" values="
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 1 0"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reference-comparison">Ref vs Canvas</a>
+    <a href="#video-process">My Process</a>
+    <a href="#process">Guide</a>
+    <a href="#contact">Commission</a>
+    <button class="mobile-theme-btn" id="mobileThemeToggle">☀️ Light Mode</button>
+  </div>
+
+  <nav id="mainNav">
+    <a href="#hero" class="nav-logo">
+      <img src="Logo%20B%26W%20-%20Dark%20Mode.JPG" alt="Timilehin Taiwo Arts Logo" />
+      <div class="nav-logo-text">
+        Timilehin Taiwo
+        <span>Arts</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#reference-comparison">Ref vs Canvas</a></li>
+      <li><a href="#video-process">My Process</a></li>
+      <li><a href="#process">Guide</a></li>
+    </ul>
+    <div class="nav-cta-container">
+      <a href="#contact" class="commission-btn">Commission</a>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">☀️</button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <canvas id="heroCanvas"></canvas>
+    
+    <div class="hero-bg-img"></div>
+    <div class="hero-bg-lines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Lagos · Nigeria</div>
+      <h1 class="hero-title">Bringing Narratives <span class="mobile-break">To Life</span></h1>
+    </div>
+    <p class="hero-sub">Storyboard · Portrait · Illustration · Design</p>
+    <div class="hero-scroll">
+      <div class="scroll-arrow">↓</div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">The Artist</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img parallax-img" />
+      </div>
+      <div class="about-right reveal reveal-delay-1">
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">7+</div>
+            <div class="stat-label">Years of Practice</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Disciplines</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Frames Drawn</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">NG</div>
+            <div class="stat-label">Lagos Based</div>
+          </div>
+        </div>
+        <div class="services-header">My Services</div>
+        <div class="about-disciplines">
+          <div class="discipline-tag">Storyboard &amp; Animation</div>
+          <div class="discipline-tag">Digital Portrait Art</div>
+          <div class="discipline-tag">Album &amp; Cover Illustration</div>
+          <div class="discipline-tag">Logo &amp; Graphic Design</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="about-bottom reveal">
+      <p class="about-statement">
+        Seven years of turning vision into image — one frame, one stroke, one story at a time.
+      </p>
+      <div class="about-body">
+        <p>I am Timilehin Taiwo, a multidisciplinary visual artist based in Lagos, Nigeria. I work across storyboard art, digital portrait painting, album cover illustration, and graphic design, with a focus on storytelling and strong visual narrative.</p>
+        <p>What started as a passion for portraiture has grown into a broader creative practice, especially in storyboard and Video pre-production, where I think in motion and sequence, not just still images. My work sits somewhere between commercial clarity and personal expression, depending on what the project demands.</p>
+        <p>I approach every project as a collaboration, not just a commission.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="philosophy">
+    <div class="philosophy-inner reveal">
+      <p class="philosophy-quote">
+        "Your Satisfaction is my utmost priority."
+      </p>
+      <p class="philosophy-attribution">— Timilehin Taiwo</p>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Services &amp; Pricing</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="pricing-tabs" id="pricingTabs">
+      <button class="tab-btn active" data-tab="storyboard">Storyboard</button>
+      <button class="tab-btn" data-tab="portrait">Portrait Art</button>
+      <button class="tab-btn" data-tab="illustration">Illustrations</button>
+      <button class="tab-btn" data-tab="design">Graphics Design</button>
+    </div>
+
+    <div class="pricing-panel active" id="tab-storyboard">
+      <div class="panel-intro">
+        <h3>Storyboard Art</h3>
+      </div>
+
+      <div class="pricing-sub-heading">Coloured Storyboards</div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 1.jpeg" alt="Coloured Storyboard 1" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">10 Frames Coloured Storyboard</div>
+            <div class="price-card-desc">Full-colour sequential frames for pitch or production</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦120,000</div>
+            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 2.jpeg" alt="Coloured Storyboard 2" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">20 Frames Coloured Storyboard</div>
+            <div class="price-card-desc">Extended colour sequence for short films &amp; ads</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦240,000</div>
+            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-col-sb"><img src="Coloured Storyboard 3.jpeg" alt="Coloured Storyboard 3" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">30 Frames Coloured Storyboard</div>
+            <div class="price-card-desc">Full production-ready colour board for full scenes</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦360,000</div>
+            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-sub-heading">Black &amp; White Storyboards</div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%201.jpeg" alt="B&W Storyboard 1" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">10 Frames B&amp;W Storyboard</div>
+            <div class="price-card-desc">Clean greyscale frames for narrative direction</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦65,000</div>
+            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%202.jpeg" alt="B&W Storyboard 2" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">20 Frames B&amp;W Storyboard</div>
+            <div class="price-card-desc">Mid-length greyscale board for scene mapping</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦130,000</div>
+            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-bw-sb-1"><img src="B%26W%20Storyboard%203.jpeg" alt="B&W Storyboard 3" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">30 Frames B&amp;W Storyboard</div>
+            <div class="price-card-desc">Extended greyscale production board</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦195,000</div>
+            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">40 Frames B&amp;W Storyboard</div>
+            <div class="price-card-desc">Full-length greyscale board — full scene sequences</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦260,000</div>
+            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-bw-sb-2"><img src="B%26W%20Storyboard%204.jpeg" alt="B&W Storyboard 4" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">50 Frames B&amp;W Storyboard</div>
+            <div class="price-card-desc">Complete feature-level storyboard in greyscale</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦325,000</div>
+            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
+      <div class="calculator-box" id="storyboardCalcBox">
+        <div class="calc-toggle-wrap">
+          <button type="button" class="calc-toggle active" id="sbToggleBw" data-type="bw">Black &amp; White</button>
+          <button type="button" class="calc-toggle" id="sbToggleColor" data-type="color">Coloured</button>
+        </div>
+        <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label style="margin-bottom: 12px;">Number of Frames</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" id="calcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="calcFrames" min="1" value="51" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="calcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
+            </div>
+          </div>
+          <div style="flex: 1; min-width: 150px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
+            <div class="price-amount" id="calcTotal">₦331,500</div>
+          </div>
+          <button type="button" class="add-to-cart-btn" id="calcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Collection</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-portrait">
+      <div class="panel-intro">
+        <h3>Portrait Art</h3>
+        <p>Digital Painting · Printed on Glittered and Matte Canvas</p>
+      </div>
+
+      <div class="pricing-sub-heading">Individual Portraits</div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-portrait"><img src="12 x 16 Inches - Demilade.jpeg" alt="12 x 16 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">12 × 16 Inches Portrait</div>
+            <div class="price-card-desc">Coloured digital portrait printed on glittered canvas</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦60,000</div>
+            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-portrait"><img src="18 x 24 Inches - Mares Aunty.jpeg" alt="18 x 24 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">16×24 / 18×24 Inches Portrait</div>
+            <div class="price-card-desc">Mid-large format coloured digital portrait on glittered canvas</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦75,000</div>
+            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-portrait"><img src="24 x 30 Inches - American client.jpeg" alt="24 x 30 Portrait" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">24 × 30 Inches Portrait</div>
+            <div class="price-card-desc">Large-format statement portrait on glittered canvas</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦150,000</div>
+            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-sub-heading">Couple Portraits</div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-landscape"><img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Couple Portrait" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">16/18 × 20/24 Inches Couple Portrait</div>
+            <div class="price-card-desc">Coloured digital couple portrait printed on glittered canvas</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦90,000</div>
+            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Additional Persons Calculator</div>
+      <div class="calculator-box" id="portraitCalcBox">
+        <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label style="margin-bottom: 12px;">Additional Persons (Base: 2 persons)</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" id="portraitCalcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="portraitCalcPersons" min="0" value="0" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="portraitCalcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
+            </div>
+          </div>
+          <div style="flex: 1; min-width: 150px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Additional Cost</div>
+            <div class="price-amount" id="portraitCalcTotal">₦0</div>
+          </div>
+          <button type="button" class="add-to-cart-btn" id="portraitCalcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add to Collection</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-illustration">
+      <div class="panel-intro">
+        <h3>Illustrations</h3>
+        <p>Cover Art · Character Art · Digital Illustrations</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Digital Illustration (Softcopy)</div>
+            <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">1 Character Song Cover Art</div>
+            <div class="price-card-desc">Single-character album or song cover illustration</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Multi-Character Song Cover Art</div>
+            <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦100,000</div>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-panel" id="tab-design">
+      <div class="panel-intro">
+        <h3>Graphics Design</h3>
+        <p>Brand Identity · Print · Digital Design</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square" style="background:var(--mid);">
+             </div>
+          <div>
+            <div class="price-card-name">Flyer Design</div>
+            <div class="price-card-desc">Event or promotional flyer — digital delivery</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦30,000</div>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Art%20Base%20-%20Logo.jpeg" alt="Logo Design" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Logo Design</div>
+            <div class="price-card-desc">Brand mark and logo — multiple concepts, full delivery</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦40,000</div>
+            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brands-section reveal">
+      <div class="brands-title">Most Notable Brands I have Worked with</div>
+      <div class="brands-grid">
+        <img src="Maggi Star Logo.png" alt="Maggi" loading="lazy" />
+        <img src="ULesson Logo.png" alt="ULesson" loading="lazy" />
+        <img src="Cerave Logo.png" alt="Cerave" loading="lazy" />
+        <img src="Smirnoff Logo.jpg" alt="Smirnoff" loading="lazy" />
+        <img src="Huggies Logo.png" alt="Huggies" loading="lazy" />
+        <img src="Rockstar Logo.png" alt="Rockstar Energy Drink" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <button class="nav-arrow-dynamic nav-arrow-up" id="navArrowUp" aria-label="Previous Section">↑</button>
+  <button class="nav-arrow-dynamic nav-arrow-down" id="navArrowDown" aria-label="Next Section">↓</button>
+
+  <button id="cartToggleBtn">
+    Private Commission (<span id="cartCount">0</span>)
+  </button>
+
+  <div id="cartModal" class="cart-modal">
+    <div class="cart-content">
+      <button class="cart-close" id="cartClose">✕</button>
+      <h3 class="cart-title">Your Collection</h3>
+      <div id="cartItemsList" class="cart-items-list">
+         </div>
+      <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
+      
+      <form id="cartForm" onsubmit="handleCartSubmit(event)">
+        <div class="form-field">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Full name" required />
+        </div>
+        <div class="form-field email-field-wrap">
+          <label>Email Address</label>
+          <input type="email" name="email" id="cartEmail" placeholder="your@email.com" required autocomplete="email" />
+          <div class="email-suggestions" id="emailSuggestions">
+            <div class="email-suggestion-item" data-domain="gmail.com">@gmail.com</div>
+            <div class="email-suggestion-item" data-domain="yahoo.com">@yahoo.com</div>
+            <div class="email-suggestion-item" data-domain="outlook.com">@outlook.com</div>
+            <div class="email-suggestion-item" data-domain="icloud.com">@icloud.com</div>
+            <div class="email-suggestion-item" data-domain="hotmail.com">@hotmail.com</div>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>WhatsApp Number</label>
+          <input type="tel" name="whatsapp" placeholder="+234..." required />
+        </div>
+        <div class="form-field">
+          <label>Commission Notes</label>
+          <textarea name="brief" placeholder="Any specific requirements or references for these pieces?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          Request Commission <span class="form-submit-arrow">→</span>
+        </button>
+      </form>
+      <p id="cartFormMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
+        Commission request initiated. Your PDF invoice has been downloaded.
+      </p>
+    </div>
+  </div>
+
+  <button id="chatbotToggleBtn" class="chatbot-toggle" aria-label="Open Assistant">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </button>
+
+  <div id="chatbotPanel" class="chatbot-panel">
+    <div class="chatbot-header">
+      <span>Concierge</span>
+      <button class="chatbot-close" id="chatbotClose">✕</button>
+    </div>
+    <div class="chatbot-body" id="chatbotBody">
+      <div class="chat-msg">
+        Hello. I can help answer questions regarding my creative process. Which service would you like to know more about?
+      </div>
+    </div>
+    <div class="chatbot-options">
+      <button class="chatbot-option" data-service="portraits">Portraits</button>
+      <button class="chatbot-option" data-service="illustrations">Illustrations</button>
+      <button class="chatbot-option" data-service="storyboards">Storyboards</button>
+    </div>
+  </div>
+
+  <div id="adminPanel" class="admin-panel">
+    <div class="admin-header">
+      <span>Owner Dashboard - Invoices</span>
+      <button class="admin-close" id="adminClose">✕</button>
+    </div>
+    <div style="position: relative; flex: 1; overflow: hidden;">
+      <!-- Login Overlay -->
+      <div class="admin-login-overlay" id="adminLoginOverlay">
+        <div class="admin-login-form">
+          <h3>Dashboard Access</h3>
+          <div class="form-field">
+            <input type="password" id="adminPassword" placeholder="Enter password" autocomplete="current-password" />
+          </div>
+          <button type="button" class="form-submit" id="adminLoginBtn">Access Dashboard</button>
+          <button type="button" class="admin-reset-link" id="adminResetLink">Forgot Password?</button>
+          <div class="admin-error" id="adminLoginError"></div>
+        </div>
+        <!-- Secret Question Form -->
+        <div class="admin-login-form secret-form" id="secretForm">
+          <h3>Password Recovery</h3>
+          <div style="font-size: 12px; color: var(--light-grey); margin-bottom: 24px; text-align: center; line-height: 1.6;">
+            Answer the security question to reset your password.<br>
+            Recovery email: olasunkanmitimilehintaiwo@gmail.com
+          </div>
+          <div class="form-field">
+            <label style="display:block; margin-bottom:12px; color:var(--accent);">What is your mother's maiden name?</label>
+            <input type="text" id="secretAnswer" placeholder="Your answer" autocomplete="off" />
+          </div>
+          <div class="form-field">
+            <input type="password" id="newPassword" placeholder="New password" autocomplete="new-password" />
+          </div>
+          <button type="button" class="form-submit" id="secretSubmitBtn">Reset Password</button>
+          <button type="button" class="admin-reset-link" id="backToLogin">Back to Login</button>
+          <div class="admin-error" id="secretError"></div>
+          <div class="admin-success" id="secretSuccess"></div>
+        </div>
+      </div>
+      <div class="admin-body" id="adminBody">
+        </div>
+    </div>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">←</button>
+    <img id="lightboxImg" src="" alt="Expanded Image" />
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">→</button>
+  </div>
+
+  <section id="gallery">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Selected Works</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery-filter reveal">
+      <button class="filter-btn active" data-filter="portrait">Portrait</button>
+      <button class="filter-btn" data-filter="cover">Cover Art</button>
+      <button class="filter-btn" data-filter="design">Graphics Design</button>
+    </div>
+
+    <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
+      <div class="gallery-slideshow" id="galleryGrid">
+
+        <div class="gallery-item" data-category="portrait">
+          <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">12 x 16 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait">
+          <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">16 x 24 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait">
+          <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">18 x 24 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait">
+          <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">24 x 30 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait">
+          <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
+        </div>
+
+        <div class="gallery-item" data-category="cover" class="hidden">
+          <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">single character cover art</div>
+        </div>
+        <div class="gallery-item" data-category="cover" class="hidden">
+          <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">single character cover art</div>
+        </div>
+        <div class="gallery-item" data-category="cover" class="hidden">
+          <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">multiple character cover art</div>
+        </div>
+
+        <div class="gallery-item" data-category="design" class="hidden">
+          <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
+          <div class="gallery-item-caption">logo design</div>
+        </div>
+        <div class="gallery-item" data-category="design" class="hidden">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -2282,124 +4406,112 @@
     const calcAddToCart = document.getElementById('calcAddToCart');
     const calcMinus = document.getElementById('calcMinus');
     const calcPlus = document.getElementById('calcPlus');
-    const calcSbType = document.getElementById('calcSbType');
+    const sbToggleBw = document.getElementById('sbToggleBw');
+    const sbToggleColor = document.getElementById('sbToggleColor');
+    
+    const RATE_BW = 6500;
+    const RATE_COLOR = 12000;
+    let currentSbRate = RATE_BW;
+    let currentSbType = 'bw';
 
     function updateCalculator() {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
       calcFrames.value = frames;
-      const rate = parseInt(calcSbType.value);
-      const total = frames * rate;
+      const total = frames * currentSbRate;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
 
-    if(calcFrames && calcSbType) {
-        calcFrames.addEventListener('input', updateCalculator);
-        calcSbType.addEventListener('change', updateCalculator);
-        calcMinus.addEventListener('click', () => {
-            calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
-            updateCalculator();
-        });
-        calcPlus.addEventListener('click', () => {
-            calcFrames.value = parseInt(calcFrames.value) + 1;
-            updateCalculator();
-        });
+    function setSbType(type) {
+      currentSbType = type;
+      if (type === 'bw') {
+        currentSbRate = RATE_BW;
+        sbToggleBw.classList.add('active');
+        sbToggleColor.classList.remove('active');
+      } else {
+        currentSbRate = RATE_COLOR;
+        sbToggleBw.classList.remove('active');
+        sbToggleColor.classList.add('active');
+      }
+      updateCalculator();
+    }
 
-        calcAddToCart.addEventListener('click', (e) => {
-          const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-          const rate = parseInt(calcSbType.value);
-          const total = frames * rate;
-          const typeName = rate === 6500 ? "B&W" : "Coloured";
-          const name = `Custom Storyboard (${typeName})`;
-          
-          cart.push({ name, qty: frames, unitPrice: rate, price: total });
-          updateCartUI();
-          
-          const originalText = e.target.textContent;
-          e.target.textContent = "Added!";
-          e.target.style.background = "var(--white)";
-          e.target.style.color = "var(--black)";
-          setTimeout(() => { 
-            e.target.textContent = originalText; 
-            e.target.style.background = "transparent"; 
-            e.target.style.color = "var(--accent)";
-          }, 1000);
-        });
-        // Initial setup
+    sbToggleBw.addEventListener('click', () => setSbType('bw'));
+    sbToggleColor.addEventListener('click', () => setSbType('color'));
+
+    calcFrames.addEventListener('input', updateCalculator);
+    calcMinus.addEventListener('click', () => {
+        calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
         updateCalculator();
+    });
+    calcPlus.addEventListener('click', () => {
+        calcFrames.value = parseInt(calcFrames.value) + 1;
+        updateCalculator();
+    });
+
+    calcAddToCart.addEventListener('click', (e) => {
+      const frames = Math.max(1, parseInt(calcFrames.value) || 1);
+      const total = frames * currentSbRate;
+      const typeLabel = currentSbType === 'bw' ? 'B&W' : 'Coloured';
+      const name = `${frames} Frames Custom ${typeLabel} Storyboard`;
+      
+      cart.push({ name, price: total, qty: frames, unitPrice: currentSbRate, type: 'storyboard' });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
+
+    // ── PORTRAIT ADDITIONAL PERSONS CALCULATOR ──
+    const portraitCalcPersons = document.getElementById('portraitCalcPersons');
+    const portraitCalcTotal = document.getElementById('portraitCalcTotal');
+    const portraitCalcAddToCart = document.getElementById('portraitCalcAddToCart');
+    const portraitCalcMinus = document.getElementById('portraitCalcMinus');
+    const portraitCalcPlus = document.getElementById('portraitCalcPlus');
+    const RATE_PER_EXTRA_PERSON = 20000;
+
+    function updatePortraitCalculator() {
+      const extra = Math.max(0, parseInt(portraitCalcPersons.value) || 0);
+      portraitCalcPersons.value = extra;
+      const total = extra * RATE_PER_EXTRA_PERSON;
+      portraitCalcTotal.textContent = '₦' + total.toLocaleString();
     }
 
-    // ── PORTRAIT ADD-ON CALCULATOR ──
-    const calcPortPersons = document.getElementById('calcPortPersons');
-    const calcPortTotal = document.getElementById('calcPortTotal');
-    const calcPortAddToCart = document.getElementById('calcPortAddToCart');
-    const calcPortMinus = document.getElementById('calcPortMinus');
-    const calcPortPlus = document.getElementById('calcPortPlus');
+    portraitCalcPersons.addEventListener('input', updatePortraitCalculator);
+    portraitCalcMinus.addEventListener('click', () => {
+        portraitCalcPersons.value = Math.max(0, parseInt(portraitCalcPersons.value) - 1);
+        updatePortraitCalculator();
+    });
+    portraitCalcPlus.addEventListener('click', () => {
+        portraitCalcPersons.value = parseInt(portraitCalcPersons.value) + 1;
+        updatePortraitCalculator();
+    });
 
-    function updatePortCalculator() {
-      const persons = Math.max(3, parseInt(calcPortPersons.value) || 3);
-      calcPortPersons.value = persons;
-      const extra = persons - 2;
-      const total = extra * 20000;
-      calcPortTotal.textContent = '₦' + total.toLocaleString();
-    }
-
-    if(calcPortPersons) {
-        calcPortPersons.addEventListener('input', updatePortCalculator);
-        calcPortMinus.addEventListener('click', () => {
-            calcPortPersons.value = Math.max(3, parseInt(calcPortPersons.value) - 1);
-            updatePortCalculator();
-        });
-        calcPortPlus.addEventListener('click', () => {
-            calcPortPersons.value = parseInt(calcPortPersons.value) + 1;
-            updatePortCalculator();
-        });
-
-        calcPortAddToCart.addEventListener('click', (e) => {
-          const persons = Math.max(3, parseInt(calcPortPersons.value) || 3);
-          const extra = persons - 2;
-          const total = extra * 20000;
-          const name = `Additional Portrait Subject(s)`;
-          
-          cart.push({ name, qty: extra, unitPrice: 20000, price: total });
-          updateCartUI();
-          
-          const originalText = e.target.textContent;
-          e.target.textContent = "Added!";
-          e.target.style.background = "var(--white)";
-          e.target.style.color = "var(--black)";
-          setTimeout(() => { 
-            e.target.textContent = originalText; 
-            e.target.style.background = "transparent"; 
-            e.target.style.color = "var(--accent)";
-          }, 1000);
-        });
-        // Initial setup
-        updatePortCalculator();
-    }
-
-    // ── EMAIL AUTOSUGGEST LOGIC ──
-    const emailInput = document.getElementById('emailInput');
-    const emailOptions = document.getElementById('email-options');
-    
-    if(emailInput && emailOptions) {
-      emailInput.addEventListener('input', (e) => {
-        const val = e.target.value;
-        if(val.includes('@')) {
-          emailOptions.innerHTML = '';
-          return;
-        }
-        if(val.length > 0) {
-          emailOptions.innerHTML = `
-            <option value="${val}@gmail.com">
-            <option value="${val}@yahoo.com">
-            <option value="${val}@outlook.com">
-            <option value="${val}@icloud.com">
-          `;
-        } else {
-          emailOptions.innerHTML = '';
-        }
-      });
-    }
+    portraitCalcAddToCart.addEventListener('click', (e) => {
+      const extra = Math.max(0, parseInt(portraitCalcPersons.value) || 0);
+      if (extra === 0) return;
+      const total = extra * RATE_PER_EXTRA_PERSON;
+      const name = `${extra} Additional Person${extra > 1 ? 's' : ''} for Portrait`;
+      
+      cart.push({ name, price: total, qty: extra, unitPrice: RATE_PER_EXTRA_PERSON, type: 'portrait' });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
 
     // ── VIDEO PROCESS LOGIC ──
     const processVideo = document.getElementById('processVideo');
@@ -2457,20 +4569,23 @@
         btn.classList.add('active');
 
         const filter = btn.dataset.filter;
-        updateUrlParam('gallery', filter);
         
-        // Display only matching items
+        // Show/hide gallery items based on filter using classList
         document.querySelectorAll('.gallery-item').forEach(item => {
           if (item.dataset.category === filter) {
-            item.style.display = 'flex';
+            item.classList.remove('hidden');
           } else {
-            item.style.display = 'none';
+            item.classList.add('hidden');
           }
         });
         
-        // Reset scroll to start
-        if(galleryWrapper) {
-            galleryWrapper.scrollTo({ left: 0, behavior: 'auto' });
+        const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
+        
+        updateUrlParam('gallery', filter);
+        
+        if (targetItem) {
+          const paddingLeft = parseInt(window.getComputedStyle(galleryWrapper).paddingLeft) || 0;
+          galleryWrapper.scrollTo({ left: targetItem.offsetLeft - paddingLeft, behavior: 'smooth' });
         }
       });
     });
@@ -2483,7 +4598,7 @@
 
     const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.target.style.display !== 'none') {
+        if (entry.isIntersecting) {
           const activeCat = entry.target.dataset.category;
           filterBtns.forEach(btn => {
             btn.classList.toggle('active', btn.dataset.filter === activeCat);
@@ -2495,7 +4610,6 @@
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
 
     let galleryAutoPan = setInterval(() => {
-      if (!galleryWrapper) return;
       if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
       
       const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
@@ -2503,11 +4617,9 @@
       if (isAtEnd) {
         galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        const firstVisibleItem = document.querySelector('.gallery-item[style*="display: flex"]');
-        if(firstVisibleItem) {
-            const itemWidth = firstVisibleItem.offsetWidth + 24; 
-            galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
-        }
+        const firstItem = document.querySelector('.gallery-item');
+        const itemWidth = firstItem.offsetWidth + 24; 
+        galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
       }
     }, 2000);
 
@@ -2544,190 +4656,103 @@
       });
     }
 
-    // ── SHOPPING CART SYSTEM ──
-    let cart = [];
-    const cartToggleBtn = document.getElementById('cartToggleBtn');
-    const cartModal = document.getElementById('cartModal');
-    
-    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#calcPortAddToCart)').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const name = e.target.getAttribute('data-name');
-        const price = parseInt(e.target.getAttribute('data-price'));
-        // Push standard static items with qty 1 and unitPrice equals price
-        cart.push({ name, qty: 1, unitPrice: price, price: price });
-        updateCartUI();
+    // ── CHATBOT LOGIC ──
+    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
+    const chatbotPanel = document.getElementById('chatbotPanel');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotBody = document.getElementById('chatbotBody');
+    const chatbotOptions = document.querySelectorAll('.chatbot-option');
+
+    const processDesc = "1. <strong>Share reference image / script:</strong> Provide your details via the form below.<br>2. <strong>Receive quote and pay:</strong> I will issue a quote based on scope. Work begins on deposit.<br>3. <strong>Review and close out:</strong> Files are delivered as high-res PNG, JPEG, or JPG images.<br><br>Clients receive 3 free reviews as long as no new frames are added. Reviews like camera rotations, angle corrections, or adding character elements are within scope. Adding new scripts or actions requiring new drawings will incur a subsequently issued invoice.";
+
+    const botResponses = {
+      portraits: "<strong>Portraits Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      illustrations: "<strong>Illustrations Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      storyboards: "<strong>Storyboards Process:</strong><br><br>" + processDesc.replace("reference image / ", "")
+    };
+
+    chatbotToggleBtn.addEventListener('click', () => {
+      chatbotPanel.classList.add('open');
+      chatbotToggleBtn.style.opacity = '0';
+      chatbotToggleBtn.style.pointerEvents = 'none';
+    });
+
+    chatbotClose.addEventListener('click', () => {
+      chatbotPanel.classList.remove('open');
+      chatbotToggleBtn.style.opacity = '1';
+      chatbotToggleBtn.style.pointerEvents = 'auto';
+    });
+
+    chatbotOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const service = option.dataset.service;
+        const responseText = botResponses[service];
         
-        const originalText = e.target.textContent;
-        e.target.textContent = "Added!";
-        e.target.style.background = "var(--white)";
-        e.target.style.color = "var(--black)";
-        setTimeout(() => { 
-          e.target.textContent = originalText; 
-          e.target.style.background = "transparent"; 
-          e.target.style.color = "var(--accent)";
-        }, 1000);
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg';
+        userMsg.style.borderLeft = 'none';
+        userMsg.style.borderRight = '2px solid var(--accent)';
+        userMsg.style.textAlign = 'right';
+        userMsg.innerHTML = option.textContent;
+        chatbotBody.appendChild(userMsg);
+        
+        setTimeout(() => {
+          const botMsg = document.createElement('div');
+          botMsg.className = 'chat-msg';
+          botMsg.innerHTML = responseText;
+          chatbotBody.appendChild(botMsg);
+          chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }, 400);
       });
     });
 
-    function updateCartUI() {
-      document.getElementById('cartCount').textContent = cart.length;
-      const list = document.getElementById('cartItemsList');
-      list.innerHTML = '';
-      let total = 0;
+    // ── EMAIL SUGGESTIONS ──
+    const cartEmailInput = document.getElementById('cartEmail');
+    const emailSuggestions = document.getElementById('emailSuggestions');
+    
+    if (cartEmailInput && emailSuggestions) {
+      const domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'icloud.com', 'hotmail.com'];
       
-      cart.forEach((item, index) => {
-        total += item.price;
-        list.innerHTML += `
-          <div class="cart-item">
-            <span>${item.name} ${item.qty > 1 ? `(x${item.qty})` : ''}</span>
-            <span>₦${item.price.toLocaleString()} <button type="button" onclick="removeFromCart(${index})">✕</button></span>
-          </div>`;
+      cartEmailInput.addEventListener('input', () => {
+        const val = cartEmailInput.value;
+        const atIndex = val.indexOf('@');
+        
+        if (atIndex > 0 && atIndex === val.lastIndexOf('@')) {
+          const prefix = val.substring(0, atIndex + 1);
+          const typedDomain = val.substring(atIndex + 1).toLowerCase();
+          
+          const matches = domains.filter(d => d.startsWith(typedDomain));
+          
+          if (matches.length > 0 && typedDomain.length > 0) {
+            emailSuggestions.innerHTML = matches.map(d => 
+              `<div class="email-suggestion-item" data-domain="${d}">${prefix}${d}</div>`
+            ).join('');
+            emailSuggestions.classList.add('open');
+          } else {
+            emailSuggestions.classList.remove('open');
+          }
+        } else if (atIndex === -1 && val.length > 0) {
+          emailSuggestions.innerHTML = domains.map(d => 
+            `<div class="email-suggestion-item" data-domain="${d}">${val}@${d}</div>`
+          ).join('');
+          emailSuggestions.classList.add('open');
+        } else {
+          emailSuggestions.classList.remove('open');
+        }
       });
-      document.getElementById('cartTotalAmt').textContent = total.toLocaleString();
-
-      if (cart.length > 0) {
-        cartToggleBtn.classList.add('visible');
-      } else {
-        cartToggleBtn.classList.remove('visible');
-        cartModal.classList.remove('open');
-      }
-    }
-
-    window.removeFromCart = function(index) {
-      cart.splice(index, 1);
-      updateCartUI();
-    };
-
-    cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
-    document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
-
-    // ── PDF INVOICE GENERATOR ──
-    async function generateAndDownloadInvoice(data, cartItems, totalNGN, invNum, dateStr, isDuplicate = false) {
-      if (!window.jspdf) return;
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      let y = 20;
-
-      doc.setFontSize(22);
-      doc.text("T", 20, y);
-      y += 15;
-
-      doc.setFontSize(10);
-      doc.setTextColor(100);
-      doc.setFont(undefined, 'bold');
-      doc.text("Bill To", 20, y);
-      doc.setFont(undefined, 'normal');
-      doc.text("Timilehin Taiwo Arts", 120, y);
-      y += 6;
       
-      doc.setTextColor(0);
-      doc.text(data.name, 20, y);
-      doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
-      y += 6;
-      doc.text(data.email, 20, y);
-      doc.text("+2348145782167", 120, y);
-      y += 6;
-      doc.text(data.whatsapp, 20, y);
-      y += 15;
-
-      const tableData = cartItems.map(item => [
-        item.name,
-        item.qty.toString(),
-        `NGN ${item.unitPrice.toLocaleString()}`,
-        `NGN ${item.price.toLocaleString()}`
-      ]);
-
-      const usdAmount = (totalNGN / 1400).toFixed(2);
-
-      doc.autoTable({
-        startY: y,
-        head: [['Item Description', 'Quantity', 'Unit Price', 'Amount']],
-        body: tableData,
-        foot: [
-          ['', '', 'Total:', `NGN ${totalNGN.toLocaleString()}`],
-          ['', '', 'Total (USD):', `$${usdAmount}`]
-        ],
-        theme: 'plain',
-        headStyles: { fillColor: [240, 240, 240], textColor: [0,0,0], fontStyle: 'bold' },
-        footStyles: { textColor: [0,0,0], fontStyle: 'bold' }
+      emailSuggestions.addEventListener('click', (e) => {
+        if (e.target.classList.contains('email-suggestion-item')) {
+          cartEmailInput.value = e.target.textContent;
+          emailSuggestions.classList.remove('open');
+        }
       });
-
-      y = doc.lastAutoTable.finalY + 20;
-
-      doc.setFontSize(12);
-      doc.text("Thanks for doing business with us!", 20, y);
-      y += 10;
-      doc.text(`INVOICE #${invNum}`, 20, y);
-      y += 7;
-      doc.setFontSize(10);
-      doc.text(`Invoice Date: ${dateStr}`, 20, y);
-      doc.text(`Payment Due: ${dateStr}`, 100, y);
-      y += 15;
-
-      doc.setFontSize(11);
-      doc.setFont(undefined, 'bold');
-      doc.text("Bank Details", 20, y);
-      doc.line(20, y+1, 44, y+1);
-      doc.setFont(undefined, 'normal');
-      y += 6;
       
-      doc.setFontSize(10);
-      doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
-      doc.text("Access Bank:\n0736696409\nOlasunkanmi Timilehin Taiwo", 90, y);
-      y += 20;
-
-      doc.setFontSize(11);
-      doc.setFont(undefined, 'bold');
-      doc.text("Wallet address", 20, y);
-      doc.line(20, y+1, 48, y+1);
-      doc.setFont(undefined, 'normal');
-      y += 6;
-      
-      doc.setFontSize(10);
-      doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
-      y += 12;
-      doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
-      y += 12;
-      doc.text("Exchange rate - N1,400/1US$", 20, y);
-
-      // Page 2 - Terms
-      doc.addPage();
-      y = 20;
-      doc.setFontSize(14);
-      doc.setFont(undefined, 'bold');
-      doc.text("TERMS OF SERVICE", 20, y);
-      doc.line(20, y+1, 68, y+1);
-      y += 10;
-      doc.setFontSize(10);
-
-      function addTermSection(title, content) {
-         doc.setFont(undefined, 'bold');
-         doc.text(title, 20, y);
-         doc.line(20, y+1, 20 + doc.getTextWidth(title), y+1);
-         y += 5;
-         doc.setFont(undefined, 'normal');
-         const lines = doc.splitTextToSize(content, 170);
-         doc.text(lines, 20, y);
-         y += lines.length * 4.2 + 5;
-      }
-
-      addTermSection("Payment", "Full payment is required before work can begin on orders placed.\nIn the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside.");
-      addTermSection("Refund", "The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft.");
-      addTermSection("Reconciliation", "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.");
-      addTermSection("Exchange", "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.");
-      addTermSection("Discount", "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.");
-      addTermSection("DISCLAIMER", "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.\n\nPayment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.\n\nWe reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.\n\nAll these enables us to serve you better. Thank you.\n\n");
-      
-      doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
-      let offsetW = doc.getTextWidth("Timilehin Taiwo Arts | +2348145782167 | ");
-      doc.textWithLink('IG: timilehin.taiwo', 20 + offsetW, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
-      
-      y += 10;
-      doc.setFont(undefined, 'bold');
-      doc.text("*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD", 20, y, { maxWidth: 170 });
-      doc.setFont(undefined, 'normal');
-
-      doc.save(`${data.name}'s Invoice.pdf`);
+      document.addEventListener('click', (e) => {
+        if (!cartEmailInput.contains(e.target) && !emailSuggestions.contains(e.target)) {
+          emailSuggestions.classList.remove('open');
+        }
+      });
     }
 
     // ── FORM SUBMISSION LOGIC (WHATSAPP REDIRECT) ──
@@ -2758,7 +4783,12 @@
         email: data.email,
         phone: data.whatsapp,
         total: totalAmount,
-        items: cart
+        items: cart.map(item => ({
+          name: item.name,
+          price: item.price,
+          qty: item.qty || 1,
+          unitPrice: item.unitPrice || item.price
+        }))
       };
       let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
       invoices.push(invoiceRecord);
@@ -2766,7 +4796,7 @@
 
       // Generate and download the PDF
       if (window.jspdf) {
-          generateAndDownloadInvoice(data, cart, totalAmount, invNum, dateStr, false);
+          generateAndDownloadInvoice(data, cart, totalAmount, invNum, dateStr);
       }
 
       let whatsappText = "*NEW COMMISSION REQUEST*\n\n";
@@ -2775,7 +4805,7 @@
       whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
       whatsappText += "*COLLECTION SUMMARY:*\n";
-      cart.forEach(item => { whatsappText += `- ${item.name} (x${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
+      cart.forEach(item => { whatsappText += `- ${item.name}: NGN ${item.price.toLocaleString()}\n`; });
       whatsappText += `\n*TOTAL AMOUNT:* NGN ${totalAmount.toLocaleString()}\n`;
       
       if (data.brief) {
@@ -3065,6 +5095,482 @@
         }
       }
     });
+
+    // ── ADMIN PANE LOGIC ──
+    const adminPanel = document.getElementById('adminPanel');
+    const adminClose = document.getElementById('adminClose');
+    const adminToggle = document.getElementById('adminToggle');
+    const adminBody = document.getElementById('adminBody');
+    const adminLoginOverlay = document.getElementById('adminLoginOverlay');
+    const adminPassword = document.getElementById('adminPassword');
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminLoginError = document.getElementById('adminLoginError');
+    const adminResetLink = document.getElementById('adminResetLink');
+    const secretForm = document.getElementById('secretForm');
+    const secretAnswer = document.getElementById('secretAnswer');
+    const newPassword = document.getElementById('newPassword');
+    const secretSubmitBtn = document.getElementById('secretSubmitBtn');
+    const backToLogin = document.getElementById('backToLogin');
+    const secretError = document.getElementById('secretError');
+    const secretSuccess = document.getElementById('secretSuccess');
+
+    const RECOVERY_EMAIL = 'olasunkanmitimilehintaiwo@gmail.com';
+    const RECOVERY_QUESTION = "What is your mother's maiden name?";
+    const RECOVERY_ANSWER = 'oladele';
+    const PASSWORD_KEY = 'tta_admin_password';
+    const DEFAULT_PASSWORD = 'admin123';
+
+    function getStoredPassword() {
+      return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+    }
+
+    function showLoginForm() {
+      secretForm.classList.remove('open');
+      adminLoginOverlay.querySelector('.admin-login-form').style.display = 'block';
+      adminPassword.value = '';
+      adminLoginError.textContent = '';
+    }
+
+    function showSecretForm() {
+      secretForm.classList.add('open');
+      adminLoginOverlay.querySelector('.admin-login-form').style.display = 'none';
+      secretAnswer.value = '';
+      newPassword.value = '';
+      secretError.textContent = '';
+      secretSuccess.textContent = '';
+    }
+
+    adminToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      adminPanel.classList.add('open');
+      adminLoginOverlay.classList.remove('hidden');
+      showLoginForm();
+      adminPassword.focus();
+    });
+
+    adminClose.addEventListener('click', () => {
+      adminPanel.classList.remove('open');
+      adminLoginOverlay.classList.add('hidden');
+    });
+
+    adminLoginBtn.addEventListener('click', () => {
+      const entered = adminPassword.value;
+      const stored = getStoredPassword();
+      if (entered === stored) {
+        adminLoginOverlay.classList.add('hidden');
+        renderAdminInvoices();
+      } else {
+        adminLoginError.textContent = 'Incorrect password. Please try again.';
+      }
+    });
+
+    adminPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') adminLoginBtn.click();
+    });
+
+    adminResetLink.addEventListener('click', () => {
+      showSecretForm();
+    });
+
+    backToLogin.addEventListener('click', () => {
+      showLoginForm();
+    });
+
+    secretSubmitBtn.addEventListener('click', () => {
+      const answer = secretAnswer.value.trim().toLowerCase();
+      const newPass = newPassword.value.trim();
+      
+      if (answer !== RECOVERY_ANSWER) {
+        secretError.textContent = 'Incorrect answer to the security question.';
+        secretSuccess.textContent = '';
+        return;
+      }
+      
+      if (newPass.length < 4) {
+        secretError.textContent = 'Password must be at least 4 characters.';
+        secretSuccess.textContent = '';
+        return;
+      }
+      
+      localStorage.setItem(PASSWORD_KEY, newPass);
+      secretError.textContent = '';
+      secretSuccess.textContent = 'Password reset successfully! You can now log in with your new password.';
+      
+      setTimeout(() => {
+        showLoginForm();
+      }, 2000);
+    });
+
+    secretAnswer.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') secretSubmitBtn.click();
+    });
+    newPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') secretSubmitBtn.click();
+    });
+
+    function renderAdminInvoices() {
+      let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
+      adminBody.innerHTML = '';
+      
+      if(invoices.length === 0) {
+        adminBody.innerHTML = '<p style="text-align:center; margin-top:40px;">No invoices generated yet.</p>';
+        return;
+      }
+      
+      invoices.slice().reverse().forEach(inv => {
+        let itemsHtml = inv.items.map(item => `<div>- ${item.name}: ₦${item.price.toLocaleString()}</div>`).join('');
+        let card = document.createElement('div');
+        card.className = 'invoice-card';
+        card.innerHTML = `
+          <h4>Invoice #${inv.id}</h4>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <div><strong>Client:</strong> ${inv.client}</div>
+            <div><strong>Date:</strong> ${inv.date}</div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <div><strong>Email:</strong> ${inv.email}</div>
+            <div><strong>WhatsApp:</strong> ${inv.phone}</div>
+          </div>
+          <div style="margin-bottom: 12px; color: var(--light-grey);">
+            <strong>Items:</strong><br>
+            ${itemsHtml}
+          </div>
+          <div style="color: var(--accent); font-size: 14px;"><strong>Total:</strong> ₦${inv.total.toLocaleString()}</div>
+          <button class="download-invoice-btn" onclick="downloadInvoiceRecord(${inv.id})">Download Invoice PDF</button>
+        `;
+        adminBody.appendChild(card);
+      });
+    }
+
+    window.downloadInvoiceRecord = function(invId) {
+      let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
+      const inv = invoices.find(i => i.id === invId);
+      if (!inv) return;
+      
+      if (window.jspdf) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        let y = 20;
+        
+        doc.setFontSize(22);
+        doc.text("T", 20, y);
+        y += 15;
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text("Bill To", 20, y);
+        doc.text("Timilehin Taiwo Arts", 120, y);
+        y += 6;
+        doc.setTextColor(0);
+        doc.text(inv.client, 20, y);
+        doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
+        y += 6;
+        doc.text(inv.email, 20, y);
+        doc.text("+2348145782167", 120, y);
+        y += 6;
+        doc.text(inv.phone, 20, y);
+        y += 15;
+        
+        const tableData = inv.items.map(item => [
+          item.name,
+          item.qty ? item.qty.toString() : "1",
+          item.unitPrice ? `NGN ${item.unitPrice.toLocaleString()}` : `NGN ${item.price.toLocaleString()}`,
+          `NGN ${item.price.toLocaleString()}`
+        ]);
+        
+        const usdAmount = (inv.total / 1400).toFixed(2);
+        
+        doc.autoTable({
+          startY: y,
+          head: [['Item Description', 'Qty', 'Unit Price', 'Amount']],
+          body: tableData,
+          foot: [
+            ['', '', 'Total:', `NGN ${inv.total.toLocaleString()}`],
+            ['', '', 'Total (USD):', `$${usdAmount}`]
+          ],
+          theme: 'plain',
+          headStyles: { fillColor: [240, 240, 240], textColor: [0,0,0], fontStyle: 'bold' },
+          footStyles: { textColor: [0,0,0], fontStyle: 'bold' }
+        });
+        
+        y = doc.lastAutoTable.finalY + 20;
+        
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text("Thanks for doing business with us!", 20, y);
+        doc.setFont(undefined, 'normal');
+        y += 10;
+        doc.text(`INVOICE #${inv.id}`, 20, y);
+        y += 7;
+        doc.setFontSize(10);
+        doc.text(`Invoice Date: ${inv.date}`, 20, y);
+        doc.text(`Payment Due: ${inv.date}`, 100, y);
+        y += 15;
+        
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'bold');
+        doc.text("Bank Details", 20, y);
+        doc.setFont(undefined, 'normal');
+        y += 6;
+        doc.setFontSize(10);
+        doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
+        doc.text("Access Bank:\n0736696409\nOlasunkanmi Timilehin Taiwo", 90, y);
+        y += 20;
+        
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'bold');
+        doc.text("Wallet address", 20, y);
+        doc.setFont(undefined, 'normal');
+        y += 6;
+        doc.setFontSize(10);
+        doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
+        y += 12;
+        doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
+        y += 12;
+        doc.setFont(undefined, 'bold');
+        doc.text("Exchange rate - N1,400/1US$", 20, y);
+        doc.setFont(undefined, 'normal');
+        
+        doc.addPage();
+        y = 20;
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text("TERMS OF SERVICE", 20, y);
+        // Underline TERMS OF SERVICE
+        const tosWidth = doc.getTextWidth("TERMS OF SERVICE");
+        doc.line(20, y + 1, 20 + tosWidth, y + 1);
+        doc.setFont(undefined, 'normal');
+        doc.setFontSize(10);
+        y += 10;
+        
+        const termsSections = [
+          { title: "Payment", body: "Full payment is required before work can begin on orders placed. In the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside." },
+          { title: "Refund", body: "The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft." },
+          { title: "Reconciliation", body: "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference." },
+          { title: "Exchange", body: "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible." },
+          { title: "Discount", body: "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed." },
+          { title: "DISCLAIMER", body: "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated. Payment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired. We reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge. All these enables us to serve you better. Thank you." }
+        ];
+
+        termsSections.forEach(section => {
+          doc.setFont(undefined, 'bold');
+          doc.text(section.title, 20, y);
+          // Underline each subheading
+          const titleWidth = doc.getTextWidth(section.title);
+          doc.line(20, y + 1, 20 + titleWidth, y + 1);
+          doc.setFont(undefined, 'normal');
+          y += 6;
+          const splitBody = doc.splitTextToSize(section.body, 170);
+          doc.text(splitBody, 20, y);
+          y += (splitBody.length * 4.2) + 8;
+        });
+
+        doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
+        y += 6;
+        doc.textWithLink('IG: timilehin.taiwo', 20, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
+        
+        y += 10;
+        doc.setFont(undefined, 'bold');
+        const boldNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
+        const splitBold = doc.splitTextToSize(boldNote, 170);
+        doc.text(splitBold, 20, y);
+        doc.setFont(undefined, 'normal');
+        
+        doc.save(`Invoice_${inv.id}_${inv.client}.pdf`);
+      }
+    };
+
+    // ── PDF INVOICE GENERATOR ──
+    async function generateAndDownloadInvoice(data, cartItems, totalNGN, invNum, dateStr) {
+      if (!window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
+
+      doc.setFontSize(22);
+      doc.text("T", 20, y);
+      y += 15;
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.setFont(undefined, 'bold');
+      doc.text("Bill To", 20, y);
+      doc.setFont(undefined, 'normal');
+      doc.text("Timilehin Taiwo Arts", 120, y);
+      y += 6;
+      doc.setTextColor(0);
+      doc.text(data.name, 20, y);
+      doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
+      y += 6;
+      doc.text(data.email, 20, y);
+      doc.text("+2348145782167", 120, y);
+      y += 6;
+      doc.text(data.whatsapp, 20, y);
+      y += 15;
+
+      const tableData = cartItems.map(item => [
+        item.name,
+        item.qty ? item.qty.toString() : "1",
+        item.unitPrice ? `NGN ${item.unitPrice.toLocaleString()}` : `NGN ${item.price.toLocaleString()}`,
+        `NGN ${item.price.toLocaleString()}`
+      ]);
+
+      const usdAmount = (totalNGN / 1400).toFixed(2);
+
+      doc.autoTable({
+        startY: y,
+        head: [['Item Description', 'Qty', 'Unit Price', 'Amount']],
+        body: tableData,
+        foot: [
+          ['', '', 'Total:', `NGN ${totalNGN.toLocaleString()}`],
+          ['', '', 'Total (USD):', `$${usdAmount}`]
+        ],
+        theme: 'plain',
+        headStyles: { fillColor: [240, 240, 240], textColor: [0,0,0], fontStyle: 'bold' },
+        footStyles: { textColor: [0,0,0], fontStyle: 'bold' }
+      });
+
+      y = doc.lastAutoTable.finalY + 20;
+
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.text("Thanks for doing business with us!", 20, y);
+      doc.setFont(undefined, 'normal');
+      y += 10;
+      doc.text(`INVOICE #${invNum}`, 20, y);
+      y += 7;
+      doc.setFontSize(10);
+      doc.text(`Invoice Date: ${dateStr}`, 20, y);
+      doc.text(`Payment Due: ${dateStr}`, 100, y);
+      y += 15;
+
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'bold');
+      doc.text("Bank Details", 20, y);
+      doc.setFont(undefined, 'normal');
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
+      doc.text("Access Bank:\n0736696409\nOlasunkanmi Timilehin Taiwo", 90, y);
+      y += 20;
+
+      doc.setFontSize(11);
+      doc.setFont(undefined, 'bold');
+      doc.text("Wallet address", 20, y);
+      doc.setFont(undefined, 'normal');
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
+      y += 12;
+      doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
+      y += 12;
+      doc.setFont(undefined, 'bold');
+      doc.text("Exchange rate - N1,400/1US$", 20, y);
+      doc.setFont(undefined, 'normal');
+
+      doc.addPage();
+      y = 20;
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text("TERMS OF SERVICE", 20, y);
+      // Underline TERMS OF SERVICE
+      const tosWidth = doc.getTextWidth("TERMS OF SERVICE");
+      doc.line(20, y + 1, 20 + tosWidth, y + 1);
+      doc.setFont(undefined, 'normal');
+      doc.setFontSize(10);
+      y += 10;
+
+      const termsSections = [
+        { title: "Payment", body: "Full payment is required before work can begin on orders placed. In the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside." },
+        { title: "Refund", body: "The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft." },
+        { title: "Reconciliation", body: "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference." },
+        { title: "Exchange", body: "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible." },
+        { title: "Discount", body: "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed." },
+        { title: "DISCLAIMER", body: "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated. Payment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired. We reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge. All these enables us to serve you better. Thank you." }
+      ];
+
+      termsSections.forEach(section => {
+        doc.setFont(undefined, 'bold');
+        doc.text(section.title, 20, y);
+        // Underline each subheading
+        const titleWidth = doc.getTextWidth(section.title);
+        doc.line(20, y + 1, 20 + titleWidth, y + 1);
+        doc.setFont(undefined, 'normal');
+        y += 6;
+        const splitBody = doc.splitTextToSize(section.body, 170);
+        doc.text(splitBody, 20, y);
+        y += (splitBody.length * 4.2) + 8;
+      });
+
+      doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
+      y += 6;
+      doc.textWithLink('IG: timilehin.taiwo', 20, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
+      
+      y += 10;
+      doc.setFont(undefined, 'bold');
+      const boldNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
+      const splitBold = doc.splitTextToSize(boldNote, 170);
+      doc.text(splitBold, 20, y);
+      doc.setFont(undefined, 'normal');
+
+      doc.save(`${data.name}'s Invoice.pdf`);
+    }
+
+    // ── SHOPPING CART SYSTEM ──
+    let cart = [];
+    const cartToggleBtn = document.getElementById('cartToggleBtn');
+    const cartModal = document.getElementById('cartModal');
+    
+    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart)').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const name = e.target.getAttribute('data-name');
+        const price = parseInt(e.target.getAttribute('data-price'));
+        cart.push({ name, price, qty: 1, unitPrice: price });
+        updateCartUI();
+        
+        const originalText = e.target.textContent;
+        e.target.textContent = "Added!";
+        e.target.style.background = "var(--white)";
+        e.target.style.color = "var(--black)";
+        setTimeout(() => { 
+          e.target.textContent = originalText; 
+          e.target.style.background = "transparent"; 
+          e.target.style.color = "var(--accent)";
+        }, 1000);
+      });
+    });
+
+    function updateCartUI() {
+      document.getElementById('cartCount').textContent = cart.length;
+      const list = document.getElementById('cartItemsList');
+      list.innerHTML = '';
+      let total = 0;
+      
+      cart.forEach((item, index) => {
+        total += item.price;
+        list.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>₦${item.price.toLocaleString()} <button type="button" onclick="removeFromCart(${index})">✕</button></span>
+          </div>`;
+      });
+      document.getElementById('cartTotalAmt').textContent = total.toLocaleString();
+
+      if (cart.length > 0) {
+        cartToggleBtn.classList.add('visible');
+      } else {
+        cartToggleBtn.classList.remove('visible');
+        cartModal.classList.remove('open');
+      }
+    }
+
+    window.removeFromCart = function(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    };
+
+    cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
+    document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
   </script>
 </body>
 </html>
