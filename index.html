@@ -742,41 +742,31 @@
       z-index: 100000; display: flex; flex-direction: column;
       opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
       color: var(--white); padding: 40px;
+      overflow-y: auto;
     }
+    body.light-mode .admin-panel { background: rgba(245,242,238,0.98); color: var(--black); }
     .admin-panel.open { opacity: 1; pointer-events: auto; }
     .admin-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Cormorant Garamond', serif; font-size: 32px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 20px; margin-bottom: 20px; }
     .admin-close { background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; transition: color 0.3s ease;}
+    body.light-mode .admin-close { color: var(--black); }
     .admin-close:hover { color: var(--accent); }
-    .admin-auth-box {
-      background: var(--near-black); padding: 40px; border-radius: 8px;
-      max-width: 400px; width: 100%; margin: auto; text-align: center;
-      border: 1px solid rgba(150,150,150,0.2);
-    }
-    .admin-auth-box input {
-      width: 100%; padding: 12px; margin-bottom: 16px; background: transparent;
-      border: 1px solid rgba(150,150,150,0.4); color: var(--white);
-      border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px;
-    }
-    .admin-auth-box button {
-      width: 100%; padding: 12px; background: var(--accent); color: var(--black);
-      border: none; font-weight: bold; text-transform: uppercase; cursor: pointer;
-      border-radius: 4px; transition: opacity 0.3s; margin-bottom: 10px;
-    }
-    .admin-auth-box button:hover { opacity: 0.8; }
-    .admin-auth-box a { display: inline-block; margin-top: 16px; color: var(--grey); font-size: 12px; text-decoration: none; }
-    .admin-auth-box a:hover { color: var(--accent); }
-    
-    .admin-body { overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
+    .admin-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
     .admin-body::-webkit-scrollbar { display: none; }
-    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; }
+    
+    .admin-auth-container { max-width: 400px; margin: 60px auto; text-align: center; width: 100%; }
+    .admin-auth-container h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; margin-bottom: 24px; color: var(--white); }
+    body.light-mode .admin-auth-container h2 { color: var(--black); }
+    .admin-auth-container input { width: 100%; padding: 16px; margin-bottom: 16px; background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); font-family: 'DM Mono', monospace; font-size: 12px; border-radius: 4px; }
+    body.light-mode .admin-auth-container input { color: var(--black); }
+    .admin-auth-container button { width: 100%; padding: 16px; background: var(--accent); color: var(--black); border: none; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px; }
+    .admin-auth-container button:hover { opacity: 0.9; }
+    .admin-auth-container a { color: var(--accent); font-size: 11px; text-decoration: none; letter-spacing: 0.1em; }
+
+    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; position: relative;}
+    body.light-mode .invoice-card { background: var(--white); }
     .invoice-card h4 { color: var(--accent); margin-bottom: 16px; font-size: 18px; font-family: 'Cormorant Garamond', serif; }
-    .download-inv-btn {
-      background: transparent; border: 1px solid var(--accent);
-      color: var(--accent); font-family: 'DM Mono', monospace; font-size: 10px;
-      padding: 8px 12px; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;
-      margin-top: 10px; text-transform: uppercase;
-    }
-    .download-inv-btn:hover { background: var(--accent); color: var(--black); }
+    .btn-download-inv { position: absolute; top: 24px; right: 24px; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; font-size: 10px; cursor: pointer; border-radius: 4px; transition: all 0.3s ease; text-transform: uppercase; }
+    .btn-download-inv:hover { background: var(--accent); color: var(--black); }
 
     /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
     .lightbox {
@@ -959,7 +949,7 @@
     }
     .video-container video {
       width: 100%;
-      height: 100%;
+      height: auto;
       max-height: 85vh;
       object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
@@ -1228,9 +1218,6 @@
       
       .comparison-item { width: 85vw; padding: 16px; }
       .comp-images { gap: 12px; }
-      
-      .admin-auth-box { margin: 20px; width: auto; }
-      .admin-panel { padding: 20px; }
     }
 
     @media (max-width: 500px) {
@@ -1416,7 +1403,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦120,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-qty="10" data-unit-price="12000" data-price="120000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000" data-unit="12000" data-qty="10">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1427,7 +1414,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦240,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-qty="20" data-unit-price="12000" data-price="240000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000" data-unit="12000" data-qty="20">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1438,7 +1425,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦360,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-qty="30" data-unit-price="12000" data-price="360000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000" data-unit="12000" data-qty="30">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1453,7 +1440,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦65,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-qty="10" data-unit-price="6500" data-price="65000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000" data-unit="6500" data-qty="10">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1464,7 +1451,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦130,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-qty="20" data-unit-price="6500" data-price="130000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000" data-unit="6500" data-qty="20">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1475,7 +1462,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦195,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-qty="30" data-unit-price="6500" data-price="195000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000" data-unit="6500" data-qty="30">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1486,7 +1473,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦260,000</div>
-            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-qty="40" data-unit-price="6500" data-price="260000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000" data-unit="6500" data-qty="40">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1497,21 +1484,21 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦325,000</div>
-            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-qty="50" data-unit-price="6500" data-price="325000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000" data-unit="6500" data-qty="50">+ Add to Collection</button>
           </div>
         </div>
       </div>
 
       <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
       <div class="calculator-box">
-        <div style="display: flex; gap: 20px; align-items: center; margin-bottom: 20px;">
-           <label style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--grey); text-transform: uppercase;">Style:</label>
-           <select id="calcSbType" style="background: var(--dark); border: 1px solid rgba(150,150,150,0.2); color: var(--white); padding: 8px 12px; border-radius: 4px; outline: none; font-family: 'DM Mono', monospace;">
-              <option value="6500">Black & White (₦6,500/frame)</option>
-              <option value="12000">Coloured (₦12,000/frame)</option>
-           </select>
-        </div>
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label style="margin-bottom: 12px;">Format Style</label>
+            <select id="calcSbType" style="padding: 14px 0; border-bottom: 1px solid rgba(150,150,150,0.3); font-size: 14px;">
+              <option value="6500">Black & White (₦6,500/unit)</option>
+              <option value="12000">Coloured (₦12,000/unit)</option>
+            </select>
+          </div>
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
             <label style="margin-bottom: 12px;">Number of Frames</label>
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -1545,7 +1532,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦60,000</div>
-            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-qty="1" data-unit-price="60000" data-price="60000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000" data-unit="60000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1556,7 +1543,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦75,000</div>
-            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-qty="1" data-unit-price="75000" data-price="75000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000" data-unit="75000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1567,7 +1554,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦150,000</div>
-            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-qty="1" data-unit-price="150000" data-price="150000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000" data-unit="150000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1582,28 +1569,27 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦90,000</div>
-            <button class="add-to-cart-btn" data-name="Couple Portrait" data-qty="1" data-unit-price="90000" data-price="90000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000" data-unit="90000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
 
-      <div class="pricing-sub-heading" style="margin-top: 64px;">Additional Portrait Subjects</div>
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Family Portrait Calculator</div>
       <div class="calculator-box">
-        <p style="font-size: 11px; color: var(--grey); margin-bottom: 20px; line-height: 1.5;">Base couple portrait includes 2 persons. Calculate cost for additional family members (₦20,000 per extra person).</p>
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
-            <label style="margin-bottom: 12px;">Total Persons</label>
+            <label style="margin-bottom: 12px;">Number of Persons (Min 2)</label>
             <div style="display: flex; align-items: center; gap: 8px;">
-              <button type="button" id="calcPortMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
-              <input type="number" id="calcPortPersons" min="3" value="3" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
-              <button type="button" id="calcPortPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
+              <button type="button" id="portCalcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="portCalcPersons" min="2" value="2" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="portCalcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
             </div>
           </div>
           <div style="flex: 1; min-width: 150px;">
-            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Additional Cost</div>
-            <div class="price-amount" id="calcPortTotal">₦20,000</div>
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
+            <div class="price-amount" id="portCalcTotal">₦90,000</div>
           </div>
-          <button type="button" class="add-to-cart-btn" id="calcPortAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Extra Persons</button>
+          <button type="button" class="add-to-cart-btn" id="portCalcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Collection</button>
         </div>
       </div>
     </div>
@@ -1623,7 +1609,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-qty="1" data-unit-price="50000" data-price="50000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000" data-unit="50000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1634,7 +1620,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-qty="1" data-unit-price="50000" data-price="50000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000" data-unit="50000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1645,7 +1631,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦100,000</div>
-            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-qty="1" data-unit-price="100000" data-price="100000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000" data-unit="100000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1667,7 +1653,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦30,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-qty="1" data-unit-price="30000" data-price="30000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000" data-unit="30000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1678,7 +1664,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Logo Design" data-qty="1" data-unit-price="40000" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000" data-unit="40000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1696,7 +1682,336 @@
       </div>
     </div>
   </section>
-<h3 class="contact-headline">
+
+  <button class="nav-arrow-dynamic nav-arrow-up" id="navArrowUp" aria-label="Previous Section">↑</button>
+  <button class="nav-arrow-dynamic nav-arrow-down" id="navArrowDown" aria-label="Next Section">↓</button>
+
+  <button id="cartToggleBtn">
+    Private Commission (<span id="cartCount">0</span>)
+  </button>
+
+  <div id="cartModal" class="cart-modal">
+    <div class="cart-content">
+      <button class="cart-close" id="cartClose">✕</button>
+      <h3 class="cart-title">Your Collection</h3>
+      <div id="cartItemsList" class="cart-items-list">
+         </div>
+      <div class="cart-total">Total: ₦<span id="cartTotalAmt">0</span></div>
+      
+      <form id="cartForm" onsubmit="handleCartSubmit(event)">
+        <div class="form-field">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Full name" required />
+        </div>
+        <div class="form-field">
+          <label>Email Address</label>
+          <datalist id="email-suggestions"></datalist>
+          <input type="email" name="email" list="email-suggestions" oninput="suggestEmails(this)" autocomplete="email" placeholder="your@email.com" required />
+        </div>
+        <div class="form-field">
+          <label>WhatsApp Number</label>
+          <input type="tel" name="whatsapp" placeholder="+234..." required />
+        </div>
+        <div class="form-field">
+          <label>Commission Notes</label>
+          <textarea name="brief" placeholder="Any specific requirements or references for these pieces?"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          Request Commission <span class="form-submit-arrow">→</span>
+        </button>
+      </form>
+      <p id="cartFormMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
+        Commission request initiated. Your PDF invoice has been downloaded.
+      </p>
+    </div>
+  </div>
+
+  <button id="chatbotToggleBtn" class="chatbot-toggle" aria-label="Open Assistant">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </button>
+
+  <div id="chatbotPanel" class="chatbot-panel">
+    <div class="chatbot-header">
+      <span>Concierge</span>
+      <button class="chatbot-close" id="chatbotClose">✕</button>
+    </div>
+    <div class="chatbot-body" id="chatbotBody">
+      <div class="chat-msg">
+        Hello. I can help answer questions regarding my creative process. Which service would you like to know more about?
+      </div>
+    </div>
+    <div class="chatbot-options">
+      <button class="chatbot-option" data-service="portraits">Portraits</button>
+      <button class="chatbot-option" data-service="illustrations">Illustrations</button>
+      <button class="chatbot-option" data-service="storyboards">Storyboards</button>
+    </div>
+  </div>
+
+  <div id="adminPanel" class="admin-panel">
+    <div class="admin-header">
+      <span>Dashboard</span>
+      <button class="admin-close" id="adminClose">✕</button>
+    </div>
+    
+    <div id="adminAuth" class="admin-auth-container">
+      <form id="loginForm">
+        <h2>Secure Login</h2>
+        <input type="text" autocomplete="username" value="olasunkanmitimilehintaiwo@gmail.com" readonly style="display:none;">
+        <input type="password" id="adminPwd" autocomplete="current-password" placeholder="Dashboard Password" required>
+        <button type="submit">Login</button>
+        <a href="#" id="forgotPwdBtn">Forgot Password?</a>
+      </form>
+      <form id="resetForm" style="display:none;">
+        <h2>Password Recovery</h2>
+        <p style="font-size:11px; margin-bottom:16px; color:var(--grey); text-transform:uppercase; letter-spacing:0.1em;">Account: olasunkanmitimilehintaiwo@gmail.com</p>
+        <label style="display:block; text-align:left; font-size:12px; margin-bottom:8px; color:var(--light-grey);">Security Question: What is your mothers maiden name?</label>
+        <input type="text" id="secAnswer" placeholder="Your Answer" required>
+        <input type="text" autocomplete="username" value="olasunkanmitimilehintaiwo@gmail.com" readonly style="display:none;">
+        <input type="password" id="newPwd" autocomplete="new-password" placeholder="New Password" required>
+        <button type="submit">Reset & Login</button>
+        <a href="#" id="backToLoginBtn">Back to Login</a>
+      </form>
+    </div>
+
+    <div class="admin-body" id="adminBody" style="display:none;">
+      </div>
+  </div>
+
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev">←</button>
+    <img id="lightboxImg" src="" alt="Expanded Image" />
+    <button class="lightbox-nav lightbox-next" id="lightboxNext">→</button>
+  </div>
+
+  <section id="gallery">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Selected Works</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="gallery-filter reveal">
+      <button class="filter-btn active" data-filter="portrait">Portrait</button>
+      <button class="filter-btn" data-filter="cover">Cover Art</button>
+      <button class="filter-btn" data-filter="design">Graphics Design</button>
+    </div>
+
+    <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
+      <div class="gallery-slideshow" id="galleryGrid">
+
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
+          <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">12 x 16 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
+          <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">16 x 24 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
+          <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">18 x 24 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
+          <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">24 x 30 inches portrait</div>
+        </div>
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
+          <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
+          <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
+        </div>
+
+        <div class="gallery-item" data-category="cover" style="display:none;">
+          <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">single character cover art</div>
+        </div>
+        <div class="gallery-item" data-category="cover" style="display:none;">
+          <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">single character cover art</div>
+        </div>
+        <div class="gallery-item" data-category="cover" style="display:none;">
+          <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
+          <div class="gallery-item-caption">multiple character cover art</div>
+        </div>
+
+        <div class="gallery-item" data-category="design" style="display:none;">
+          <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
+          <div class="gallery-item-caption">logo design</div>
+        </div>
+        <div class="gallery-item" data-category="design" style="display:none;">
+          <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
+          <div class="gallery-item-caption">logo design</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reference-comparison">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Reference &amp; Finished Work</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="horizontal-scroll-wrapper" id="comparisonWrapper" data-lenis-prevent>
+      <div class="comparison-slideshow">
+        
+        <div class="comparison-item reveal">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 1.jpg.JPG" alt="Final Artwork 1" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Transforming a raw vision into a refined digital piece.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-1">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 2.jpg.JPG" alt="Final Artwork 2" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Enhancing lighting and establishing a strong background balance.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-2">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Exploring abstract elements in portrait painting.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Headline with Style.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Blending Colour Tones with Background Textures.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Work</div>
+              <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" decoding="async" fetchpriority="low" />
+            </div>
+          </div>
+          <div class="comp-caption">Simplicity weilds  power.</div>
+        </div>
+
+      </div>
+    </div>
+    
+    <div class="comparison-dots" id="compDots">
+      <div class="comp-dot active" data-index="0"></div>
+      <div class="comp-dot" data-index="1"></div>
+      <div class="comp-dot" data-index="2"></div>
+      <div class="comp-dot" data-index="3"></div>
+      <div class="comp-dot" data-index="4"></div>
+      <div class="comp-dot" data-index="5"></div>
+    </div>
+  </section>
+
+  <section id="video-process">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">My Process</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="video-container reveal">
+      <video id="processVideo" poster="Final 1.jpg.JPG" playsinline preload="metadata">
+        <source src="My Process (2).mp4" type="video/mp4" />
+        <source src="My Process (2).mov" type="video/quicktime" />
+        <source src="My Process (2).webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+      <button class="video-play-btn" id="playBtn">▶</button>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="section-header reveal">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Guide</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Brief</h3>
+        <p class="step-body">You share the project — a short description, reference images if any, your timeline and budget. No rigid forms. A message is enough.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Scope &amp; Quote</h3>
+        <p class="step-body">The project gets scoped properly — deliverables, format, turnaround time — and a clear quote is sent. A deposit confirms the commission.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Creation</h3>
+        <p class="step-body">Work begins. Depending on the project, you may see rough drafts, sketches, or frame layouts for review before the final render.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Delivery</h3>
+        <p class="step-body">Final files are delivered in agreed formats — high-res softcopy and, for portrait prints, physical delivery within Lagos or by arrangement.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-num">07</span>
+      <h2 class="section-title">General Enquiries</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <h3 class="contact-headline">
           Have a project in mind? Let's <em>make it.</em>
         </h3>
         <p class="contact-body">
@@ -1746,10 +2061,9 @@
             <label>Full Name</label>
             <input type="text" name="name" placeholder="Full name" required />
           </div>
-          <div class="form-field" style="position: relative;">
+          <div class="form-field">
             <label>Email Address</label>
-            <input type="email" id="emailInput" name="email" list="email-options" placeholder="your@email.com" required autocomplete="email" />
-            <datalist id="email-options"></datalist>
+            <input type="email" name="email" placeholder="your@email.com" required />
           </div>
           <div class="form-field">
             <label>WhatsApp Number</label>
@@ -1782,8 +2096,21 @@
   </footer>
 
   <script>
+    // ── EMAIL AUTOCOMPLETE DATA-LIST SYSTEM ──
+    function suggestEmails(input) {
+      const val = input.value;
+      const dl = document.getElementById('email-suggestions');
+      dl.innerHTML = '';
+      if (val && !val.includes('@')) {
+        ['@gmail.com', '@yahoo.com', '@outlook.com'].forEach(domain => {
+          const opt = document.createElement('option');
+          opt.value = val + domain;
+          dl.appendChild(opt);
+        });
+      }
+    }
+
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
-    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -1800,7 +2127,6 @@
       }
     });
 
-    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -1983,10 +2309,8 @@
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         
-        // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
         
-        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
         const tabsContainer = document.getElementById('pricingTabs');
         const tabsRect = tabsContainer.getBoundingClientRect();
         if (tabsRect.top <= 76) {
@@ -1999,128 +2323,94 @@
 
     // ── STORYBOARD CALCULATOR ──
     const calcFrames = document.getElementById('calcFrames');
+    const calcSbType = document.getElementById('calcSbType');
     const calcTotal = document.getElementById('calcTotal');
     const calcAddToCart = document.getElementById('calcAddToCart');
     const calcMinus = document.getElementById('calcMinus');
     const calcPlus = document.getElementById('calcPlus');
-    const calcSbType = document.getElementById('calcSbType');
 
-    function updateCalculator() {
+    function updateSbCalculator() {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-      calcFrames.value = frames;
       const rate = parseInt(calcSbType.value);
+      calcFrames.value = frames;
       const total = frames * rate;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
 
-    if(calcFrames && calcSbType) {
-        calcFrames.addEventListener('input', updateCalculator);
-        calcSbType.addEventListener('change', updateCalculator);
-        calcMinus.addEventListener('click', () => {
-            calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
-            updateCalculator();
-        });
-        calcPlus.addEventListener('click', () => {
-            calcFrames.value = parseInt(calcFrames.value) + 1;
-            updateCalculator();
-        });
+    calcFrames.addEventListener('input', updateSbCalculator);
+    calcSbType.addEventListener('change', updateSbCalculator);
+    calcMinus.addEventListener('click', () => {
+        calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
+        updateSbCalculator();
+    });
+    calcPlus.addEventListener('click', () => {
+        calcFrames.value = parseInt(calcFrames.value) + 1;
+        updateSbCalculator();
+    });
 
-        calcAddToCart.addEventListener('click', (e) => {
-          const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-          const rate = parseInt(calcSbType.value);
-          const total = frames * rate;
-          const typeName = rate === 6500 ? "B&W" : "Coloured";
-          const name = `Custom Storyboard (${typeName})`;
-          
-          cart.push({ name, qty: frames, unitPrice: rate, price: total });
-          updateCartUI();
-          
-          const originalText = e.target.textContent;
-          e.target.textContent = "Added!";
-          e.target.style.background = "var(--white)";
-          e.target.style.color = "var(--black)";
-          setTimeout(() => { 
-            e.target.textContent = originalText; 
-            e.target.style.background = "transparent"; 
-            e.target.style.color = "var(--accent)";
-          }, 1000);
-        });
-        // Initial setup
-        updateCalculator();
-    }
+    calcAddToCart.addEventListener('click', (e) => {
+      const frames = Math.max(1, parseInt(calcFrames.value) || 1);
+      const rate = parseInt(calcSbType.value);
+      const total = frames * rate;
+      const typeName = rate === 12000 ? 'Coloured' : 'B&W';
+      const name = `${frames} Frames Custom ${typeName} Storyboard`;
+      
+      cart.push({ name, price: total, qty: frames, unitPrice: rate });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
 
-    // ── PORTRAIT ADD-ON CALCULATOR ──
-    const calcPortPersons = document.getElementById('calcPortPersons');
-    const calcPortTotal = document.getElementById('calcPortTotal');
-    const calcPortAddToCart = document.getElementById('calcPortAddToCart');
-    const calcPortMinus = document.getElementById('calcPortMinus');
-    const calcPortPlus = document.getElementById('calcPortPlus');
+    // ── PORTRAIT CALCULATOR ──
+    const portCalcPersons = document.getElementById('portCalcPersons');
+    const portCalcTotal = document.getElementById('portCalcTotal');
+    const portCalcAddToCart = document.getElementById('portCalcAddToCart');
+    const portCalcMinus = document.getElementById('portCalcMinus');
+    const portCalcPlus = document.getElementById('portCalcPlus');
 
     function updatePortCalculator() {
-      const persons = Math.max(3, parseInt(calcPortPersons.value) || 3);
-      calcPortPersons.value = persons;
-      const extra = persons - 2;
-      const total = extra * 20000;
-      calcPortTotal.textContent = '₦' + total.toLocaleString();
+      const persons = Math.max(2, parseInt(portCalcPersons.value) || 2);
+      portCalcPersons.value = persons;
+      const total = 90000 + ((persons - 2) * 20000);
+      portCalcTotal.textContent = '₦' + total.toLocaleString();
     }
 
-    if(calcPortPersons) {
-        calcPortPersons.addEventListener('input', updatePortCalculator);
-        calcPortMinus.addEventListener('click', () => {
-            calcPortPersons.value = Math.max(3, parseInt(calcPortPersons.value) - 1);
-            updatePortCalculator();
-        });
-        calcPortPlus.addEventListener('click', () => {
-            calcPortPersons.value = parseInt(calcPortPersons.value) + 1;
-            updatePortCalculator();
-        });
-
-        calcPortAddToCart.addEventListener('click', (e) => {
-          const persons = Math.max(3, parseInt(calcPortPersons.value) || 3);
-          const extra = persons - 2;
-          const total = extra * 20000;
-          const name = `Additional Portrait Subject(s)`;
-          
-          cart.push({ name, qty: extra, unitPrice: 20000, price: total });
-          updateCartUI();
-          
-          const originalText = e.target.textContent;
-          e.target.textContent = "Added!";
-          e.target.style.background = "var(--white)";
-          e.target.style.color = "var(--black)";
-          setTimeout(() => { 
-            e.target.textContent = originalText; 
-            e.target.style.background = "transparent"; 
-            e.target.style.color = "var(--accent)";
-          }, 1000);
-        });
-        // Initial setup
+    portCalcPersons.addEventListener('input', updatePortCalculator);
+    portCalcMinus.addEventListener('click', () => {
+        portCalcPersons.value = Math.max(2, parseInt(portCalcPersons.value) - 1);
         updatePortCalculator();
-    }
+    });
+    portCalcPlus.addEventListener('click', () => {
+        portCalcPersons.value = parseInt(portCalcPersons.value) + 1;
+        updatePortCalculator();
+    });
 
-    // ── EMAIL AUTOSUGGEST LOGIC ──
-    const emailInput = document.getElementById('emailInput');
-    const emailOptions = document.getElementById('email-options');
-    
-    if(emailInput && emailOptions) {
-      emailInput.addEventListener('input', (e) => {
-        const val = e.target.value;
-        if(val.includes('@')) {
-          emailOptions.innerHTML = '';
-          return;
-        }
-        if(val.length > 0) {
-          emailOptions.innerHTML = `
-            <option value="${val}@gmail.com">
-            <option value="${val}@yahoo.com">
-            <option value="${val}@outlook.com">
-            <option value="${val}@icloud.com">
-          `;
-        } else {
-          emailOptions.innerHTML = '';
-        }
-      });
-    }
+    portCalcAddToCart.addEventListener('click', (e) => {
+      const persons = Math.max(2, parseInt(portCalcPersons.value) || 2);
+      const total = 90000 + ((persons - 2) * 20000);
+      const name = `Custom Family Portrait - ${persons} Persons`;
+      
+      cart.push({ name, price: total, qty: 1, unitPrice: total });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
 
     // ── VIDEO PROCESS LOGIC ──
     const processVideo = document.getElementById('processVideo');
@@ -2153,17 +2443,14 @@
     const horizontalWrappers = document.querySelectorAll('.horizontal-scroll-wrapper');
     
     horizontalWrappers.forEach(wrapper => {
-      // Desktop Wheel Event to translate vertical wheel into horizontal scroll seamlessly
       wrapper.addEventListener('wheel', (e) => {
         if (window.innerWidth < 1025) return;
         
-        // Permit native horizontal trackpad scrolling directly
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
 
         const isAtStart = wrapper.scrollLeft <= 0;
         const isAtEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1;
 
-        // Only hijack the vertical scroll if there's room to scroll horizontally
         if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
           e.preventDefault();
           wrapper.scrollLeft += e.deltaY;
@@ -2175,42 +2462,35 @@
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
-    // Tab clicking logic to explicitly add active class and smooth scroll
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Force active class logic
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
         const filter = btn.dataset.filter;
-        updateUrlParam('gallery', filter);
         
-        // Display only matching items
         document.querySelectorAll('.gallery-item').forEach(item => {
-          if (item.dataset.category === filter) {
-            item.style.display = 'flex';
-          } else {
-            item.style.display = 'none';
-          }
+           if(item.dataset.category === filter) {
+               item.style.display = 'flex';
+           } else {
+               item.style.display = 'none';
+           }
         });
         
-        // Reset scroll to start
-        if(galleryWrapper) {
-            galleryWrapper.scrollTo({ left: 0, behavior: 'auto' });
-        }
+        updateUrlParam('gallery', filter);
+        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       });
     });
 
-    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
-      threshold: 0.6 // Trigger when 60% of image is in view
+      threshold: 0.6 
     };
 
     const galleryObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && entry.target.style.display !== 'none') {
+        if (entry.isIntersecting) {
           const activeCat = entry.target.dataset.category;
           filterBtns.forEach(btn => {
             btn.classList.toggle('active', btn.dataset.filter === activeCat);
@@ -2221,10 +2501,7 @@
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
 
-    // 2-Second Auto-Pan logic
     let galleryAutoPan = setInterval(() => {
-      // Pause auto-pan if user is hovering over or interacting with the gallery
-      if (!galleryWrapper) return;
       if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
       
       const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
@@ -2232,10 +2509,10 @@
       if (isAtEnd) {
         galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        const firstVisibleItem = document.querySelector('.gallery-item[style*="display: flex"]');
-        if(firstVisibleItem) {
-            const itemWidth = firstVisibleItem.offsetWidth + 24; // 24px is the flex gap
-            galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        const firstItem = document.querySelector('.gallery-item[style*="display: flex"]');
+        if(firstItem) {
+           const itemWidth = firstItem.offsetWidth + 24; 
+           galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
         }
       }
     }, 2000);
@@ -2273,17 +2550,319 @@
       });
     }
 
+    // ── CHATBOT LOGIC ──
+    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
+    const chatbotPanel = document.getElementById('chatbotPanel');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotBody = document.getElementById('chatbotBody');
+    const chatbotOptions = document.querySelectorAll('.chatbot-option');
+
+    const processDesc = "1. <strong>Share reference image / script:</strong> Provide your details via the form below.<br>2. <strong>Receive quote and pay:</strong> I will issue a quote based on scope. Work begins on deposit.<br>3. <strong>Review and close out:</strong> Files are delivered as high-res PNG, JPEG, or JPG images.<br><br>Clients receive 3 free reviews as long as no new frames are added. Reviews like camera rotations, angle corrections, or adding character elements are within scope. Adding new scripts or actions requiring new drawings will incur a subsequently issued invoice.";
+
+    const botResponses = {
+      portraits: "<strong>Portraits Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      illustrations: "<strong>Illustrations Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      storyboards: "<strong>Storyboards Process:</strong><br><br>" + processDesc.replace("reference image / ", "")
+    };
+
+    chatbotToggleBtn.addEventListener('click', () => {
+      chatbotPanel.classList.add('open');
+      chatbotToggleBtn.style.opacity = '0';
+      chatbotToggleBtn.style.pointerEvents = 'none';
+    });
+
+    chatbotClose.addEventListener('click', () => {
+      chatbotPanel.classList.remove('open');
+      chatbotToggleBtn.style.opacity = '1';
+      chatbotToggleBtn.style.pointerEvents = 'auto';
+    });
+
+    chatbotOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const service = option.dataset.service;
+        const responseText = botResponses[service];
+        
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg';
+        userMsg.style.borderLeft = 'none';
+        userMsg.style.borderRight = '2px solid var(--accent)';
+        userMsg.style.textAlign = 'right';
+        userMsg.innerHTML = option.textContent;
+        chatbotBody.appendChild(userMsg);
+        
+        setTimeout(() => {
+          const botMsg = document.createElement('div');
+          botMsg.className = 'chat-msg';
+          botMsg.innerHTML = responseText;
+          chatbotBody.appendChild(botMsg);
+          chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }, 400);
+      });
+    });
+
+    // ── ADMIN PANE AUTH & LOGIC ──
+    const adminPanel = document.getElementById('adminPanel');
+    const adminClose = document.getElementById('adminClose');
+    const adminToggle = document.getElementById('adminToggle');
+    const adminBody = document.getElementById('adminBody');
+    const adminAuth = document.getElementById('adminAuth');
+    
+    const loginForm = document.getElementById('loginForm');
+    const resetForm = document.getElementById('resetForm');
+    const forgotPwdBtn = document.getElementById('forgotPwdBtn');
+    const backToLoginBtn = document.getElementById('backToLoginBtn');
+
+    if(!localStorage.getItem('tta_admin_pwd')) {
+        localStorage.setItem('tta_admin_pwd', 'admin'); // Default password if never set
+    }
+
+    adminToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      adminPanel.classList.add('open');
+      adminAuth.style.display = 'block';
+      adminBody.style.display = 'none';
+      loginForm.style.display = 'block';
+      resetForm.style.display = 'none';
+      document.getElementById('adminPwd').value = '';
+    });
+
+    adminClose.addEventListener('click', () => {
+      adminPanel.classList.remove('open');
+    });
+
+    forgotPwdBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        resetForm.style.display = 'block';
+    });
+
+    backToLoginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('adminPwd').value;
+        if(pwd === localStorage.getItem('tta_admin_pwd')) {
+            adminAuth.style.display = 'none';
+            adminBody.style.display = 'flex';
+            renderAdminInvoices();
+        } else {
+            alert('Incorrect Password');
+        }
+    });
+
+    resetForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const ans = document.getElementById('secAnswer').value.trim().toLowerCase();
+        const newPwd = document.getElementById('newPwd').value;
+        if(ans === 'oladele') {
+            localStorage.setItem('tta_admin_pwd', newPwd);
+            alert('Password successfully reset.');
+            resetForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            document.getElementById('adminPwd').value = newPwd;
+        } else {
+            alert('Incorrect Security Answer.');
+        }
+    });
+
+    function renderAdminInvoices() {
+      let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
+      adminBody.innerHTML = '';
+      
+      if(invoices.length === 0) {
+        adminBody.innerHTML = '<p style="text-align:center; margin-top:40px;">No invoices generated yet.</p>';
+        return;
+      }
+      
+      invoices.slice().reverse().forEach((inv, index) => {
+        let itemsHtml = inv.items.map(item => `<div>- ${item.name} (Qty: ${item.qty}): ₦${item.price.toLocaleString()}</div>`).join('');
+        let card = document.createElement('div');
+        card.className = 'invoice-card';
+        card.innerHTML = `
+          <h4>Invoice #${inv.id}</h4>
+          <button class="btn-download-inv" data-idx="${invoices.length - 1 - index}">Download PDF</button>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <div><strong>Client:</strong> ${inv.client}</div>
+            <div><strong>Date:</strong> ${inv.date}</div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <div><strong>Email:</strong> ${inv.email}</div>
+            <div><strong>WhatsApp:</strong> ${inv.phone}</div>
+          </div>
+          <div style="margin-bottom: 12px; color: var(--light-grey);">
+            <strong>Items:</strong><br>
+            ${itemsHtml}
+          </div>
+          <div style="color: var(--accent); font-size: 14px;"><strong>Total:</strong> ₦${inv.total.toLocaleString()}</div>
+        `;
+        adminBody.appendChild(card);
+      });
+
+      document.querySelectorAll('.btn-download-inv').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+             const idx = parseInt(e.target.getAttribute('data-idx'));
+             const inv = invoices[idx];
+             const data = { name: inv.client, email: inv.email, whatsapp: inv.phone };
+             generateAndDownloadInvoice(data, inv.items, inv.total, inv.id, inv.date);
+          });
+      });
+    }
+
+    // ── PDF INVOICE GENERATOR ──
+    async function generateAndDownloadInvoice(data, cartItems, totalNGN, invNum, dateStr) {
+      if (!window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
+
+      doc.setFontSize(22);
+      doc.text("T", 20, y);
+      y += 15;
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.setFont("helvetica", "bold");
+      doc.text("Bill To", 20, y);
+      doc.setFont("helvetica", "normal");
+      doc.text("Timilehin Taiwo Arts", 120, y);
+      y += 6;
+      doc.setTextColor(0);
+      doc.setFont("helvetica", "bold");
+      doc.text(data.name, 20, y);
+      doc.setFont("helvetica", "normal");
+      doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
+      y += 6;
+      doc.text(data.email, 20, y);
+      doc.text("+2348145782167", 120, y);
+      y += 6;
+      doc.text(data.whatsapp, 20, y);
+      y += 15;
+
+      const tableData = cartItems.map(item => [
+        item.name,
+        item.qty.toString(),
+        `NGN ${item.unitPrice.toLocaleString()}`,
+        `NGN ${item.price.toLocaleString()}`
+      ]);
+
+      const usdAmount = (totalNGN / 1400).toFixed(2);
+
+      doc.autoTable({
+        startY: y,
+        head: [['Item Description', 'Quantity', 'Unit Price', 'Amount']],
+        body: tableData,
+        foot: [
+          ['', '', 'Total:', `NGN ${totalNGN.toLocaleString()}`],
+          ['', '', 'Total (USD):', `$${usdAmount}`]
+        ],
+        theme: 'plain',
+        headStyles: { fillColor: [240, 240, 240], textColor: [0,0,0], fontStyle: 'bold' },
+        footStyles: { textColor: [0,0,0], fontStyle: 'bold' }
+      });
+
+      y = doc.lastAutoTable.finalY + 20;
+
+      doc.setFontSize(12);
+      doc.text("Thanks for doing business with us!", 20, y);
+      y += 10;
+      doc.text(`INVOICE #${invNum}`, 20, y);
+      y += 7;
+      doc.setFontSize(10);
+      doc.text(`Invoice Date: ${dateStr}`, 20, y);
+      doc.text(`Payment Due: ${dateStr}`, 100, y);
+      y += 15;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text("Bank Details", 20, y);
+      let bw = doc.getTextWidth("Bank Details");
+      doc.setLineWidth(0.5);
+      doc.line(20, y+1, 20+bw, y+1);
+      doc.setFont("helvetica", "normal");
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
+      doc.text("Access Bank:\n0736696409\nOlasunkanmi Timilehin Taiwo", 90, y);
+      y += 20;
+
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text("Wallet address", 20, y);
+      let ww = doc.getTextWidth("Wallet address");
+      doc.line(20, y+1, 20+ww, y+1);
+      doc.setFont("helvetica", "normal");
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
+      y += 12;
+      doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
+      y += 12;
+      doc.text("Exchange rate - N1,400/1US$", 20, y);
+
+      y += 15;
+      doc.setFont("helvetica", "bold");
+      const bottomNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
+      doc.text(bottomNote, 20, y, { maxWidth: 170 });
+      doc.setFont("helvetica", "normal");
+
+      doc.addPage();
+      y = 20;
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text("TERMS OF SERVICE", 20, y);
+      let tw = doc.getTextWidth("TERMS OF SERVICE");
+      doc.line(20, y+1, 20+tw, y+1);
+      y += 10;
+      doc.setFontSize(10);
+
+      function addSection(title, body) {
+          doc.setFont("helvetica", "bold");
+          doc.text(title, 20, y);
+          y += 5;
+          doc.setFont("helvetica", "normal");
+          let lines = doc.splitTextToSize(body, 170);
+          doc.text(lines, 20, y);
+          y += (lines.length * 4.2) + 5;
+      }
+
+      addSection("Payment", "Full payment is required before work can begin on orders placed.\nIn the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside.");
+      addSection("Refund", "The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft.");
+      addSection("Reconciliation", "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.");
+      addSection("Exchange", "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.");
+      addSection("Discount", "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.");
+
+      doc.setFont("helvetica", "bold");
+      doc.text("DISCLAIMER", 20, y);
+      y += 5;
+      doc.setFont("helvetica", "normal");
+      let discBody = "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.\n\nPayment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.\n\nWe reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.\n\nAll these enables us to serve you better. Thank you.";
+      let lines = doc.splitTextToSize(discBody, 170);
+      doc.text(lines, 20, y);
+      y += (lines.length * 4.2) + 5;
+      
+      doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
+      doc.textWithLink('IG: timilehin.taiwo', 85, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
+
+      doc.save(`${data.name}'s Invoice.pdf`);
+    }
+
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
     const cartToggleBtn = document.getElementById('cartToggleBtn');
     const cartModal = document.getElementById('cartModal');
     
-    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#calcPortAddToCart)').forEach(btn => {
+    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#portCalcAddToCart)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'));
-        // Push standard static items with qty 1 and unitPrice equals price
-        cart.push({ name, qty: 1, unitPrice: price, price: price });
+        const unitPrice = parseInt(e.target.getAttribute('data-unit')) || price;
+        const qty = parseInt(e.target.getAttribute('data-qty')) || 1;
+
+        cart.push({ name, price, unitPrice, qty });
         updateCartUI();
         
         const originalText = e.target.textContent;
@@ -2347,6 +2926,7 @@
       cart.forEach(item => { totalAmount += item.price; });
       
       let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
+      localStorage.setItem('tta_inv_num', invNum + 1);
       const dateObj = new Date();
       const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -2366,7 +2946,7 @@
 
       // Generate and download the PDF
       if (window.jspdf) {
-          generateAndDownloadInvoice(data, cart, totalAmount, invNum, dateStr, false);
+          generateAndDownloadInvoice(data, cart, totalAmount, invNum, dateStr);
       }
 
       let whatsappText = "*NEW COMMISSION REQUEST*\n\n";
@@ -2375,7 +2955,7 @@
       whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
       whatsappText += "*COLLECTION SUMMARY:*\n";
-      cart.forEach(item => { whatsappText += `- ${item.name} (x${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
+      cart.forEach(item => { whatsappText += `- ${item.name} (Qty ${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
       whatsappText += `\n*TOTAL AMOUNT:* NGN ${totalAmount.toLocaleString()}\n`;
       
       if (data.brief) {
