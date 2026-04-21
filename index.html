@@ -5,15 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Timilehin Taiwo Arts</title>
   
-  <meta name="theme-color" content="#080808" />
-  <meta name="apple-mobile-web-app-title" content="TTA">
-  <meta name="application-name" content="TTA">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="Logo B&W - Dark Mode.JPG">
-  <link rel="icon" href="Logo B&W - Dark Mode.JPG">
-  <link rel="manifest" href='data:application/manifest+json,{"name":"Timilehin Taiwo Arts","short_name":"TTA","display":"standalone","background_color":"#080808","theme_color":"#080808","icons":[{"src":"Logo%20B%26W%20-%20Dark%20Mode.JPG","sizes":"192x192 512x512","type":"image/jpeg","purpose":"any maskable"}]}'>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -304,6 +295,7 @@
     section { padding: 140px 0; transition: background-color 0.4s ease; }
     #about { background: var(--near-black); }
     #services { background: var(--black); }
+    #video-process { background: var(--near-black); }
     #process { background: var(--black); }
     #contact { background: var(--black); }
 
@@ -771,7 +763,55 @@
       z-index: 2;
     }
 
-    /* ── PROCESS ── */
+    /* ── VIDEO PROCESS SECTION ── */
+    #video-process {
+      background: var(--near-black);
+      position: relative;
+    }
+    .video-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+      aspect-ratio: 16 / 9;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: var(--dark);
+      border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px;
+    }
+    .video-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px; height: 80px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: var(--white);
+      font-size: 24px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease;
+      z-index: 2;
+    }
+    .video-play-btn:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      background: var(--accent);
+      color: var(--black);
+    }
+    .video-play-btn.hidden {
+      opacity: 0; pointer-events: none;
+    }
+
+    /* ── PROCESS STEPS ── */
     .process-steps {
       display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 0; padding: 0 48px;
@@ -974,6 +1014,7 @@
       .gallery-item { width: 80vw; height: 80vw; max-height: none; max-width: none; scroll-snap-align: start; }
       .section-header { padding: 0 24px; flex-wrap: wrap; margin-bottom: 48px; }
       .section-line { display: none; }
+      .video-container { padding: 0 24px; }
 
       /* Reset grid stagger on mobile */
       .about-bottom { padding: 0 24px; margin-top: 64px; }
@@ -1046,7 +1087,8 @@
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#gallery">Gallery</a>
-    <a href="#process">Process</a>
+    <a href="#video-process">My Process</a>
+    <a href="#process">Guide</a>
     <a href="#contact">Commission</a>
     <button class="mobile-theme-btn" id="mobileThemeToggle">☀️ Light Mode</button>
   </div>
@@ -1063,7 +1105,8 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#process">Process</a></li>
+      <li><a href="#video-process">My Process</a></li>
+      <li><a href="#process">Guide</a></li>
     </ul>
     <div class="nav-cta-container">
       <a href="#contact" class="commission-btn">Commission</a>
@@ -1496,64 +1539,64 @@
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
-    <div class="gallery-slideshow-wrapper" id="galleryWrapper">
+    <div class="gallery-slideshow-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
         
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:none;">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -1561,10 +1604,27 @@
     </div>
   </section>
 
-  <section id="process">
+  <section id="video-process">
     <div class="section-header reveal">
       <span class="section-num">04</span>
-      <h2 class="section-title">How It Works</h2>
+      <h2 class="section-title">My Process</h2>
+      <div class="section-line"></div>
+    </div>
+    
+    <div class="video-container reveal">
+      <video id="processVideo" poster="Abstract%20ILL.JPG" playsinline preload="metadata">
+        <source src="process.mp4" type="video/mp4" />
+        <source src="process.mov" type="video/quicktime" />
+        Your browser does not support the video tag.
+      </video>
+      <button class="video-play-btn" id="playBtn">▶</button>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Guide</h2>
       <div class="section-line"></div>
     </div>
     <div class="process-steps">
@@ -1593,7 +1653,7 @@
 
   <section id="contact">
     <div class="section-header reveal">
-      <span class="section-num">05</span>
+      <span class="section-num">06</span>
       <h2 class="section-title">General Enquiries</h2>
       <div class="section-line"></div>
     </div>
@@ -1683,6 +1743,31 @@
   </footer>
 
   <script>
+    // ── DEEP LINKING (URL STATE MANAGEMENT) ──
+    // This executes before Lenis and GSAP to set up tabs correctly on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pricingParam = urlParams.get('pricing');
+      const galleryParam = urlParams.get('gallery');
+      
+      if (pricingParam) {
+        const pricingBtn = document.querySelector(`#pricingTabs .tab-btn[data-tab="${pricingParam}"]`);
+        if (pricingBtn) pricingBtn.click();
+      }
+      
+      if (galleryParam) {
+        const galleryBtn = document.querySelector(`#gallery .filter-btn[data-filter="${galleryParam}"]`);
+        if (galleryBtn) galleryBtn.click();
+      }
+    });
+
+    // Utility to update URL silently without reloading
+    function updateUrlParam(key, value) {
+      const url = new URL(window.location);
+      url.searchParams.set(key, value);
+      window.history.replaceState({}, '', url);
+    }
+
     // ── PRELOADER LOGIC ──
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -1858,6 +1943,10 @@
         document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        
+        // Deep linking update
+        updateUrlParam('pricing', btn.dataset.tab);
+        
         ScrollTrigger.refresh();
       });
     });
@@ -1906,6 +1995,33 @@
       }, 1000);
     });
 
+    // ── VIDEO PROCESS LOGIC ──
+    const processVideo = document.getElementById('processVideo');
+    const playBtn = document.getElementById('playBtn');
+
+    if(playBtn && processVideo) {
+      playBtn.addEventListener('click', () => {
+        if (processVideo.paused) {
+          processVideo.play();
+          playBtn.classList.add('hidden');
+        } else {
+          processVideo.pause();
+          playBtn.classList.remove('hidden');
+        }
+      });
+      
+      processVideo.addEventListener('click', () => {
+        if (!processVideo.paused) {
+          processVideo.pause();
+          playBtn.classList.remove('hidden');
+        }
+      });
+
+      processVideo.addEventListener('ended', () => {
+        playBtn.classList.remove('hidden');
+      });
+    }
+
     // ── NATIVE GALLERY SCROLL WITH TABS & AUTO-PAN ──
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
@@ -1915,6 +2031,9 @@
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
         const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
+        
+        // Deep linking update
+        updateUrlParam('gallery', filter);
         
         if (targetItem) {
           const paddingLeft = parseInt(window.getComputedStyle(galleryWrapper).paddingLeft) || 0;
@@ -2098,7 +2217,7 @@
     const navArrowsContainer = document.querySelector('.section-nav-arrows');
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
-    const pageSections = Array.from(document.querySelectorAll('section, #philosophy'));
+    const pageSections = Array.from(document.querySelectorAll('section, #philosophy, #video-process'));
 
     window.addEventListener('scroll', () => {
       if (window.scrollY > window.innerHeight * 0.3) {
