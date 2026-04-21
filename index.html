@@ -812,14 +812,17 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 48px;
-      aspect-ratio: 16 / 9;
       border-radius: 4px;
-      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-height: 85vh; /* Limits portrait videos so they don't overflow the screen */
     }
     .video-container video {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      max-height: 85vh;
+      object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
       border: 1px solid rgba(150,150,150,0.1);
       border-radius: 4px;
@@ -1664,11 +1667,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 1" loading="lazy" />
+              <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 1" loading="lazy" />
+              <img src="Final 1.jpg" alt="Final Artwork 1" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">Transforming a raw vision into a refined digital piece.</div>
@@ -1678,11 +1681,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 2" loading="lazy" />
+              <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 2" loading="lazy" />
+              <img src="Final 2.jpg" alt="Final Artwork 2" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">Enhancing lighting and establishing a strong visual narrative.</div>
@@ -1692,11 +1695,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 3" loading="lazy" />
+              <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 3" loading="lazy" />
+              <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">From rough sketch and photo reference to polished album cover.</div>
@@ -1706,11 +1709,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 4" loading="lazy" />
+              <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 4" loading="lazy" />
+              <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">Detailed character development and pose alignment.</div>
@@ -1720,11 +1723,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 5" loading="lazy" />
+              <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 5" loading="lazy" />
+              <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">Stylizing a real-world portrait into digital art.</div>
@@ -1734,11 +1737,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Placeholder-Ref.jpg" alt="Reference Image 6" loading="lazy" />
+              <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Canvas</div>
-              <img src="Placeholder-Final.jpg" alt="Final Artwork 6" loading="lazy" />
+              <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" />
             </div>
           </div>
           <div class="comp-caption">Building atmosphere and environment from disparate references.</div>
@@ -1757,8 +1760,9 @@
     
     <div class="video-container reveal">
       <video id="processVideo" poster="Abstract%20ILL.JPG" playsinline preload="metadata">
-        <source src="process.mp4" type="video/mp4" />
-        <source src="process.mov" type="video/quicktime" />
+        <source src="My Process.mp4" type="video/mp4" />
+        <source src="My Process.mov" type="video/quicktime" />
+        <source src="My Process.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
       <button class="video-play-btn" id="playBtn">▶</button>
@@ -1888,6 +1892,7 @@
 
   <script>
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
+    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -1904,6 +1909,7 @@
       }
     });
 
+    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -2086,8 +2092,10 @@
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         
+        // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
         
+        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
         const tabsContainer = document.getElementById('pricingTabs');
         const tabsRect = tabsContainer.getBoundingClientRect();
         if (tabsRect.top <= 76) {
@@ -2227,6 +2235,22 @@
     }, galleryObserverOptions);
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
+
+    // 2-Second Auto-Pan logic
+    let galleryAutoPan = setInterval(() => {
+      // Pause auto-pan if user is hovering over or interacting with the gallery
+      if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
+      
+      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
+      
+      if (isAtEnd) {
+        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const firstItem = document.querySelector('.gallery-item');
+        const itemWidth = firstItem.offsetWidth + 24; // 24px is the flex gap
+        galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
+      }
+    }, 2000);
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
