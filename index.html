@@ -14,6 +14,13 @@
   <link rel="icon" href="Logo B&W - Dark Mode.JPG">
   <link rel="manifest" href='data:application/manifest+json,{"name":"Timilehin Taiwo Arts","short_name":"TTA","display":"standalone","background_color":"#080808","theme_color":"#080808","icons":[{"src":"Logo%20B%26W%20-%20Dark%20Mode.JPG","sizes":"192x192 512x512","type":"image/jpeg","purpose":"any maskable"}]}'>
   
+  <meta property="og:title" content="Timilehin Taiwo Arts" />
+  <meta property="og:description" content="Visual artist specializing in storyboards, portraits, and digital illustrations." />
+  <meta property="og:image" content="Logo B&W - Dark Mode.JPG" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="Logo B&W - Dark Mode.JPG" />
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -533,7 +540,7 @@
 
     .price-img-wrapper img {
       width: 100%; height: 100%; 
-      object-fit: contain;
+      object-fit: contain; /* Ensures nothing is cut off */
       transition: transform 0.5s ease;
     }
     .price-card:hover .price-img-wrapper img { transform: scale(1.05); }
@@ -869,9 +876,9 @@
       color: var(--accent); text-transform: uppercase; text-align: center;
     }
     .comp-side img {
-      width: 100%; height: 100%; max-height: 50vh; object-fit: contain; border-radius: 2px;
+      width: 100%; height: auto; aspect-ratio: 4/5; object-fit: contain; border-radius: 2px;
       transition: transform 0.4s ease;
-      display: block;
+      display: block; background: rgba(0,0,0,0.2);
     }
     .comp-side img:hover { transform: scale(1.02); }
     .comp-caption {
@@ -910,7 +917,7 @@
     }
     .video-container video {
       width: 100%;
-      height: 100%;
+      height: auto;
       max-height: 85vh;
       object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
@@ -1697,70 +1704,53 @@
     </div>
 
     <div class="gallery-filter reveal">
-      <button class="filter-btn active" data-filter="illustration">Illustration</button>
-      <button class="filter-btn" data-filter="portrait">Portrait</button>
+      <button class="filter-btn active" data-filter="portrait">Portrait</button>
       <button class="filter-btn" data-filter="cover">Cover Art</button>
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
     <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
-        
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
-          <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
-        </div>
 
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -1782,11 +1772,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" />
+              <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 1.jpg.JPG" alt="Final Artwork 1" loading="lazy" />
+              <img src="Final 1.jpg.JPG" alt="Final Artwork 1" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Transforming a raw vision into a refined digital piece.</div>
@@ -1796,11 +1786,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" />
+              <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 2.jpg.JPG" alt="Final Artwork 2" loading="lazy" />
+              <img src="Final 2.jpg.JPG" alt="Final Artwork 2" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Enhancing lighting and establishing a strong background balance.</div>
@@ -1810,11 +1800,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" />
+              <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" />
+              <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Exploring abstract elements in portrait painting.</div>
@@ -1824,11 +1814,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" />
+              <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" />
+              <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Headline with Style.</div>
@@ -1838,11 +1828,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" />
+              <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" />
+              <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Blending Colour Tones with Background Textures.</div>
@@ -1852,11 +1842,11 @@
           <div class="comp-images">
             <div class="comp-side">
               <div class="comp-label">Reference</div>
-              <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" />
+              <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
             <div class="comp-side">
               <div class="comp-label">Final Work</div>
-              <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" />
+              <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" decoding="async" fetchpriority="low" />
             </div>
           </div>
           <div class="comp-caption">Simplicity weilds  power.</div>
@@ -2574,7 +2564,6 @@ Timilehin Taiwo Arts | +2348145782167 | `;
       const splitTerms = doc.splitTextToSize(terms, 170);
       doc.text(splitTerms, 20, y);
       
-      // Calculate Y position after terms to place the link
       y += (splitTerms.length * 4.2); 
       doc.textWithLink('IG: timilehin.taiwo', 20, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
       
@@ -2719,6 +2708,17 @@ Timilehin Taiwo Arts | +2348145782167 | `;
         document.getElementById('formMsg').textContent = 'Redirected to WhatsApp!';
       }, 1000);
     }
+
+    // ── SMOOTH NAV LINKS ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { 
+          e.preventDefault(); 
+          lenis.scrollTo(target, { offset: 0 }); 
+        }
+      });
+    });
 
     // ── DYNAMIC SECTION NAVIGATION ARROWS ──
     const navArrowUp = document.getElementById('navArrowUp');
