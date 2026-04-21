@@ -66,7 +66,7 @@
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23c8b89a" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), auto;
     }
     
-    a, button, select, input, textarea, .price-img-wrapper, .gallery-item {
+    a, button, select, input, textarea, .price-img-wrapper, .gallery-item, .comp-side img {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
     }
 
@@ -150,9 +150,9 @@
     }
     .nav-logo-text span { display: block; font-size: 10px; letter-spacing: 0.4em; color: var(--light-grey); font-weight: 300;}
 
-    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a {
-      font-family: 'DM Mono', monospace; font-size: 12px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
       letter-spacing: 0.2em; color: var(--light-grey); text-decoration: none;
       text-transform: uppercase;
       transition: color 0.3s ease;
@@ -304,9 +304,11 @@
     section { padding: 140px 0; transition: background-color 0.4s ease; }
     #about { background: var(--near-black); }
     #services { background: var(--black); }
+    #gallery { background: var(--near-black); position: relative; }
+    #reference-comparison { background: var(--black); position: relative; }
     #video-process { background: var(--near-black); }
     #process { background: var(--black); }
-    #contact { background: var(--black); }
+    #contact { background: var(--near-black); }
 
     .section-header {
       display: flex; align-items: baseline; gap: 24px;
@@ -692,11 +694,6 @@
     .lightbox-close:hover { color: var(--accent); }
 
     /* ── GALLERY (NATIVE HORIZONTAL SCROLL) ── */
-    #gallery {
-      background: var(--near-black);
-      position: relative;
-    }
-    
     .gallery-filter {
       display: flex; gap: 8px;
       padding: 0 48px; margin-bottom: 40px;
@@ -713,7 +710,7 @@
       background: var(--accent); color: var(--black); border-color: var(--accent);
     }
     
-    .gallery-slideshow-wrapper {
+    .horizontal-scroll-wrapper {
       width: 100%; 
       overflow-x: auto; 
       scroll-snap-type: x mandatory;
@@ -723,8 +720,8 @@
       cursor: grab;
     }
     /* Hide scrollbar for seamless trackpad scrolling */
-    .gallery-slideshow-wrapper::-webkit-scrollbar { display: none; }
-    .gallery-slideshow-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
+    .horizontal-scroll-wrapper::-webkit-scrollbar { display: none; }
+    .horizontal-scroll-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
 
     .gallery-slideshow {
       display: flex; gap: 24px;
@@ -762,7 +759,6 @@
     }
     .gallery-item:hover img { transform: scale(1.04); }
 
-    /* Custom perfectly placed caption at the base */
     .gallery-item-caption {
       position: absolute;
       bottom: 24px;
@@ -778,11 +774,39 @@
       z-index: 2;
     }
 
-    /* ── VIDEO PROCESS SECTION ── */
-    #video-process {
-      background: var(--near-black);
-      position: relative;
+    /* ── REFERENCE VS CANVAS ── */
+    .comparison-slideshow {
+      display: flex; gap: 40px; padding: 0 48px; width: max-content; flex-wrap: nowrap;
     }
+    .comparison-item {
+      width: 60vw; max-width: 900px; min-width: 320px;
+      flex-shrink: 0; scroll-snap-align: center;
+      background: var(--dark); border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px; padding: 24px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .comp-images {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1;
+    }
+    .comp-side {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .comp-label {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em;
+      color: var(--accent); text-transform: uppercase; text-align: center;
+    }
+    .comp-side img {
+      width: 100%; height: 100%; max-height: 50vh; object-fit: cover; border-radius: 2px;
+      transition: transform 0.4s ease;
+    }
+    .comp-side img:hover { transform: scale(1.02); }
+    .comp-caption {
+      font-size: 12px; line-height: 1.6; color: var(--light-grey);
+      text-align: center; border-top: 1px solid rgba(150,150,150,0.1);
+      padding-top: 16px; font-style: italic;
+    }
+
+    /* ── VIDEO PROCESS SECTION ── */
     .video-container {
       position: relative;
       max-width: 1200px;
@@ -1056,6 +1080,9 @@
 
       #cartToggleBtn { bottom: 20px; right: 20px; padding: 12px 20px; }
       .cart-content { padding: 32px 24px; }
+      
+      .comparison-item { width: 85vw; padding: 16px; }
+      .comp-images { gap: 12px; }
     }
 
     @media (max-width: 500px) {
@@ -1063,6 +1090,7 @@
       .about-stats { grid-template-columns: 1fr 1fr; }
       .gallery-item { width: 85vw; height: 85vw; }
       .hero-scroll { left: 24px; }
+      .comp-side img { aspect-ratio: 4/5; }
     }
   </style>
 </head>
@@ -1103,6 +1131,7 @@
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#gallery">Gallery</a>
+    <a href="#reference-comparison">Ref vs Canvas</a>
     <a href="#video-process">My Process</a>
     <a href="#process">Guide</a>
     <a href="#contact">Commission</a>
@@ -1121,6 +1150,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#reference-comparison">Ref vs Canvas</a></li>
       <li><a href="#video-process">My Process</a></li>
       <li><a href="#process">Guide</a></li>
     </ul>
@@ -1555,7 +1585,7 @@
       <button class="filter-btn" data-filter="design">Graphics Design</button>
     </div>
 
-    <div class="gallery-slideshow-wrapper" id="galleryWrapper" data-lenis-prevent>
+    <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
         
         <div class="gallery-item" data-category="illustration" style="display:flex;">
@@ -1620,9 +1650,107 @@
     </div>
   </section>
 
-  <section id="video-process">
+  <section id="reference-comparison">
     <div class="section-header reveal">
       <span class="section-num">04</span>
+      <h2 class="section-title">Reference &amp; Reality</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="horizontal-scroll-wrapper" id="comparisonWrapper" data-lenis-prevent>
+      <div class="comparison-slideshow">
+        
+        <div class="comparison-item reveal">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 1" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 1" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">Transforming a raw vision into a refined digital piece.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-1">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 2" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 2" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">Enhancing lighting and establishing a strong visual narrative.</div>
+        </div>
+
+        <div class="comparison-item reveal reveal-delay-2">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 3" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 3" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">From rough sketch and photo reference to polished album cover.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 4" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 4" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">Detailed character development and pose alignment.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 5" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 5" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">Stylizing a real-world portrait into digital art.</div>
+        </div>
+
+        <div class="comparison-item">
+          <div class="comp-images">
+            <div class="comp-side">
+              <div class="comp-label">Reference</div>
+              <img src="Placeholder-Ref.jpg" alt="Reference Image 6" loading="lazy" />
+            </div>
+            <div class="comp-side">
+              <div class="comp-label">Final Canvas</div>
+              <img src="Placeholder-Final.jpg" alt="Final Artwork 6" loading="lazy" />
+            </div>
+          </div>
+          <div class="comp-caption">Building atmosphere and environment from disparate references.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="video-process">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
       <h2 class="section-title">My Process</h2>
       <div class="section-line"></div>
     </div>
@@ -1639,7 +1767,7 @@
 
   <section id="process">
     <div class="section-header reveal">
-      <span class="section-num">05</span>
+      <span class="section-num">06</span>
       <h2 class="section-title">Guide</h2>
       <div class="section-line"></div>
     </div>
@@ -1669,7 +1797,7 @@
 
   <section id="contact">
     <div class="section-header reveal">
-      <span class="section-num">06</span>
+      <span class="section-num">07</span>
       <h2 class="section-title">General Enquiries</h2>
       <div class="section-line"></div>
     </div>
@@ -1760,7 +1888,6 @@
 
   <script>
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
-    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -1777,7 +1904,6 @@
       }
     });
 
-    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -1960,10 +2086,8 @@
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         
-        // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
         
-        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
         const tabsContainer = document.getElementById('pricingTabs');
         const tabsRect = tabsContainer.getBoundingClientRect();
         if (tabsRect.top <= 76) {
@@ -2045,17 +2169,37 @@
       });
     }
 
-    // ── NATIVE GALLERY SCROLL WITH TABS & AUTO-PAN ──
+    // ── NATIVE HORIZONTAL SCROLL (GALLERY & REFERENCE) ──
+    const horizontalWrappers = document.querySelectorAll('.horizontal-scroll-wrapper');
+    
+    horizontalWrappers.forEach(wrapper => {
+      // Desktop Wheel Event to translate vertical wheel into horizontal scroll seamlessly
+      wrapper.addEventListener('wheel', (e) => {
+        if (window.innerWidth < 1025) return;
+        
+        // Permit native horizontal trackpad scrolling directly
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
+
+        const isAtStart = wrapper.scrollLeft <= 0;
+        const isAtEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1;
+
+        // Only hijack the vertical scroll if there's room to scroll horizontally
+        if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
+          e.preventDefault();
+          wrapper.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+    });
+
+    // ── GALLERY TAB CLICKING & OBSERVER ──
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
-    // Tab clicking logic to smooth scroll to categories
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
         const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
         
-        // Deep linking update
         updateUrlParam('gallery', filter);
         
         if (targetItem) {
@@ -2065,11 +2209,10 @@
       });
     });
 
-    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
-      threshold: 0.6 // Trigger when 60% of image is in view
+      threshold: 0.6 
     };
 
     const galleryObserver = new IntersectionObserver((entries) => {
@@ -2084,22 +2227,6 @@
     }, galleryObserverOptions);
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
-
-    // 2-Second Auto-Pan logic
-    let galleryAutoPan = setInterval(() => {
-      // Pause auto-pan if user is hovering over or interacting with the gallery
-      if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
-      
-      const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
-      
-      if (isAtEnd) {
-        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        const firstItem = document.querySelector('.gallery-item');
-        const itemWidth = firstItem.offsetWidth + 24; // 24px is the flex gap
-        galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
-      }
-    }, 2000);
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
@@ -2283,7 +2410,7 @@
     const lightboxImg = document.getElementById('lightboxImg');
     let activeImageRect = null;
     
-    document.querySelectorAll('.price-img-wrapper img, .gallery-item img').forEach(img => {
+    document.querySelectorAll('.price-img-wrapper img, .gallery-item img, .comp-side img').forEach(img => {
       img.addEventListener('click', (e) => {
         activeImageRect = img.getBoundingClientRect();
         
