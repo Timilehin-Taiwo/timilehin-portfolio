@@ -736,6 +736,22 @@
     }
     .chatbot-option:hover { background: var(--accent); color: var(--black); }
 
+    /* ── ADMIN / OWNER DASHBOARD PANE ── */
+    .admin-panel {
+      position: fixed; inset: 0; background: rgba(8,8,8,0.98);
+      z-index: 100000; display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+      color: var(--white); padding: 40px;
+    }
+    .admin-panel.open { opacity: 1; pointer-events: auto; }
+    .admin-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Cormorant Garamond', serif; font-size: 32px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 20px; margin-bottom: 20px; }
+    .admin-close { background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; transition: color 0.3s ease;}
+    .admin-close:hover { color: var(--accent); }
+    .admin-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
+    .admin-body::-webkit-scrollbar { display: none; }
+    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; }
+    .invoice-card h4 { color: var(--accent); margin-bottom: 16px; font-size: 18px; font-family: 'Cormorant Garamond', serif; }
+
     /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
     .lightbox {
       position: fixed; inset: 0; background: transparent;
@@ -1193,6 +1209,7 @@
       .about-stats { grid-template-columns: 1fr 1fr; }
       .gallery-item { width: 85vw; height: 85vw; }
       .hero-scroll { left: 24px; }
+      .comp-side img { aspect-ratio: 4/5; }
     }
   </style>
 </head>
@@ -1554,7 +1571,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">1 Character Song Cover Art</div>
             <div class="price-card-desc">Single-character album or song cover illustration</div>
@@ -1565,7 +1582,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">Multi-Character Song Cover Art</div>
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
@@ -1689,6 +1706,15 @@
     </div>
   </div>
 
+  <div id="adminPanel" class="admin-panel">
+    <div class="admin-header">
+      <span>Owner Dashboard - Invoices</span>
+      <button class="admin-close" id="adminClose">✕</button>
+    </div>
+    <div class="admin-body" id="adminBody">
+      </div>
+  </div>
+
   <div id="lightbox" class="lightbox">
     <button class="lightbox-close" id="lightboxClose">✕</button>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev">←</button>
@@ -1712,45 +1738,45 @@
     <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
 
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:none;">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:none;">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -2001,6 +2027,7 @@
       <a href="#services">Pricing</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
+      <a href="#" id="adminToggle" style="color: var(--accent);">Dashboard</a>
     </div>
   </footer>
 
@@ -2443,8 +2470,57 @@
       });
     });
 
+    // ── ADMIN PANE LOGIC ──
+    const adminPanel = document.getElementById('adminPanel');
+    const adminClose = document.getElementById('adminClose');
+    const adminToggle = document.getElementById('adminToggle');
+    const adminBody = document.getElementById('adminBody');
+
+    adminToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      adminPanel.classList.add('open');
+      renderAdminInvoices();
+    });
+
+    adminClose.addEventListener('click', () => {
+      adminPanel.classList.remove('open');
+    });
+
+    function renderAdminInvoices() {
+      let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
+      adminBody.innerHTML = '';
+      
+      if(invoices.length === 0) {
+        adminBody.innerHTML = '<p style="text-align:center; margin-top:40px;">No invoices generated yet.</p>';
+        return;
+      }
+      
+      invoices.slice().reverse().forEach(inv => {
+        let itemsHtml = inv.items.map(item => `<div>- ${item.name}: ₦${item.price.toLocaleString()}</div>`).join('');
+        let card = document.createElement('div');
+        card.className = 'invoice-card';
+        card.innerHTML = `
+          <h4>Invoice #${inv.id}</h4>
+          <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
+            <div><strong>Client:</strong> ${inv.client}</div>
+            <div><strong>Date:</strong> ${inv.date}</div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <div><strong>Email:</strong> ${inv.email}</div>
+            <div><strong>WhatsApp:</strong> ${inv.phone}</div>
+          </div>
+          <div style="margin-bottom: 12px; color: var(--light-grey);">
+            <strong>Items:</strong><br>
+            ${itemsHtml}
+          </div>
+          <div style="color: var(--accent); font-size: 14px;"><strong>Total:</strong> ₦${inv.total.toLocaleString()}</div>
+        `;
+        adminBody.appendChild(card);
+      });
+    }
+
     // ── PDF INVOICE GENERATOR ──
-    async function generateAndDownloadInvoice(data, cartItems, totalNGN) {
+    async function generateAndDownloadInvoice(data, cartItems, totalNGN, invNum, dateStr) {
       if (!window.jspdf) return;
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -2492,12 +2568,6 @@
       });
 
       y = doc.lastAutoTable.finalY + 20;
-
-      const dateObj = new Date();
-      const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-      
-      let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
-      localStorage.setItem('tta_inv_num', invNum + 1);
 
       doc.setFontSize(12);
       doc.text("Thanks for doing business with us!", 20, y);
@@ -2644,27 +2714,47 @@ Timilehin Taiwo Arts | +2348145782167 | `;
       
       let totalAmount = 0;
       cart.forEach(item => { totalAmount += item.price; });
+      
+      let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
+      const dateObj = new Date();
+      const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+      // Save to Admin Panel
+      const invoiceRecord = {
+        id: invNum,
+        date: dateStr,
+        client: data.name,
+        email: data.email,
+        phone: data.whatsapp,
+        total: totalAmount,
+        items: cart
+      };
+      let invoices = JSON.parse(localStorage.getItem('tta_saved_invoices') || '[]');
+      invoices.push(invoiceRecord);
+      localStorage.setItem('tta_saved_invoices', JSON.stringify(invoices));
 
       // Generate and download the PDF
       if (window.jspdf) {
-          generateAndDownloadInvoice(data, cart, totalAmount);
+          generateAndDownloadInvoice(data, cart, totalAmount, invNum, dateStr);
       }
 
-      let emailText = "NEW COMMISSION REQUEST\n\n";
-      emailText += `Name: ${data.name}\n`;
-      emailText += `Email: ${data.email}\n`;
-      emailText += `WhatsApp: ${data.whatsapp}\n\n`;
+      let whatsappText = "*NEW COMMISSION REQUEST*\n\n";
+      whatsappText += `*Name:* ${data.name}\n`;
+      whatsappText += `*Email:* ${data.email}\n`;
+      whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
-      emailText += "COLLECTION SUMMARY:\n";
-      cart.forEach(item => { emailText += `- ${item.name}: NGN ${item.price.toLocaleString()}\n`; });
-      emailText += `\nTOTAL AMOUNT: NGN ${totalAmount.toLocaleString()}\n`;
+      whatsappText += "*COLLECTION SUMMARY:*\n";
+      cart.forEach(item => { whatsappText += `- ${item.name}: NGN ${item.price.toLocaleString()}\n`; });
+      whatsappText += `\n*TOTAL AMOUNT:* NGN ${totalAmount.toLocaleString()}\n`;
       
       if (data.brief) {
-        emailText += `\nCommission Notes:\n${data.brief}`;
+        whatsappText += `\n*Commission Notes:*\n${data.brief}`;
       }
+      
+      whatsappText += `\n\n_Note: I have downloaded the generated PDF invoice and will attach it to this chat._`;
 
-      const mailtoLink = `mailto:olasunkanmitimilehintaiwo@gmail.com?subject=New Commission Request - ${encodeURIComponent(data.name)}&body=${encodeURIComponent(emailText)}`;
-      window.open(mailtoLink, '_blank');
+      const whatsappUrl = `https://wa.me/2349033547114?text=${encodeURIComponent(whatsappText)}`;
+      window.open(whatsappUrl, '_blank');
 
       setTimeout(() => {
         btn.innerHTML = originalBtnContent;
