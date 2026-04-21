@@ -742,15 +742,31 @@
       z-index: 100000; display: flex; flex-direction: column;
       opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
       color: var(--white); padding: 40px;
+      overflow-y: auto;
     }
+    body.light-mode .admin-panel { background: rgba(245,242,238,0.98); color: var(--black); }
     .admin-panel.open { opacity: 1; pointer-events: auto; }
     .admin-header { display: flex; justify-content: space-between; align-items: center; font-family: 'Cormorant Garamond', serif; font-size: 32px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 20px; margin-bottom: 20px; }
     .admin-close { background: none; border: none; color: var(--white); font-size: 32px; cursor: pointer; transition: color 0.3s ease;}
+    body.light-mode .admin-close { color: var(--black); }
     .admin-close:hover { color: var(--accent); }
     .admin-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; width: 100%; }
     .admin-body::-webkit-scrollbar { display: none; }
-    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; }
+    
+    .admin-auth-container { max-width: 400px; margin: 60px auto; text-align: center; width: 100%; }
+    .admin-auth-container h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; margin-bottom: 24px; color: var(--white); }
+    body.light-mode .admin-auth-container h2 { color: var(--black); }
+    .admin-auth-container input { width: 100%; padding: 16px; margin-bottom: 16px; background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); font-family: 'DM Mono', monospace; font-size: 12px; border-radius: 4px; }
+    body.light-mode .admin-auth-container input { color: var(--black); }
+    .admin-auth-container button { width: 100%; padding: 16px; background: var(--accent); color: var(--black); border: none; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; margin-bottom: 16px; }
+    .admin-auth-container button:hover { opacity: 0.9; }
+    .admin-auth-container a { color: var(--accent); font-size: 11px; text-decoration: none; letter-spacing: 0.1em; }
+
+    .invoice-card { background: var(--near-black); border: 1px solid rgba(150,150,150,0.2); padding: 24px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px; position: relative;}
+    body.light-mode .invoice-card { background: var(--white); }
     .invoice-card h4 { color: var(--accent); margin-bottom: 16px; font-size: 18px; font-family: 'Cormorant Garamond', serif; }
+    .btn-download-inv { position: absolute; top: 24px; right: 24px; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; font-size: 10px; cursor: pointer; border-radius: 4px; transition: all 0.3s ease; text-transform: uppercase; }
+    .btn-download-inv:hover { background: var(--accent); color: var(--black); }
 
     /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
     .lightbox {
@@ -1387,7 +1403,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦120,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames Coloured Storyboard" data-price="120000" data-unit="12000" data-qty="10">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1398,7 +1414,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦240,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames Coloured Storyboard" data-price="240000" data-unit="12000" data-qty="20">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1409,7 +1425,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦360,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames Coloured Storyboard" data-price="360000" data-unit="12000" data-qty="30">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1424,7 +1440,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦65,000</div>
-            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="10 Frames B&W Storyboard" data-price="65000" data-unit="6500" data-qty="10">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1435,7 +1451,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦130,000</div>
-            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="20 Frames B&W Storyboard" data-price="130000" data-unit="6500" data-qty="20">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1446,7 +1462,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦195,000</div>
-            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="30 Frames B&W Storyboard" data-price="195000" data-unit="6500" data-qty="30">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1457,7 +1473,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦260,000</div>
-            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="40 Frames B&W Storyboard" data-price="260000" data-unit="6500" data-qty="40">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1468,7 +1484,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦325,000</div>
-            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="50 Frames B&W Storyboard" data-price="325000" data-unit="6500" data-qty="50">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1476,6 +1492,13 @@
       <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Storyboard Calculator</div>
       <div class="calculator-box">
         <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label style="margin-bottom: 12px;">Format Style</label>
+            <select id="calcSbType" style="padding: 14px 0; border-bottom: 1px solid rgba(150,150,150,0.3); font-size: 14px;">
+              <option value="6500">Black & White (₦6,500/unit)</option>
+              <option value="12000">Coloured (₦12,000/unit)</option>
+            </select>
+          </div>
           <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
             <label style="margin-bottom: 12px;">Number of Frames</label>
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -1509,7 +1532,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦60,000</div>
-            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-price="60000" data-unit="60000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1520,7 +1543,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦75,000</div>
-            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-price="75000" data-unit="75000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1531,7 +1554,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦150,000</div>
-            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-price="150000" data-unit="150000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1546,8 +1569,27 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦90,000</div>
-            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Couple Portrait" data-price="90000" data-unit="90000" data-qty="1">+ Add to Collection</button>
           </div>
+        </div>
+      </div>
+
+      <div class="pricing-sub-heading" style="margin-top: 64px;">Custom Family Portrait Calculator</div>
+      <div class="calculator-box">
+        <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="form-field" style="margin-bottom: 0; flex: 1; min-width: 150px;">
+            <label style="margin-bottom: 12px;">Number of Persons (Min 2)</label>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" id="portCalcMinus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">-</button>
+              <input type="number" id="portCalcPersons" min="2" value="2" style="font-size: 20px; padding: 8px 0; color: var(--accent); text-align: center; width: 70px; flex: none; border-bottom-color: transparent;" />
+              <button type="button" id="portCalcPlus" style="background: transparent; border: 1px solid rgba(150,150,150,0.3); color: var(--off-white); width: 36px; height: 36px; font-size: 20px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s ease;">+</button>
+            </div>
+          </div>
+          <div style="flex: 1; min-width: 150px;">
+            <div style="font-size: 10px; letter-spacing: 0.2em; color: var(--grey); text-transform: uppercase; margin-bottom: 8px;">Total Cost</div>
+            <div class="price-amount" id="portCalcTotal">₦90,000</div>
+          </div>
+          <button type="button" class="add-to-cart-btn" id="portCalcAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Custom to Collection</button>
         </div>
       </div>
     </div>
@@ -1567,7 +1609,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000" data-unit="50000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1578,7 +1620,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000" data-unit="50000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1589,7 +1631,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦100,000</div>
-            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000" data-unit="100000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1611,7 +1653,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦30,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000" data-unit="30000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1622,7 +1664,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Logo Design" data-price="40000" data-unit="40000" data-qty="1">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1663,7 +1705,8 @@
         </div>
         <div class="form-field">
           <label>Email Address</label>
-          <input type="email" name="email" placeholder="your@email.com" required />
+          <datalist id="email-suggestions"></datalist>
+          <input type="email" name="email" list="email-suggestions" oninput="suggestEmails(this)" autocomplete="email" placeholder="your@email.com" required />
         </div>
         <div class="form-field">
           <label>WhatsApp Number</label>
@@ -1708,10 +1751,31 @@
 
   <div id="adminPanel" class="admin-panel">
     <div class="admin-header">
-      <span>Owner Dashboard - Invoices</span>
+      <span>Dashboard</span>
       <button class="admin-close" id="adminClose">✕</button>
     </div>
-    <div class="admin-body" id="adminBody">
+    
+    <div id="adminAuth" class="admin-auth-container">
+      <form id="loginForm">
+        <h2>Secure Login</h2>
+        <input type="text" autocomplete="username" value="olasunkanmitimilehintaiwo@gmail.com" readonly style="display:none;">
+        <input type="password" id="adminPwd" autocomplete="current-password" placeholder="Dashboard Password" required>
+        <button type="submit">Login</button>
+        <a href="#" id="forgotPwdBtn">Forgot Password?</a>
+      </form>
+      <form id="resetForm" style="display:none;">
+        <h2>Password Recovery</h2>
+        <p style="font-size:11px; margin-bottom:16px; color:var(--grey); text-transform:uppercase; letter-spacing:0.1em;">Account: olasunkanmitimilehintaiwo@gmail.com</p>
+        <label style="display:block; text-align:left; font-size:12px; margin-bottom:8px; color:var(--light-grey);">Security Question: What is your mothers maiden name?</label>
+        <input type="text" id="secAnswer" placeholder="Your Answer" required>
+        <input type="text" autocomplete="username" value="olasunkanmitimilehintaiwo@gmail.com" readonly style="display:none;">
+        <input type="password" id="newPwd" autocomplete="new-password" placeholder="New Password" required>
+        <button type="submit">Reset & Login</button>
+        <a href="#" id="backToLoginBtn">Back to Login</a>
+      </form>
+    </div>
+
+    <div class="admin-body" id="adminBody" style="display:none;">
       </div>
   </div>
 
@@ -2032,6 +2096,20 @@
   </footer>
 
   <script>
+    // ── EMAIL AUTOCOMPLETE DATA-LIST SYSTEM ──
+    function suggestEmails(input) {
+      const val = input.value;
+      const dl = document.getElementById('email-suggestions');
+      dl.innerHTML = '';
+      if (val && !val.includes('@')) {
+        ['@gmail.com', '@yahoo.com', '@outlook.com'].forEach(domain => {
+          const opt = document.createElement('option');
+          opt.value = val + domain;
+          dl.appendChild(opt);
+        });
+      }
+    }
+
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -2245,35 +2323,82 @@
 
     // ── STORYBOARD CALCULATOR ──
     const calcFrames = document.getElementById('calcFrames');
+    const calcSbType = document.getElementById('calcSbType');
     const calcTotal = document.getElementById('calcTotal');
     const calcAddToCart = document.getElementById('calcAddToCart');
     const calcMinus = document.getElementById('calcMinus');
     const calcPlus = document.getElementById('calcPlus');
-    const RATE_PER_FRAME = 6500;
 
-    function updateCalculator() {
+    function updateSbCalculator() {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
+      const rate = parseInt(calcSbType.value);
       calcFrames.value = frames;
-      const total = frames * RATE_PER_FRAME;
+      const total = frames * rate;
       calcTotal.textContent = '₦' + total.toLocaleString();
     }
 
-    calcFrames.addEventListener('input', updateCalculator);
+    calcFrames.addEventListener('input', updateSbCalculator);
+    calcSbType.addEventListener('change', updateSbCalculator);
     calcMinus.addEventListener('click', () => {
         calcFrames.value = Math.max(1, parseInt(calcFrames.value) - 1);
-        updateCalculator();
+        updateSbCalculator();
     });
     calcPlus.addEventListener('click', () => {
         calcFrames.value = parseInt(calcFrames.value) + 1;
-        updateCalculator();
+        updateSbCalculator();
     });
 
     calcAddToCart.addEventListener('click', (e) => {
       const frames = Math.max(1, parseInt(calcFrames.value) || 1);
-      const total = frames * RATE_PER_FRAME;
-      const name = `${frames} Frames Custom Storyboard`;
+      const rate = parseInt(calcSbType.value);
+      const total = frames * rate;
+      const typeName = rate === 12000 ? 'Coloured' : 'B&W';
+      const name = `${frames} Frames Custom ${typeName} Storyboard`;
       
-      cart.push({ name, price: total });
+      cart.push({ name, price: total, qty: frames, unitPrice: rate });
+      updateCartUI();
+      
+      const originalText = e.target.textContent;
+      e.target.textContent = "Added!";
+      e.target.style.background = "var(--white)";
+      e.target.style.color = "var(--black)";
+      setTimeout(() => { 
+        e.target.textContent = originalText; 
+        e.target.style.background = "transparent"; 
+        e.target.style.color = "var(--accent)";
+      }, 1000);
+    });
+
+    // ── PORTRAIT CALCULATOR ──
+    const portCalcPersons = document.getElementById('portCalcPersons');
+    const portCalcTotal = document.getElementById('portCalcTotal');
+    const portCalcAddToCart = document.getElementById('portCalcAddToCart');
+    const portCalcMinus = document.getElementById('portCalcMinus');
+    const portCalcPlus = document.getElementById('portCalcPlus');
+
+    function updatePortCalculator() {
+      const persons = Math.max(2, parseInt(portCalcPersons.value) || 2);
+      portCalcPersons.value = persons;
+      const total = 90000 + ((persons - 2) * 20000);
+      portCalcTotal.textContent = '₦' + total.toLocaleString();
+    }
+
+    portCalcPersons.addEventListener('input', updatePortCalculator);
+    portCalcMinus.addEventListener('click', () => {
+        portCalcPersons.value = Math.max(2, parseInt(portCalcPersons.value) - 1);
+        updatePortCalculator();
+    });
+    portCalcPlus.addEventListener('click', () => {
+        portCalcPersons.value = parseInt(portCalcPersons.value) + 1;
+        updatePortCalculator();
+    });
+
+    portCalcAddToCart.addEventListener('click', (e) => {
+      const persons = Math.max(2, parseInt(portCalcPersons.value) || 2);
+      const total = 90000 + ((persons - 2) * 20000);
+      const name = `Custom Family Portrait - ${persons} Persons`;
+      
+      cart.push({ name, price: total, qty: 1, unitPrice: total });
       updateCartUI();
       
       const originalText = e.target.textContent;
@@ -2343,14 +2468,17 @@
         btn.classList.add('active');
 
         const filter = btn.dataset.filter;
-        const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
+        
+        document.querySelectorAll('.gallery-item').forEach(item => {
+           if(item.dataset.category === filter) {
+               item.style.display = 'flex';
+           } else {
+               item.style.display = 'none';
+           }
+        });
         
         updateUrlParam('gallery', filter);
-        
-        if (targetItem) {
-          const paddingLeft = parseInt(window.getComputedStyle(galleryWrapper).paddingLeft) || 0;
-          galleryWrapper.scrollTo({ left: targetItem.offsetLeft - paddingLeft, behavior: 'smooth' });
-        }
+        galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       });
     });
 
@@ -2381,9 +2509,11 @@
       if (isAtEnd) {
         galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
-        const firstItem = document.querySelector('.gallery-item');
-        const itemWidth = firstItem.offsetWidth + 24; 
-        galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        const firstItem = document.querySelector('.gallery-item[style*="display: flex"]');
+        if(firstItem) {
+           const itemWidth = firstItem.offsetWidth + 24; 
+           galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
+        }
       }
     }, 2000);
 
@@ -2470,20 +2600,73 @@
       });
     });
 
-    // ── ADMIN PANE LOGIC ──
+    // ── ADMIN PANE AUTH & LOGIC ──
     const adminPanel = document.getElementById('adminPanel');
     const adminClose = document.getElementById('adminClose');
     const adminToggle = document.getElementById('adminToggle');
     const adminBody = document.getElementById('adminBody');
+    const adminAuth = document.getElementById('adminAuth');
+    
+    const loginForm = document.getElementById('loginForm');
+    const resetForm = document.getElementById('resetForm');
+    const forgotPwdBtn = document.getElementById('forgotPwdBtn');
+    const backToLoginBtn = document.getElementById('backToLoginBtn');
+
+    if(!localStorage.getItem('tta_admin_pwd')) {
+        localStorage.setItem('tta_admin_pwd', 'admin'); // Default password if never set
+    }
 
     adminToggle.addEventListener('click', (e) => {
       e.preventDefault();
       adminPanel.classList.add('open');
-      renderAdminInvoices();
+      adminAuth.style.display = 'block';
+      adminBody.style.display = 'none';
+      loginForm.style.display = 'block';
+      resetForm.style.display = 'none';
+      document.getElementById('adminPwd').value = '';
     });
 
     adminClose.addEventListener('click', () => {
       adminPanel.classList.remove('open');
+    });
+
+    forgotPwdBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        resetForm.style.display = 'block';
+    });
+
+    backToLoginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        resetForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const pwd = document.getElementById('adminPwd').value;
+        if(pwd === localStorage.getItem('tta_admin_pwd')) {
+            adminAuth.style.display = 'none';
+            adminBody.style.display = 'flex';
+            renderAdminInvoices();
+        } else {
+            alert('Incorrect Password');
+        }
+    });
+
+    resetForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const ans = document.getElementById('secAnswer').value.trim().toLowerCase();
+        const newPwd = document.getElementById('newPwd').value;
+        if(ans === 'oladele') {
+            localStorage.setItem('tta_admin_pwd', newPwd);
+            alert('Password successfully reset.');
+            resetForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            document.getElementById('adminPwd').value = newPwd;
+        } else {
+            alert('Incorrect Security Answer.');
+        }
     });
 
     function renderAdminInvoices() {
@@ -2495,12 +2678,13 @@
         return;
       }
       
-      invoices.slice().reverse().forEach(inv => {
-        let itemsHtml = inv.items.map(item => `<div>- ${item.name}: ₦${item.price.toLocaleString()}</div>`).join('');
+      invoices.slice().reverse().forEach((inv, index) => {
+        let itemsHtml = inv.items.map(item => `<div>- ${item.name} (Qty: ${item.qty}): ₦${item.price.toLocaleString()}</div>`).join('');
         let card = document.createElement('div');
         card.className = 'invoice-card';
         card.innerHTML = `
           <h4>Invoice #${inv.id}</h4>
+          <button class="btn-download-inv" data-idx="${invoices.length - 1 - index}">Download PDF</button>
           <div style="display:flex; justify-content:space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(150,150,150,0.2); padding-bottom: 12px;">
             <div><strong>Client:</strong> ${inv.client}</div>
             <div><strong>Date:</strong> ${inv.date}</div>
@@ -2517,6 +2701,15 @@
         `;
         adminBody.appendChild(card);
       });
+
+      document.querySelectorAll('.btn-download-inv').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+             const idx = parseInt(e.target.getAttribute('data-idx'));
+             const inv = invoices[idx];
+             const data = { name: inv.client, email: inv.email, whatsapp: inv.phone };
+             generateAndDownloadInvoice(data, inv.items, inv.total, inv.id, inv.date);
+          });
+      });
     }
 
     // ── PDF INVOICE GENERATOR ──
@@ -2532,11 +2725,15 @@
 
       doc.setFontSize(10);
       doc.setTextColor(100);
+      doc.setFont("helvetica", "bold");
       doc.text("Bill To", 20, y);
+      doc.setFont("helvetica", "normal");
       doc.text("Timilehin Taiwo Arts", 120, y);
       y += 6;
       doc.setTextColor(0);
+      doc.setFont("helvetica", "bold");
       doc.text(data.name, 20, y);
+      doc.setFont("helvetica", "normal");
       doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
       y += 6;
       doc.text(data.email, 20, y);
@@ -2547,8 +2744,8 @@
 
       const tableData = cartItems.map(item => [
         item.name,
-        "1",
-        `NGN ${item.price.toLocaleString()}`,
+        item.qty.toString(),
+        `NGN ${item.unitPrice.toLocaleString()}`,
         `NGN ${item.price.toLocaleString()}`
       ]);
 
@@ -2580,7 +2777,12 @@
       y += 15;
 
       doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
       doc.text("Bank Details", 20, y);
+      let bw = doc.getTextWidth("Bank Details");
+      doc.setLineWidth(0.5);
+      doc.line(20, y+1, 20+bw, y+1);
+      doc.setFont("helvetica", "normal");
       y += 6;
       doc.setFontSize(10);
       doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
@@ -2588,7 +2790,11 @@
       y += 20;
 
       doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
       doc.text("Wallet address", 20, y);
+      let ww = doc.getTextWidth("Wallet address");
+      doc.line(20, y+1, 20+ww, y+1);
+      doc.setFont("helvetica", "normal");
       y += 6;
       doc.setFontSize(10);
       doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
@@ -2597,48 +2803,49 @@
       y += 12;
       doc.text("Exchange rate - N1,400/1US$", 20, y);
 
+      y += 15;
+      doc.setFont("helvetica", "bold");
+      const bottomNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
+      doc.text(bottomNote, 20, y, { maxWidth: 170 });
+      doc.setFont("helvetica", "normal");
+
       doc.addPage();
       y = 20;
       doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
       doc.text("TERMS OF SERVICE", 20, y);
+      let tw = doc.getTextWidth("TERMS OF SERVICE");
+      doc.line(20, y+1, 20+tw, y+1);
       y += 10;
       doc.setFontSize(10);
 
-      const terms = `Payment
-Full payment is required before work can begin on orders placed.
-In the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside.
+      function addSection(title, body) {
+          doc.setFont("helvetica", "bold");
+          doc.text(title, 20, y);
+          y += 5;
+          doc.setFont("helvetica", "normal");
+          let lines = doc.splitTextToSize(body, 170);
+          doc.text(lines, 20, y);
+          y += (lines.length * 4.2) + 5;
+      }
 
-Refund
-The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft.
+      addSection("Payment", "Full payment is required before work can begin on orders placed.\nIn the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside.");
+      addSection("Refund", "The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft.");
+      addSection("Reconciliation", "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.");
+      addSection("Exchange", "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.");
+      addSection("Discount", "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.");
 
-Reconciliation
-In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.
-
-Exchange
-Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.
-
-Discount
-Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.
-
-DISCLAIMER
-The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.
-
-Payment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.
-
-We reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.
-
-All these enables us to serve you better. Thank you.
-
-Timilehin Taiwo Arts | +2348145782167 | `;
+      doc.setFont("helvetica", "bold");
+      doc.text("DISCLAIMER", 20, y);
+      y += 5;
+      doc.setFont("helvetica", "normal");
+      let discBody = "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.\n\nPayment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.\n\nWe reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.\n\nAll these enables us to serve you better. Thank you.";
+      let lines = doc.splitTextToSize(discBody, 170);
+      doc.text(lines, 20, y);
+      y += (lines.length * 4.2) + 5;
       
-      const splitTerms = doc.splitTextToSize(terms, 170);
-      doc.text(splitTerms, 20, y);
-      
-      y += (splitTerms.length * 4.2); 
-      doc.textWithLink('IG: timilehin.taiwo', 20, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
-      
-      y += 10;
-      doc.text("*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD", 20, y, { maxWidth: 170 });
+      doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
+      doc.textWithLink('IG: timilehin.taiwo', 85, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
 
       doc.save(`${data.name}'s Invoice.pdf`);
     }
@@ -2648,11 +2855,14 @@ Timilehin Taiwo Arts | +2348145782167 | `;
     const cartToggleBtn = document.getElementById('cartToggleBtn');
     const cartModal = document.getElementById('cartModal');
     
-    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart)').forEach(btn => {
+    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#portCalcAddToCart)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'));
-        cart.push({ name, price });
+        const unitPrice = parseInt(e.target.getAttribute('data-unit')) || price;
+        const qty = parseInt(e.target.getAttribute('data-qty')) || 1;
+
+        cart.push({ name, price, unitPrice, qty });
         updateCartUI();
         
         const originalText = e.target.textContent;
@@ -2677,7 +2887,7 @@ Timilehin Taiwo Arts | +2348145782167 | `;
         total += item.price;
         list.innerHTML += `
           <div class="cart-item">
-            <span>${item.name}</span>
+            <span>${item.name} ${item.qty > 1 ? `(x${item.qty})` : ''}</span>
             <span>₦${item.price.toLocaleString()} <button type="button" onclick="removeFromCart(${index})">✕</button></span>
           </div>`;
       });
@@ -2716,6 +2926,7 @@ Timilehin Taiwo Arts | +2348145782167 | `;
       cart.forEach(item => { totalAmount += item.price; });
       
       let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
+      localStorage.setItem('tta_inv_num', invNum + 1);
       const dateObj = new Date();
       const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -2744,7 +2955,7 @@ Timilehin Taiwo Arts | +2348145782167 | `;
       whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
       whatsappText += "*COLLECTION SUMMARY:*\n";
-      cart.forEach(item => { whatsappText += `- ${item.name}: NGN ${item.price.toLocaleString()}\n`; });
+      cart.forEach(item => { whatsappText += `- ${item.name} (Qty ${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
       whatsappText += `\n*TOTAL AMOUNT:* NGN ${totalAmount.toLocaleString()}\n`;
       
       if (data.brief) {
