@@ -690,6 +690,7 @@
       background: none; border: none; color: var(--grey);
       font-size: 32px; cursor: pointer; transition: color 0.3s ease;
       font-family: sans-serif;
+      z-index: 100001; /* Ensure close button stays above image */
     }
     .lightbox-close:hover { color: var(--accent); }
 
@@ -804,6 +805,22 @@
       font-size: 12px; line-height: 1.6; color: var(--light-grey);
       text-align: center; border-top: 1px solid rgba(150,150,150,0.1);
       padding-top: 16px; font-style: italic;
+    }
+
+    /* ── COMPARISON DOTS PROGRESS TRACKER ── */
+    .comparison-dots {
+      display: flex; justify-content: center; gap: 12px;
+      margin-top: 32px; padding-bottom: 24px;
+    }
+    .comp-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(150,150,150,0.3);
+      transition: background 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+    .comp-dot.active {
+      background: var(--accent);
+      transform: scale(1.5);
     }
 
     /* ── VIDEO PROCESS SECTION ── */
@@ -1591,61 +1608,61 @@
     <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
         
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration">
+        <div class="gallery-item" data-category="illustration" style="display:flex;">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait">
+        <div class="gallery-item" data-category="portrait" style="display:flex;">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:flex;">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:flex;">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover">
+        <div class="gallery-item" data-category="cover" style="display:flex;">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:flex;">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design">
+        <div class="gallery-item" data-category="design" style="display:flex;">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -1748,6 +1765,15 @@
         </div>
 
       </div>
+    </div>
+    
+    <div class="comparison-dots" id="compDots">
+      <div class="comp-dot active" data-index="0"></div>
+      <div class="comp-dot" data-index="1"></div>
+      <div class="comp-dot" data-index="2"></div>
+      <div class="comp-dot" data-index="3"></div>
+      <div class="comp-dot" data-index="4"></div>
+      <div class="comp-dot" data-index="5"></div>
     </div>
   </section>
 
@@ -1892,7 +1918,6 @@
 
   <script>
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
-    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -1909,7 +1934,6 @@
       }
     });
 
-    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -2258,6 +2282,39 @@
       }
     }, 2000);
 
+    // ── REFERENCE & REALITY PROGRESS DOTS ──
+    const compItems = document.querySelectorAll('.comparison-item');
+    const compDots = document.querySelectorAll('.comp-dot');
+    const compWrapper = document.getElementById('comparisonWrapper');
+
+    if (compWrapper && compItems.length > 0 && compDots.length > 0) {
+      const compObserverOptions = {
+        root: compWrapper,
+        rootMargin: '0px',
+        threshold: 0.6 
+      };
+
+      const compObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const index = Array.from(compItems).indexOf(entry.target);
+            compDots.forEach(dot => dot.classList.remove('active'));
+            if (compDots[index]) compDots[index].classList.add('active');
+          }
+        });
+      }, compObserverOptions);
+
+      compItems.forEach(item => compObserver.observe(item));
+
+      compDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          const targetItem = compItems[index];
+          const paddingLeft = parseInt(window.getComputedStyle(compWrapper).paddingLeft) || 0;
+          compWrapper.scrollTo({ left: targetItem.offsetLeft - paddingLeft, behavior: 'smooth' });
+        });
+      });
+    }
+
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
     const cartToggleBtn = document.getElementById('cartToggleBtn');
@@ -2435,13 +2492,36 @@
       lenis.scrollTo(targetSection);
     });
 
-    // ── DYNAMIC SHARED-ELEMENT LIGHTBOX (FLIP) ──
+    // ── DYNAMIC SHARED-ELEMENT LIGHTBOX (FLIP) WITH SWIPING ──
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
     let activeImageRect = null;
+    let lightboxImagesGroup = [];
+    let currentLightboxIndex = -1;
+    let touchStartX = 0;
+    let touchEndX = 0;
     
-    document.querySelectorAll('.price-img-wrapper img, .gallery-item img, .comp-side img').forEach(img => {
+    document.querySelectorAll('.price-img-wrapper img, .gallery-item img, .comp-side img').forEach((img) => {
       img.addEventListener('click', (e) => {
+        // Group images based on their current section to allow seamless swiping
+        let selector = '';
+        if (img.closest('.comp-side')) {
+          selector = '.comp-side img';
+        } else if (img.closest('.gallery-item')) {
+          selector = '.gallery-item img';
+        } else {
+          selector = '.price-img-wrapper img';
+        }
+        
+        lightboxImagesGroup = Array.from(document.querySelectorAll(selector));
+        // Only include images that are currently visible on the DOM (important for gallery tabs)
+        lightboxImagesGroup = lightboxImagesGroup.filter(i => {
+           const parentGalleryItem = i.closest('.gallery-item');
+           if(!parentGalleryItem) return true;
+           return window.getComputedStyle(parentGalleryItem).display !== 'none';
+        });
+        
+        currentLightboxIndex = lightboxImagesGroup.indexOf(img);
         activeImageRect = img.getBoundingClientRect();
         
         lightboxImg.src = img.src;
@@ -2467,9 +2547,73 @@
       });
     });
 
+    // Touch events for swiping inside the lightbox
+    lightbox.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    lightbox.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleLightboxSwipe();
+    });
+
+    function handleLightboxSwipe() {
+      if (currentLightboxIndex === -1 || lightboxImagesGroup.length <= 1) return;
+      const swipeThreshold = 50;
+      if (touchStartX - touchEndX > swipeThreshold) {
+        // Swipe left -> Next image
+        if (currentLightboxIndex < lightboxImagesGroup.length - 1) {
+          currentLightboxIndex++;
+          updateLightboxImageUI();
+        }
+      } else if (touchEndX - touchStartX > swipeThreshold) {
+        // Swipe right -> Prev image
+        if (currentLightboxIndex > 0) {
+          currentLightboxIndex--;
+          updateLightboxImageUI();
+        }
+      }
+    }
+
+    // Keyboard events for swiping inside the lightbox
+    window.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (currentLightboxIndex === -1 || lightboxImagesGroup.length <= 1) return;
+
+      if (e.key === 'ArrowRight') {
+        if (currentLightboxIndex < lightboxImagesGroup.length - 1) {
+          currentLightboxIndex++;
+          updateLightboxImageUI();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentLightboxIndex > 0) {
+          currentLightboxIndex--;
+          updateLightboxImageUI();
+        }
+      } else if (e.key === 'Escape') {
+        lightbox.click(); // simulate click to close
+      }
+    });
+
+    function updateLightboxImageUI() {
+      const newImg = lightboxImagesGroup[currentLightboxIndex];
+      if (newImg) {
+        lightboxImg.style.transition = 'opacity 0.2s ease, transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)';
+        lightboxImg.style.opacity = 0;
+        
+        setTimeout(() => {
+          lightboxImg.src = newImg.src;
+          // Update rect so if the user closes it, it gracefully animates to the *new* thumbnail
+          activeImageRect = newImg.getBoundingClientRect(); 
+          lightboxImg.style.opacity = 1;
+        }, 200);
+      }
+    }
+
+    // Closing the lightbox
     lightbox.addEventListener('click', (e) => {
       if (e.target !== lightboxImg) {
-        if(activeImageRect) {
+        if (activeImageRect) {
             const scaleX = activeImageRect.width / window.innerWidth;
             const scaleY = activeImageRect.height / window.innerHeight;
             const scale = Math.max(scaleX, scaleY); 
@@ -2477,6 +2621,7 @@
             const x = activeImageRect.left + activeImageRect.width/2 - window.innerWidth/2;
             const y = activeImageRect.top + activeImageRect.height/2 - window.innerHeight/2;
 
+            lightboxImg.style.transition = 'transform 0.6s cubic-bezier(0.77, 0, 0.175, 1)';
             lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             lightbox.classList.remove('open');
             
@@ -2487,6 +2632,7 @@
             setTimeout(() => {
                 if(!lightbox.classList.contains('open')) {
                     lightboxImg.style.transform = 'none';
+                    lightboxImg.style.opacity = '1';
                 }
             }, 500);
         } else {
