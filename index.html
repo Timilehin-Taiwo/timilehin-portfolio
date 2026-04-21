@@ -592,23 +592,25 @@
     }
     .brands-grid img:hover { opacity: 1; filter: grayscale(0%); }
 
-    /* ── SECTION NAV ARROWS ── */
-    .section-nav-arrows {
-      position: fixed; bottom: 40px; left: 40px; z-index: 9998;
-      display: flex; flex-direction: column; gap: 10px;
-      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-    }
-    .section-nav-arrows.visible { opacity: 1; pointer-events: auto; }
-    .section-nav-arrows button {
+    /* ── DYNAMIC SECTION NAV ARROWS ── */
+    .nav-arrow-dynamic {
+      position: fixed; left: 50%; z-index: 9998;
       background: var(--near-black); color: var(--accent);
       border: 1px solid rgba(150,150,150,0.2);
       width: 44px; height: 44px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; cursor: pointer; transition: all 0.3s ease;
+      font-size: 18px; cursor: pointer; 
+      transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+      opacity: 0; pointer-events: none;
     }
-    .section-nav-arrows button:hover {
+    .nav-arrow-dynamic:hover {
       background: var(--accent); color: var(--black);
     }
+    .nav-arrow-up { top: 90px; transform: translate(-50%, -20px); }
+    .nav-arrow-up.visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+    
+    .nav-arrow-down { bottom: 40px; transform: translate(-50%, 20px); }
+    .nav-arrow-down.visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 
     /* ── CONCIERGE CART UI SYSTEM ── */
     #cartToggleBtn {
@@ -669,46 +671,9 @@
       color: var(--accent); text-align: right; margin: 40px 0; font-weight: 600;
     }
 
-    /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
-    .lightbox {
-      position: fixed; inset: 0; background: transparent;
-      z-index: 100000; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-    }
-    .lightbox.open { opacity: 1; pointer-events: auto; }
-    .lightbox img {
-      max-width: 90vw; max-height: 90vh;
-      object-fit: contain; border-radius: 4px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-      transform-origin: top left; /* Crucial for FLIP math */
-      will-change: transform;
-    }
-    .lightbox-close {
-      position: absolute; top: 30px; right: 40px;
-      background: none; border: none; color: var(--grey);
-      font-size: 32px; cursor: pointer; transition: color 0.3s ease;
-      font-family: sans-serif;
-      z-index: 100001; /* Ensure close button stays above image */
-    }
-    .lightbox-close:hover { color: var(--accent); }
-    .lightbox-nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
-      color: var(--white); font-size: 24px; width: 50px; height: 50px;
-      border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;
-      transition: background 0.3s ease, transform 0.3s ease; z-index: 100001;
-      opacity: 0; pointer-events: none;
-    }
-    .lightbox.open .lightbox-nav { opacity: 1; pointer-events: auto; }
-    .lightbox-nav:hover { background: var(--accent); color: var(--black); transform: translateY(-50%) scale(1.1); }
-    .lightbox-prev { left: 40px; }
-    .lightbox-next { right: 40px; }
-
     /* ── CHATBOT ASSISTANT ── */
     .chatbot-toggle {
-      position: fixed; bottom: 40px; left: 100px; z-index: 9999;
+      position: fixed; bottom: 40px; left: 40px; z-index: 9999;
       background: var(--near-black); color: var(--accent);
       border: 1px solid rgba(150,150,150,0.2);
       width: 50px; height: 50px; border-radius: 50%;
@@ -757,6 +722,43 @@
       border-radius: 4px; transition: all 0.3s ease; text-align: left;
     }
     .chatbot-option:hover { background: var(--accent); color: var(--black); }
+
+    /* ── DYNAMIC IMAGE EXPANSION (FLIP Lightbox overlay) ── */
+    .lightbox {
+      position: fixed; inset: 0; background: transparent;
+      z-index: 100000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+    .lightbox.open { opacity: 1; pointer-events: auto; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      transform-origin: top left; /* Crucial for FLIP math */
+      will-change: transform;
+    }
+    .lightbox-close {
+      position: absolute; top: 30px; right: 40px;
+      background: none; border: none; color: var(--grey);
+      font-size: 32px; cursor: pointer; transition: color 0.3s ease;
+      font-family: sans-serif;
+      z-index: 100001; /* Ensure close button stays above image */
+    }
+    .lightbox-close:hover { color: var(--accent); }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); font-size: 24px; width: 50px; height: 50px;
+      border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center;
+      transition: background 0.3s ease, transform 0.3s ease; z-index: 100001;
+      opacity: 0; pointer-events: none;
+    }
+    .lightbox.open .lightbox-nav { opacity: 1; pointer-events: auto; }
+    .lightbox-nav:hover { background: var(--accent); color: var(--black); transform: translateY(-50%) scale(1.1); }
+    .lightbox-prev { left: 40px; }
+    .lightbox-next { right: 40px; }
 
     /* ── GALLERY (NATIVE HORIZONTAL SCROLL) ── */
     .gallery-filter {
@@ -1159,8 +1161,10 @@
 
       #philosophy { padding: 100px 24px; }
       
-      .section-nav-arrows { bottom: 20px; left: 20px; display: none; } /* Hide arrows on mobile to avoid overlap */
-      
+      .nav-arrow-dynamic { width: 38px; height: 38px; font-size: 16px; }
+      .nav-arrow-up { top: 80px; }
+      .nav-arrow-down { bottom: 20px; }
+
       #cartToggleBtn { bottom: 20px; right: 20px; padding: 12px 20px; }
       .cart-content { padding: 32px 24px; }
       .chatbot-toggle { bottom: 20px; left: 20px; width: 44px; height: 44px; font-size: 18px; }
@@ -1537,7 +1541,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">1 Character Song Cover Art</div>
             <div class="price-card-desc">Single-character album or song cover illustration</div>
@@ -1548,7 +1552,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">Multi-Character Song Cover Art</div>
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
@@ -1607,10 +1611,8 @@
     </div>
   </section>
 
-  <div class="section-nav-arrows">
-    <button id="navArrowUp" aria-label="Previous Section">↑</button>
-    <button id="navArrowDown" aria-label="Next Section">↓</button>
-  </div>
+  <button class="nav-arrow-dynamic nav-arrow-up" id="navArrowUp" aria-label="Previous Section">↑</button>
+  <button class="nav-arrow-dynamic nav-arrow-down" id="navArrowDown" aria-label="Next Section">↓</button>
 
   <button id="cartToggleBtn">
     Private Commission (<span id="cartCount">0</span>)
@@ -1652,7 +1654,9 @@
   </div>
 
   <button id="chatbotToggleBtn" class="chatbot-toggle" aria-label="Open Assistant">
-    ✦
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
   </button>
 
   <div id="chatbotPanel" class="chatbot-panel">
@@ -1761,7 +1765,7 @@
   <section id="reference-comparison">
     <div class="section-header reveal">
       <span class="section-num">04</span>
-      <h2 class="section-title">Reference &amp; Finished Work</h2>
+      <h2 class="section-title">Reference &amp; Reality</h2>
       <div class="section-line"></div>
     </div>
 
@@ -1775,7 +1779,7 @@
               <img src="Reference 1.jpg" alt="Reference Image 1" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 1.jpg.JPG" alt="Final Artwork 1" loading="lazy" />
             </div>
           </div>
@@ -1789,7 +1793,7 @@
               <img src="Reference 2.jpg" alt="Reference Image 2" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 2.jpg.JPG" alt="Final Artwork 2" loading="lazy" />
             </div>
           </div>
@@ -1803,7 +1807,7 @@
               <img src="Reference 3.jpg" alt="Reference Image 3" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 3.jpg" alt="Final Artwork 3" loading="lazy" />
             </div>
           </div>
@@ -1817,7 +1821,7 @@
               <img src="Reference 4.jpg" alt="Reference Image 4" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 4.jpg" alt="Final Artwork 4" loading="lazy" />
             </div>
           </div>
@@ -1831,7 +1835,7 @@
               <img src="Reference 5.jpg" alt="Reference Image 5" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 5.jpg" alt="Final Artwork 5" loading="lazy" />
             </div>
           </div>
@@ -1845,7 +1849,7 @@
               <img src="Reference 6.jpg" alt="Reference Image 6" loading="lazy" />
             </div>
             <div class="comp-side">
-              <div class="comp-label">Final Work</div>
+              <div class="comp-label">Final Canvas</div>
               <img src="Final 6.jpg" alt="Final Artwork 6" loading="lazy" />
             </div>
           </div>
@@ -1874,9 +1878,9 @@
     
     <div class="video-container reveal">
       <video id="processVideo" poster="Final 1.jpg.JPG" playsinline preload="metadata">
-        <source src="My Process (2).mp4" type="video/mp4" />
-        <source src="My Process (2).mov" type="video/quicktime" />
-        <source src="My Process (2).webm" type="video/webm" />
+        <source src="My Process.mp4" type="video/mp4" />
+        <source src="My Process.mov" type="video/quicktime" />
+        <source src="My Process.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
       <button class="video-play-btn" id="playBtn">▶</button>
@@ -1988,7 +1992,7 @@
           </button>
         </form>
         <p id="formMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
-          Thank you for your interest. Your Message has been received. Expect a response within 24 hours.
+          Message received. Expect a response within 24 hours.
         </p>
       </div>
     </div>
@@ -1996,7 +2000,7 @@
 
   <footer>
     <div class="footer-logo">Timilehin Taiwo Arts</div>
-    <div class="footer-copy">© 2026 · Lagos, Nigeria · All rights reserved</div>
+    <div class="footer-copy">© 2024 · Lagos, Nigeria · All rights reserved</div>
     <div class="footer-links">
       <a href="#services">Pricing</a>
       <a href="#gallery">Gallery</a>
@@ -2006,6 +2010,7 @@
 
   <script>
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
+    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -2022,6 +2027,7 @@
       }
     });
 
+    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -2204,8 +2210,10 @@
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         
+        // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
         
+        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
         const tabsContainer = document.getElementById('pricingTabs');
         const tabsRect = tabsContainer.getBoundingClientRect();
         if (tabsRect.top <= 76) {
@@ -2291,14 +2299,17 @@
     const horizontalWrappers = document.querySelectorAll('.horizontal-scroll-wrapper');
     
     horizontalWrappers.forEach(wrapper => {
+      // Desktop Wheel Event to translate vertical wheel into horizontal scroll seamlessly
       wrapper.addEventListener('wheel', (e) => {
         if (window.innerWidth < 1025) return;
         
+        // Permit native horizontal trackpad scrolling directly
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
 
         const isAtStart = wrapper.scrollLeft <= 0;
         const isAtEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1;
 
+        // Only hijack the vertical scroll if there's room to scroll horizontally
         if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
           e.preventDefault();
           wrapper.scrollLeft += e.deltaY;
@@ -2310,8 +2321,10 @@
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
+    // Tab clicking logic to explicitly add active class and smooth scroll
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
+        // Force active class logic
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
@@ -2327,10 +2340,11 @@
       });
     });
 
+    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
-      threshold: 0.6 
+      threshold: 0.6 // Trigger when 60% of image is in view
     };
 
     const galleryObserver = new IntersectionObserver((entries) => {
@@ -2346,7 +2360,9 @@
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
 
+    // 2-Second Auto-Pan logic
     let galleryAutoPan = setInterval(() => {
+      // Pause auto-pan if user is hovering over or interacting with the gallery
       if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
       
       const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
@@ -2355,7 +2371,7 @@
         galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
         const firstItem = document.querySelector('.gallery-item');
-        const itemWidth = firstItem.offsetWidth + 24; 
+        const itemWidth = firstItem.offsetWidth + 24; // 24px is the flex gap
         galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
       }
     }, 2000);
@@ -2392,56 +2408,6 @@
         });
       });
     }
-
-    // ── CHATBOT LOGIC ──
-    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
-    const chatbotPanel = document.getElementById('chatbotPanel');
-    const chatbotClose = document.getElementById('chatbotClose');
-    const chatbotBody = document.getElementById('chatbotBody');
-    const chatbotOptions = document.querySelectorAll('.chatbot-option');
-
-    const botResponses = {
-      portraits: "<strong>Portraits Process:</strong><br><br>1. <strong>Share Reference:</strong> Provide your reference images via WhatsApp or Email.<br>2. <strong>Quote & Pay:</strong> I will review and issue a precise quote. Work begins upon deposit confirmation.<br>3. <strong>Review & Close Out:</strong> You will receive a high-res (PNG/JPEG) draft. You are entitled to 3 free reviews (e.g., angle corrections). Extensive new additions require a new invoice.",
-      illustrations: "<strong>Illustrations Process:</strong><br><br>1. <strong>Share Reference:</strong> Provide your brief and reference images.<br>2. <strong>Quote & Pay:</strong> I will evaluate the complexity and issue a quote. Work begins upon deposit.<br>3. <strong>Review & Close Out:</strong> Final deliverables are high-res (PNG/JPEG). You receive up to 3 reviews for minor adjustments. Brand new elements or complete redraws require a new invoice.",
-      storyboards: "<strong>Storyboards Process:</strong><br><br>1. <strong>Share Script:</strong> Provide your script or detailed shotlist.<br>2. <strong>Quote & Pay:</strong> I will quote based on frame count and style (B&W or Coloured). Work begins upon deposit.<br>3. <strong>Review & Close Out:</strong> Delivered in high-res format. 3 free reviews are included for minor angle or camera rotation fixes. Adding new actions or frames will require a subsequent invoice."
-    };
-
-    chatbotToggleBtn.addEventListener('click', () => {
-      chatbotPanel.classList.add('open');
-      chatbotToggleBtn.style.opacity = '0';
-      chatbotToggleBtn.style.pointerEvents = 'none';
-    });
-
-    chatbotClose.addEventListener('click', () => {
-      chatbotPanel.classList.remove('open');
-      chatbotToggleBtn.style.opacity = '1';
-      chatbotToggleBtn.style.pointerEvents = 'auto';
-    });
-
-    chatbotOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        const service = option.dataset.service;
-        const responseText = botResponses[service];
-        
-        // Add user selection visually
-        const userMsg = document.createElement('div');
-        userMsg.className = 'chat-msg';
-        userMsg.style.borderLeft = 'none';
-        userMsg.style.borderRight = '2px solid var(--accent)';
-        userMsg.style.textAlign = 'right';
-        userMsg.innerHTML = option.textContent;
-        chatbotBody.appendChild(userMsg);
-        
-        // Add bot response
-        setTimeout(() => {
-          const botMsg = document.createElement('div');
-          botMsg.className = 'chat-msg';
-          botMsg.innerHTML = responseText;
-          chatbotBody.appendChild(botMsg);
-          chatbotBody.scrollTop = chatbotBody.scrollHeight;
-        }, 400);
-      });
-    });
 
     // ── SHOPPING CART SYSTEM ──
     let cart = [];
@@ -2578,18 +2544,39 @@
       });
     });
 
-    // ── SECTION NAVIGATION ARROWS ──
-    const navArrowsContainer = document.querySelector('.section-nav-arrows');
+    // ── DYNAMIC SECTION NAVIGATION ARROWS ──
     const navArrowUp = document.getElementById('navArrowUp');
     const navArrowDown = document.getElementById('navArrowDown');
     const pageSections = Array.from(document.querySelectorAll('section, #philosophy, #video-process'));
+    
+    let lastScrollY = window.scrollY;
+    let navArrowTimeout;
 
     window.addEventListener('scroll', () => {
-      if (window.scrollY > window.innerHeight * 0.3) {
-        navArrowsContainer.classList.add('visible');
+      const currentScrollY = window.scrollY;
+      clearTimeout(navArrowTimeout);
+
+      if (currentScrollY > window.innerHeight * 0.3) {
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          navArrowDown.classList.add('visible');
+          navArrowUp.classList.remove('visible');
+        } else {
+          // Scrolling up
+          navArrowUp.classList.add('visible');
+          navArrowDown.classList.remove('visible');
+        }
+        
+        // Fade out arrows after 2 seconds of inactivity
+        navArrowTimeout = setTimeout(() => {
+          navArrowUp.classList.remove('visible');
+          navArrowDown.classList.remove('visible');
+        }, 2000);
       } else {
-        navArrowsContainer.classList.remove('visible');
+        navArrowUp.classList.remove('visible');
+        navArrowDown.classList.remove('visible');
       }
+      lastScrollY = currentScrollY;
     });
 
     navArrowUp.addEventListener('click', () => {
@@ -2633,6 +2620,7 @@
     
     document.querySelectorAll('.price-img-wrapper img, .gallery-item img, .comp-side img').forEach((img) => {
       img.addEventListener('click', (e) => {
+        // Group images based on their current section to allow seamless swiping
         let selector = '';
         if (img.closest('.comp-side')) {
           selector = '.comp-side img';
@@ -2643,6 +2631,7 @@
         }
         
         lightboxImagesGroup = Array.from(document.querySelectorAll(selector));
+        // Only include images that are currently visible on the DOM (important for gallery tabs)
         lightboxImagesGroup = lightboxImagesGroup.filter(i => {
            const parentGalleryItem = i.closest('.gallery-item');
            if(!parentGalleryItem) return true;
@@ -2655,6 +2644,7 @@
         lightboxImg.src = img.src;
         lightbox.classList.add('open');
 
+        // Disable scrolling when viewing an image
         lenis.stop();
         document.body.style.overflow = 'hidden';
         
@@ -2706,11 +2696,13 @@
       if (currentLightboxIndex === -1 || lightboxImagesGroup.length <= 1) return;
       const swipeThreshold = 50;
       if (touchStartX - touchEndX > swipeThreshold) {
+        // Swipe left -> Next image
         if (currentLightboxIndex < lightboxImagesGroup.length - 1) {
           currentLightboxIndex++;
           updateLightboxImageUI();
         }
       } else if (touchEndX - touchStartX > swipeThreshold) {
+        // Swipe right -> Prev image
         if (currentLightboxIndex > 0) {
           currentLightboxIndex--;
           updateLightboxImageUI();
@@ -2734,7 +2726,7 @@
           updateLightboxImageUI();
         }
       } else if (e.key === 'Escape') {
-        document.getElementById('lightboxClose').click();
+        document.getElementById('lightboxClose').click(); // simulate click to close
       }
     });
 
@@ -2746,6 +2738,7 @@
         
         setTimeout(() => {
           lightboxImg.src = newImg.src;
+          // Update rect so if the user closes it, it gracefully animates to the *new* thumbnail
           activeImageRect = newImg.getBoundingClientRect(); 
           lightboxImg.style.opacity = 1;
         }, 200);
@@ -2767,6 +2760,7 @@
             lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             lightbox.classList.remove('open');
             
+            // Re-enable scrolling
             lenis.start();
             document.body.style.overflow = '';
             
