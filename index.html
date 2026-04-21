@@ -21,6 +21,9 @@
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
 
   <style>
     :root {
@@ -69,6 +72,9 @@
     a, button, select, input, textarea, .price-img-wrapper, .gallery-item, .comp-side img, .comp-dot, .chatbot-toggle, .chatbot-option {
       cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="%23ffffff" stroke="%23080808" stroke-width="1" d="M20.71,4.63L19.37,3.29C19,2.9 18.35,2.9 17.96,3.29L9,12.25L11.75,15L20.71,6.04C21.1,5.65 21.1,5 20.71,4.63M7,14A3,3 0 0,0 4,17C4,18.31 2.84,19 2,19C2.92,20.22 4.5,21 6,21A4,4 0 0,0 10,17A3,3 0 0,0 7,14Z" /></svg>'), pointer;
     }
+    
+    /* Universal Image Sizing */
+    img, video { max-width: 100%; object-fit: contain; }
 
     /* ── PRELOADER ── */
     #preloader {
@@ -527,7 +533,7 @@
 
     .price-img-wrapper img {
       width: 100%; height: 100%; 
-      object-fit: contain; /* Ensures nothing is cut off */
+      object-fit: contain;
       transition: transform 0.5s ease;
     }
     .price-card:hover .price-img-wrapper img { transform: scale(1.05); }
@@ -678,7 +684,7 @@
       border: 1px solid rgba(150,150,150,0.2);
       width: 50px; height: 50px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; cursor: pointer; transition: all 0.3s ease;
+      cursor: pointer; transition: all 0.3s ease;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
     .chatbot-toggle:hover { background: var(--accent); color: var(--black); transform: translateY(-4px); }
@@ -865,6 +871,7 @@
     .comp-side img {
       width: 100%; height: 100%; max-height: 50vh; object-fit: contain; border-radius: 2px;
       transition: transform 0.4s ease;
+      display: block;
     }
     .comp-side img:hover { transform: scale(1.02); }
     .comp-caption {
@@ -903,7 +910,7 @@
     }
     .video-container video {
       width: 100%;
-      height: auto;
+      height: 100%;
       max-height: 85vh;
       object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
@@ -1179,7 +1186,6 @@
       .about-stats { grid-template-columns: 1fr 1fr; }
       .gallery-item { width: 85vw; height: 85vw; }
       .hero-scroll { left: 24px; }
-      .comp-side img { aspect-ratio: 4/5; }
     }
   </style>
 </head>
@@ -1541,7 +1547,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">1 Character Song Cover Art</div>
             <div class="price-card-desc">Single-character album or song cover illustration</div>
@@ -1552,7 +1558,7 @@
           </div>
         </div>
         <div class="price-card">
-          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
           <div>
             <div class="price-card-name">Multi-Character Song Cover Art</div>
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
@@ -1580,8 +1586,8 @@
             <div class="price-card-desc">Event or promotional flyer — digital delivery</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="40000">+ Add to Collection</button>
+            <div class="price-amount">₦30,000</div>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1648,7 +1654,7 @@
         </button>
       </form>
       <p id="cartFormMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
-        Commission request initiated. Expect a response within 24 hours.
+        Commission request initiated. Your PDF invoice has been downloaded.
       </p>
     </div>
   </div>
@@ -1992,7 +1998,7 @@
           </button>
         </form>
         <p id="formMsg" style="display:none; margin-top:20px; font-size:11px; letter-spacing:0.2em; color:var(--accent);">
-          Thank you for your message. Expect a response within 24 hours.
+          Message received. Expect a response within 24 hours.
         </p>
       </div>
     </div>
@@ -2010,7 +2016,6 @@
 
   <script>
     // ── DEEP LINKING (URL STATE MANAGEMENT) ──
-    // This executes before Lenis and GSAP to set up tabs correctly on load
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const pricingParam = urlParams.get('pricing');
@@ -2027,7 +2032,6 @@
       }
     });
 
-    // Utility to update URL silently without reloading
     function updateUrlParam(key, value) {
       const url = new URL(window.location);
       url.searchParams.set(key, value);
@@ -2210,10 +2214,8 @@
         btn.classList.add('active');
         document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         
-        // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
         
-        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
         const tabsContainer = document.getElementById('pricingTabs');
         const tabsRect = tabsContainer.getBoundingClientRect();
         if (tabsRect.top <= 76) {
@@ -2299,17 +2301,14 @@
     const horizontalWrappers = document.querySelectorAll('.horizontal-scroll-wrapper');
     
     horizontalWrappers.forEach(wrapper => {
-      // Desktop Wheel Event to translate vertical wheel into horizontal scroll seamlessly
       wrapper.addEventListener('wheel', (e) => {
         if (window.innerWidth < 1025) return;
         
-        // Permit native horizontal trackpad scrolling directly
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
 
         const isAtStart = wrapper.scrollLeft <= 0;
         const isAtEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 1;
 
-        // Only hijack the vertical scroll if there's room to scroll horizontally
         if ((e.deltaY > 0 && !isAtEnd) || (e.deltaY < 0 && !isAtStart)) {
           e.preventDefault();
           wrapper.scrollLeft += e.deltaY;
@@ -2321,10 +2320,8 @@
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
-    // Tab clicking logic to explicitly add active class and smooth scroll
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Force active class logic
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
@@ -2340,11 +2337,10 @@
       });
     });
 
-    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
-      threshold: 0.6 // Trigger when 60% of image is in view
+      threshold: 0.6 
     };
 
     const galleryObserver = new IntersectionObserver((entries) => {
@@ -2360,9 +2356,7 @@
 
     document.querySelectorAll('.gallery-item').forEach(item => galleryObserver.observe(item));
 
-    // 2-Second Auto-Pan logic
     let galleryAutoPan = setInterval(() => {
-      // Pause auto-pan if user is hovering over or interacting with the gallery
       if (galleryWrapper.matches(':hover') || galleryWrapper.matches(':active')) return;
       
       const isAtEnd = galleryWrapper.scrollLeft + galleryWrapper.clientWidth >= galleryWrapper.scrollWidth - 10;
@@ -2371,7 +2365,7 @@
         galleryWrapper.scrollTo({ left: 0, behavior: 'smooth' });
       } else {
         const firstItem = document.querySelector('.gallery-item');
-        const itemWidth = firstItem.offsetWidth + 24; // 24px is the flex gap
+        const itemWidth = firstItem.offsetWidth + 24; 
         galleryWrapper.scrollBy({ left: itemWidth, behavior: 'smooth' });
       }
     }, 2000);
@@ -2407,6 +2401,187 @@
           compWrapper.scrollTo({ left: targetItem.offsetLeft - paddingLeft, behavior: 'smooth' });
         });
       });
+    }
+
+    // ── CHATBOT LOGIC ──
+    const chatbotToggleBtn = document.getElementById('chatbotToggleBtn');
+    const chatbotPanel = document.getElementById('chatbotPanel');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotBody = document.getElementById('chatbotBody');
+    const chatbotOptions = document.querySelectorAll('.chatbot-option');
+
+    const processDesc = "1. <strong>Share reference image / script:</strong> Provide your details via the form below.<br>2. <strong>Receive quote and pay:</strong> I will issue a quote based on scope. Work begins on deposit.<br>3. <strong>Review and close out:</strong> Files are delivered as high-res PNG, JPEG, or JPG images.<br><br>Clients receive 3 free reviews as long as no new frames are added. Reviews like camera rotations, angle corrections, or adding character elements are within scope. Adding new scripts or actions requiring new drawings will incur a subsequently issued invoice.";
+
+    const botResponses = {
+      portraits: "<strong>Portraits Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      illustrations: "<strong>Illustrations Process:</strong><br><br>" + processDesc.replace(" / script", ""),
+      storyboards: "<strong>Storyboards Process:</strong><br><br>" + processDesc.replace("reference image / ", "")
+    };
+
+    chatbotToggleBtn.addEventListener('click', () => {
+      chatbotPanel.classList.add('open');
+      chatbotToggleBtn.style.opacity = '0';
+      chatbotToggleBtn.style.pointerEvents = 'none';
+    });
+
+    chatbotClose.addEventListener('click', () => {
+      chatbotPanel.classList.remove('open');
+      chatbotToggleBtn.style.opacity = '1';
+      chatbotToggleBtn.style.pointerEvents = 'auto';
+    });
+
+    chatbotOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const service = option.dataset.service;
+        const responseText = botResponses[service];
+        
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg';
+        userMsg.style.borderLeft = 'none';
+        userMsg.style.borderRight = '2px solid var(--accent)';
+        userMsg.style.textAlign = 'right';
+        userMsg.innerHTML = option.textContent;
+        chatbotBody.appendChild(userMsg);
+        
+        setTimeout(() => {
+          const botMsg = document.createElement('div');
+          botMsg.className = 'chat-msg';
+          botMsg.innerHTML = responseText;
+          chatbotBody.appendChild(botMsg);
+          chatbotBody.scrollTop = chatbotBody.scrollHeight;
+        }, 400);
+      });
+    });
+
+    // ── PDF INVOICE GENERATOR ──
+    async function generateAndDownloadInvoice(data, cartItems, totalNGN) {
+      if (!window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
+
+      doc.setFontSize(22);
+      doc.text("T", 20, y);
+      y += 15;
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text("Bill To", 20, y);
+      doc.text("Timilehin Taiwo Arts", 120, y);
+      y += 6;
+      doc.setTextColor(0);
+      doc.text(data.name, 20, y);
+      doc.text("olasunkanmitimilehintaiwo@gmail.com", 120, y);
+      y += 6;
+      doc.text(data.email, 20, y);
+      doc.text("+2348145782167", 120, y);
+      y += 6;
+      doc.text(data.whatsapp, 20, y);
+      y += 15;
+
+      const tableData = cartItems.map(item => [
+        item.name,
+        "1",
+        `NGN ${item.price.toLocaleString()}`,
+        `NGN ${item.price.toLocaleString()}`
+      ]);
+
+      const usdAmount = (totalNGN / 1400).toFixed(2);
+
+      doc.autoTable({
+        startY: y,
+        head: [['Item Description', 'Quantity', 'Unit Price', 'Amount']],
+        body: tableData,
+        foot: [
+          ['', '', 'Total:', `NGN ${totalNGN.toLocaleString()}`],
+          ['', '', 'Total (USD):', `$${usdAmount}`]
+        ],
+        theme: 'plain',
+        headStyles: { fillColor: [240, 240, 240], textColor: [0,0,0], fontStyle: 'bold' },
+        footStyles: { textColor: [0,0,0], fontStyle: 'bold' }
+      });
+
+      y = doc.lastAutoTable.finalY + 20;
+
+      const dateObj = new Date();
+      const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      
+      let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
+      localStorage.setItem('tta_inv_num', invNum + 1);
+
+      doc.setFontSize(12);
+      doc.text("Thanks for doing business with us!", 20, y);
+      y += 10;
+      doc.text(`INVOICE #${invNum}`, 20, y);
+      y += 7;
+      doc.setFontSize(10);
+      doc.text(`Invoice Date: ${dateStr}`, 20, y);
+      doc.text(`Payment Due: ${dateStr}`, 100, y);
+      y += 15;
+
+      doc.setFontSize(11);
+      doc.text("Bank Details", 20, y);
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Moniepoint:\n8145782167\nTimilehin Taiwo Olasunkanmi", 20, y);
+      doc.text("Access Bank:\n0736696409\nOlasunkanmi Timilehin Taiwo", 90, y);
+      y += 20;
+
+      doc.setFontSize(11);
+      doc.text("Wallet address", 20, y);
+      y += 6;
+      doc.setFontSize(10);
+      doc.text("Usdt (TRC-20)\nTRxzra7vJDUTDnKwL7LQdw7yCG7aRTa1g2", 20, y);
+      y += 12;
+      doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
+      y += 12;
+      doc.text("Exchange rate - N1,400/1US$", 20, y);
+
+      doc.addPage();
+      y = 20;
+      doc.setFontSize(14);
+      doc.text("TERMS OF SERVICE", 20, y);
+      y += 10;
+      doc.setFontSize(10);
+
+      const terms = `Payment
+Full payment is required before work can begin on orders placed.
+In the event of a split payment request, an initial deposit of 80% will be required to begin production and the balance of 20% paid fully upon delivery of your order. Split payment option will only apply to orders costing more than N200,000 (storyboards), N50,000 (Portraits). An invoice detailing your complete order will be sent alongside.
+
+Refund
+The full amount is non-refundable as soon as order is placed and after confirmation as work commences after confirmation. 50% can be refunded within the first 24 hours, 25% after 48 hours and no refunds can be processed after 48 hours of payment or after the submission of a first draft.
+
+Reconciliation
+In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.
+
+Exchange
+Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.
+
+Discount
+Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.
+
+DISCLAIMER
+The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.
+
+Payment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.
+
+We reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.
+
+All these enables us to serve you better. Thank you.
+
+Timilehin Taiwo Arts | +2348145782167 | `;
+      
+      const splitTerms = doc.splitTextToSize(terms, 170);
+      doc.text(splitTerms, 20, y);
+      
+      // Calculate Y position after terms to place the link
+      y += (splitTerms.length * 4.2); 
+      doc.textWithLink('IG: timilehin.taiwo', 20, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
+      
+      y += 10;
+      doc.text("*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD", 20, y, { maxWidth: 170 });
+
+      doc.save(`${data.name}'s Invoice.pdf`);
     }
 
     // ── SHOPPING CART SYSTEM ──
@@ -2473,33 +2648,45 @@
       const form = e.target;
       const btn = form.querySelector('button');
       const originalBtnContent = btn.innerHTML;
-      btn.textContent = 'Redirecting...';
+      btn.textContent = 'Generating Invoice...';
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
-
-      let whatsappText = "*COMMISSION REQUEST*\n\n";
-      whatsappText += `*Name:* ${data.name}\n`;
-      whatsappText += `*Email:* ${data.email}\n`;
-      whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
-
-      whatsappText += "*COLLECTION SUMMARY:*\n";
-      cart.forEach(item => { whatsappText += `- ${item.name}: ₦${item.price.toLocaleString()}\n`; });
-      whatsappText += `\n*TOTAL AMOUNT:* ₦${document.getElementById('cartTotalAmt').textContent}\n`;
       
-      if (data.brief) {
-        whatsappText += `\n*Commission Notes:*\n${data.brief}`;
+      let totalAmount = 0;
+      cart.forEach(item => { totalAmount += item.price; });
+
+      // Generate and download the PDF
+      if (window.jspdf) {
+          generateAndDownloadInvoice(data, cart, totalAmount);
       }
 
-      const whatsappUrl = `https://wa.me/2349033547114?text=${encodeURIComponent(whatsappText)}`;
-      window.open(whatsappUrl, '_blank');
+      let emailText = "NEW COMMISSION REQUEST\n\n";
+      emailText += `Name: ${data.name}\n`;
+      emailText += `Email: ${data.email}\n`;
+      emailText += `WhatsApp: ${data.whatsapp}\n\n`;
+
+      emailText += "COLLECTION SUMMARY:\n";
+      cart.forEach(item => { emailText += `- ${item.name}: NGN ${item.price.toLocaleString()}\n`; });
+      emailText += `\nTOTAL AMOUNT: NGN ${totalAmount.toLocaleString()}\n`;
+      
+      if (data.brief) {
+        emailText += `\nCommission Notes:\n${data.brief}`;
+      }
+
+      const mailtoLink = `mailto:olasunkanmitimilehintaiwo@gmail.com?subject=New Commission Request - ${encodeURIComponent(data.name)}&body=${encodeURIComponent(emailText)}`;
+      window.open(mailtoLink, '_blank');
 
       setTimeout(() => {
         btn.innerHTML = originalBtnContent;
         form.reset();
         cart = []; 
         updateCartUI();
-        document.getElementById('cartClose').click();
+        document.getElementById('cartFormMsg').style.display = 'block';
+        setTimeout(() => {
+             document.getElementById('cartClose').click();
+             document.getElementById('cartFormMsg').style.display = 'none';
+        }, 3000);
       }, 1000);
     }
 
@@ -2532,17 +2719,6 @@
         document.getElementById('formMsg').textContent = 'Redirected to WhatsApp!';
       }, 1000);
     }
-
-    // ── SMOOTH NAV LINKS ──
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) { 
-          e.preventDefault(); 
-          lenis.scrollTo(target, { offset: 0 }); 
-        }
-      });
-    });
 
     // ── DYNAMIC SECTION NAVIGATION ARROWS ──
     const navArrowUp = document.getElementById('navArrowUp');
@@ -2620,7 +2796,6 @@
     
     document.querySelectorAll('.price-img-wrapper img, .gallery-item img, .comp-side img').forEach((img) => {
       img.addEventListener('click', (e) => {
-        // Group images based on their current section to allow seamless swiping
         let selector = '';
         if (img.closest('.comp-side')) {
           selector = '.comp-side img';
@@ -2631,7 +2806,6 @@
         }
         
         lightboxImagesGroup = Array.from(document.querySelectorAll(selector));
-        // Only include images that are currently visible on the DOM (important for gallery tabs)
         lightboxImagesGroup = lightboxImagesGroup.filter(i => {
            const parentGalleryItem = i.closest('.gallery-item');
            if(!parentGalleryItem) return true;
@@ -2644,7 +2818,6 @@
         lightboxImg.src = img.src;
         lightbox.classList.add('open');
 
-        // Disable scrolling when viewing an image
         lenis.stop();
         document.body.style.overflow = 'hidden';
         
@@ -2696,13 +2869,11 @@
       if (currentLightboxIndex === -1 || lightboxImagesGroup.length <= 1) return;
       const swipeThreshold = 50;
       if (touchStartX - touchEndX > swipeThreshold) {
-        // Swipe left -> Next image
         if (currentLightboxIndex < lightboxImagesGroup.length - 1) {
           currentLightboxIndex++;
           updateLightboxImageUI();
         }
       } else if (touchEndX - touchStartX > swipeThreshold) {
-        // Swipe right -> Prev image
         if (currentLightboxIndex > 0) {
           currentLightboxIndex--;
           updateLightboxImageUI();
@@ -2710,7 +2881,6 @@
       }
     }
 
-    // Keyboard events for swiping inside the lightbox
     window.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('open')) return;
       if (currentLightboxIndex === -1 || lightboxImagesGroup.length <= 1) return;
@@ -2726,7 +2896,7 @@
           updateLightboxImageUI();
         }
       } else if (e.key === 'Escape') {
-        document.getElementById('lightboxClose').click(); // simulate click to close
+        document.getElementById('lightboxClose').click();
       }
     });
 
@@ -2738,14 +2908,12 @@
         
         setTimeout(() => {
           lightboxImg.src = newImg.src;
-          // Update rect so if the user closes it, it gracefully animates to the *new* thumbnail
           activeImageRect = newImg.getBoundingClientRect(); 
           lightboxImg.style.opacity = 1;
         }, 200);
       }
     }
 
-    // Closing the lightbox
     lightbox.addEventListener('click', (e) => {
       if (e.target !== lightboxImg && e.target !== lightboxPrev && e.target !== lightboxNext) {
         if (activeImageRect) {
@@ -2760,7 +2928,6 @@
             lightboxImg.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
             lightbox.classList.remove('open');
             
-            // Re-enable scrolling
             lenis.start();
             document.body.style.overflow = '';
             
