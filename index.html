@@ -4,12 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Timilehin Taiwo Arts</title>
+  
+  <meta name="theme-color" content="#080808" />
   <meta name="apple-mobile-web-app-title" content="TTA">
   <meta name="application-name" content="TTA">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="Logo B&W - Dark Mode.JPG">
   <link rel="icon" href="Logo B&W - Dark Mode.JPG">
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Timilehin Taiwo Arts","short_name":"TTA","display":"standalone","background_color":"#080808","theme_color":"#080808","icons":[{"src":"Logo%20B%26W%20-%20Dark%20Mode.JPG","sizes":"192x192 512x512","type":"image/jpeg","purpose":"any maskable"}]}'>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -973,10 +977,10 @@
 
       /* Reset grid stagger on mobile */
       .about-bottom { padding: 0 24px; margin-top: 64px; }
-      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 64px; }
-      .about-left { padding-right: 0; }
+      .about-grid { grid-template-columns: 1fr; padding: 0 24px; gap: 40px; }
+      .about-left { padding-right: 0; border-right: none; padding-bottom: 48px; border-bottom: 1px solid rgba(150,150,150,0.1); }
+      .about-left::before { top: -60px; left: -10px; font-size: 180px; }
       .about-right { padding-left: 0; padding-top: 0px; }
-      .about-disciplines { grid-template-columns: 1fr; }
 
       .pricing-grid .price-card:nth-child(even) { transform: none; }
 
@@ -1354,8 +1358,8 @@
             <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="50000">+ Add to Collection</button>
+            <div class="price-amount">₦40,000</div>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-price="40000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1365,8 +1369,8 @@
             <div class="price-card-desc">Single-character album or song cover illustration</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦50,000</div>
-            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="50000">+ Add to Collection</button>
+            <div class="price-amount">₦40,000</div>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-price="40000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1376,8 +1380,8 @@
             <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦100,000</div>
-            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="100000">+ Add to Collection</button>
+            <div class="price-amount">₦80,000</div>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-price="80000">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1398,8 +1402,8 @@
             <div class="price-card-desc">Event or promotional flyer — digital delivery</div>
           </div>
           <div class="price-card-footer">
-            <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="40000">+ Add to Collection</button>
+            <div class="price-amount">₦30,000</div>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-price="30000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
