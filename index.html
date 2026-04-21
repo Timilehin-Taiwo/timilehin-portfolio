@@ -796,7 +796,7 @@
       color: var(--accent); text-transform: uppercase; text-align: center;
     }
     .comp-side img {
-      width: 100%; height: 100%; max-height: 50vh; object-fit: cover; border-radius: 2px;
+      width: 100%; height: 100%; max-height: 50vh; object-fit: contain; border-radius: 2px;
       transition: transform 0.4s ease;
     }
     .comp-side img:hover { transform: scale(1.02); }
@@ -1591,61 +1591,61 @@
     <div class="horizontal-scroll-wrapper" id="galleryWrapper" data-lenis-prevent>
       <div class="gallery-slideshow" id="galleryGrid">
         
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Adesua ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Adunni ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="Ayobami ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="DAD ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
-        <div class="gallery-item" data-category="illustration" style="display:flex;">
+        <div class="gallery-item" data-category="illustration">
           <img src="MCCLURE TWINS ILL.jpeg" alt="Illustration" loading="lazy" />
         </div>
 
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="12 x 16 Inches - David Odugbesan.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">12 x 16 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 24 Inches - Mrs Adetona.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="18 x 24 Inches - Mares Aunty.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">18 x 24 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="24 x 30 Inches - American client.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">24 x 30 inches portrait</div>
         </div>
-        <div class="gallery-item" data-category="portrait" style="display:none;">
+        <div class="gallery-item" data-category="portrait">
           <img src="16 x 20 Inches - Couple Chinelo.jpeg" alt="Portrait" loading="lazy" />
           <div class="gallery-item-caption">16 x 20 inches couple portrait</div>
         </div>
 
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 1.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="JOTI Cover 2.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">single character cover art</div>
         </div>
-        <div class="gallery-item" data-category="cover" style="display:none;">
+        <div class="gallery-item" data-category="cover">
           <img src="Album Cover - Random.jpeg" alt="Cover Art" loading="lazy" />
           <div class="gallery-item-caption">multiple character cover art</div>
         </div>
 
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="Art Base - Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
-        <div class="gallery-item" data-category="design" style="display:none;">
+        <div class="gallery-item" data-category="design">
           <img src="The Real Zone Logo.jpeg" alt="Logo Design" loading="lazy" />
           <div class="gallery-item-caption">logo design</div>
         </div>
@@ -1759,7 +1759,7 @@
     </div>
     
     <div class="video-container reveal">
-      <video id="processVideo" poster="Abstract%20ILL.JPG" playsinline preload="metadata">
+      <video id="processVideo" poster="Final 1.jpg" playsinline preload="metadata">
         <source src="My Process.mp4" type="video/mp4" />
         <source src="My Process.mov" type="video/quicktime" />
         <source src="My Process.webm" type="video/webm" />
@@ -2203,8 +2203,13 @@
     const galleryWrapper = document.getElementById('galleryWrapper');
     const filterBtns = document.querySelectorAll('#gallery .filter-btn');
 
+    // Tab clicking logic to explicitly add active class and smooth scroll
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
+        // Force active class logic
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
         const filter = btn.dataset.filter;
         const targetItem = document.querySelector(`.gallery-item[data-category="${filter}"]`);
         
@@ -2217,10 +2222,11 @@
       });
     });
 
+    // Intersection Observer to highlight active tab dynamically
     const galleryObserverOptions = {
       root: galleryWrapper,
       rootMargin: '0px',
-      threshold: 0.6 
+      threshold: 0.6 // Trigger when 60% of image is in view
     };
 
     const galleryObserver = new IntersectionObserver((entries) => {
