@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Timilehin Taiwo Arts</title>
   
+  <meta name="theme-color" content="#080808" />
+  <meta name="apple-mobile-web-app-title" content="TTA">
+  <meta name="application-name" content="TTA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="Logo B&W - Dark Mode.JPG">
+  <link rel="icon" href="Logo B&W - Dark Mode.JPG">
+  <link rel="manifest" href='data:application/manifest+json,{"name":"Timilehin Taiwo Arts","short_name":"TTA","display":"standalone","background_color":"#080808","theme_color":"#080808","icons":[{"src":"Logo%20B%26W%20-%20Dark%20Mode.JPG","sizes":"192x192 512x512","type":"image/jpeg","purpose":"any maskable"}]}'>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -429,11 +438,17 @@
     /* ── SERVICES & PRICING ── */
     .pricing-tabs {
       display: flex; gap: 0;
-      padding: 0 48px; margin-bottom: 64px;
+      padding: 16px 48px 0; margin-bottom: 64px;
       border-bottom: 1px solid rgba(150,150,150,0.1);
-      overflow-x: auto; transition: border-color 0.4s ease;
+      overflow-x: auto; transition: border-color 0.4s ease, background-color 0.4s ease;
+      position: sticky;
+      top: 75px;
+      background: var(--black);
+      z-index: 90;
     }
     .pricing-tabs::-webkit-scrollbar { display: none; }
+    .pricing-tabs { -ms-overflow-style: none; scrollbar-width: none; }
+    
     .tab-btn {
       background: none; border: none;
       font-family: 'DM Mono', monospace;
@@ -1029,6 +1044,7 @@
       .process-step { padding: 32px 24px; }
 
       .pricing-tabs, .pricing-panel, .gallery-filter { padding: 0 24px; }
+      .pricing-tabs { top: 66px; padding-top: 12px; }
       .contact-inner { grid-template-columns: 1fr; gap: 64px; padding: 0 24px; }
       footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
       .footer-links { justify-content: center; }
@@ -1946,6 +1962,13 @@
         
         // Deep linking update
         updateUrlParam('pricing', btn.dataset.tab);
+        
+        // UX fix: Smoothly snap back to the tabs if the user is scrolled far down
+        const tabsContainer = document.getElementById('pricingTabs');
+        const tabsRect = tabsContainer.getBoundingClientRect();
+        if (tabsRect.top <= 76) {
+          lenis.scrollTo(tabsContainer, { offset: -75, duration: 0.8 });
+        }
         
         ScrollTrigger.refresh();
       });
