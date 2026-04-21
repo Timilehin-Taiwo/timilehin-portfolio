@@ -2114,13 +2114,21 @@
     }
 
     // ── PRELOADER LOGIC ──
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const preloader = document.getElementById('preloader');
+    function removePreloader() {
+      const preloader = document.getElementById('preloader');
+      if (preloader && preloader.style.opacity !== '0') {
         preloader.style.opacity = '0';
         setTimeout(() => preloader.style.display = 'none', 1200);
-      }, 1500);
+      }
+    }
+
+    // 1. Standard trigger: Fades out as soon as the HTML is ready (doesn't wait for heavy videos)
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(removePreloader, 1500);
     });
+
+    // 2. Absolute Fail-safe: Forces the preloader to hide after 4 seconds no matter what is happening
+    setTimeout(removePreloader, 4000);
 
     // ── SMOOTH SCROLLING (Lenis) ──
     const lenis = new Lenis({
