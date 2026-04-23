@@ -517,7 +517,7 @@
       background: var(--near-black);
       border: 1px solid rgba(150,150,150,0.1);
       padding: 32px;
-      position: relative; overflow: hidden;
+      position: relative overflow: hidden;
       transition: background 0.3s ease, border-color 0.3s ease;
       display: flex; flex-direction: column; justify-content: space-between;
     }
@@ -1330,7 +1330,7 @@
 
     <div class="about-grid">
       <div class="about-left reveal">
-        <img src="Timilehin Taiwo - About Artist.jpg" alt="Timilehin Taiwo" class="about-img parallax-img" />
+        <img src="Timilehin%20Taiwo%20-%20About%20Artist.jpg" alt="Timilehin Taiwo" class="about-img parallax-img" loading="lazy" decoding="async" />
       </div>
       <div class="about-right reveal reveal-delay-1">
         <div class="about-stats">
@@ -2779,9 +2779,6 @@
       y += 15;
 
       // Top metadata: Invoice Number and Date
-      doc.setFontSize(12);
-      doc.text("Thanks for doing business with us!", 20, y);
-      y += 10;
       doc.setFont("helvetica", "bold");
       doc.text(`INVOICE #${invNum}`, 20, y);
       doc.setFont("helvetica", "normal");
@@ -2860,6 +2857,12 @@
       doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
       y += 12;
       doc.text("Exchange rate - N1,400/1US$", 20, y);
+      
+      // Added the greeting to the bottom of Page 1
+      y += 15;
+      doc.setFontSize(12);
+      doc.setFont("helvetica", "italic");
+      doc.text("Thanks for doing business with us!", 20, y);
 
       // Page 2 - Terms
       doc.addPage();
@@ -3316,4 +3319,4 @@
     });
   </script>
 </body>
-</html>
+</html></html>
