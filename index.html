@@ -583,6 +583,106 @@
     }
     .calculator-box:hover { border-color: rgba(200,184,154,0.3); }
 
+    /* ── INTERACTIVE SPATIAL VISUALIZER ── */
+    .visualizer-stage {
+      position: relative;
+      height: 400px;
+      background: var(--dark);
+      border: 1px solid rgba(150,150,150,0.1);
+      border-radius: 4px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 20px;
+      touch-action: none; /* Prevents scroll when dragging on mobile */
+    }
+
+    .wireframe-human {
+      height: 350px; /* Represents 72 inches */
+      color: rgba(150,150,150,0.3);
+      transition: color 0.4s ease;
+      position: relative;
+      z-index: 1;
+      margin-right: 60px; /* Space between human and frame */
+    }
+
+    .vis-floor {
+      position: absolute;
+      bottom: 20px; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(150,150,150,0.2) 20%, rgba(150,150,150,0.2) 80%, transparent);
+      z-index: 0;
+    }
+
+    .vis-frame {
+      position: absolute;
+      left: 55%; /* Fixed X offset next to human */
+      /* Bottom offset calculated in JS based on 57-inch gallery center */
+      background: var(--near-black);
+      border: 2px solid var(--accent);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 5;
+      transform-origin: center bottom;
+      will-change: width, height, bottom;
+    }
+    
+    .vis-frame-inner {
+      position: absolute; inset: 4px;
+      background: linear-gradient(135deg, rgba(200,184,154,0.1), transparent);
+      border: 1px dashed rgba(200,184,154,0.3);
+      pointer-events: none;
+    }
+
+    .vis-handle {
+      position: absolute;
+      width: 12px; height: 12px;
+      background: var(--white);
+      border: 1px solid var(--black);
+      border-radius: 2px;
+      z-index: 10;
+    }
+    .handle-nw { top: -6px; left: -6px; cursor: nwse-resize; }
+    .handle-n  { top: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+    .handle-ne { top: -6px; right: -6px; cursor: nesw-resize; }
+    .handle-e  { top: calc(50% - 6px); right: -6px; cursor: ew-resize; }
+    .handle-se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+    .handle-s  { bottom: -6px; left: calc(50% - 6px); cursor: ns-resize; }
+    .handle-sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+    .handle-w  { top: calc(50% - 6px); left: -6px; cursor: ew-resize; }
+
+    .vis-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(150,150,150,0.1);
+      align-items: flex-end;
+    }
+
+    .vis-data-group { display: flex; flex-direction: column; }
+    .vis-label {
+      font-size: 10px; letter-spacing: 0.2em; color: var(--grey);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .vis-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px; font-weight: 600; color: var(--white);
+    }
+    
+    .vis-btn-small {
+      background: transparent; border: 1px solid rgba(150,150,150,0.3);
+      color: var(--off-white); width: 32px; height: 32px; font-size: 18px;
+      border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .vis-btn-small:hover { background: rgba(200,184,154,0.1); border-color: var(--accent); }
+    #visSubCount {
+      background: transparent; border: none; color: var(--accent); font-family: 'DM Mono', monospace;
+      font-size: 20px; text-align: center; width: 40px; outline: none;
+    }
+
     /* ── NOTABLE BRANDS SECTION ── */
     .brands-section {
       margin-top: 100px;
@@ -850,7 +950,7 @@
       height: 35vw; max-height: 450px; min-height: 280px;
       flex-shrink: 0;
       scroll-snap-align: center;
-      position: relative; overflow: hidden;
+      position: relative overflow: hidden;
       background: var(--dark);
       border: 1px solid rgba(150,150,150,0.1);
       border-radius: 4px;
@@ -1599,6 +1699,63 @@
             <div class="price-amount" id="calcPortTotal">₦20,000</div>
           </div>
           <button type="button" class="add-to-cart-btn" id="calcPortAddToCart" style="padding: 14px 28px; height: fit-content; font-size: 11px;">+ Add Extra Persons</button>
+        </div>
+      </div>
+      
+      <div class="pricing-sub-heading" style="margin-top: 80px;">Interactive Size Visualizer</div>
+      <div class="calculator-box" id="portraitVisualizerApp">
+        <p style="font-size: 11px; color: var(--grey); margin-bottom: 32px; line-height: 1.5;">
+          Drag the corners (uniform scale) or edges (freeform) to visualize portrait sizes relative to a 6ft (180cm) person. Center of the frame is mathematically hung at standard gallery eye-level (57 inches).
+        </p>
+
+        <div class="visualizer-stage" id="visStage">
+          <svg class="wireframe-human" viewBox="0 0 200 600" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path d="M100,85 L100,280" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path d="M50,110 Q100,90 150,110 L170,250 L150,250" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path d="M50,110 L30,250 L50,250" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path d="M80,280 L120,280 L140,550 L110,550 L100,350 L90,550 L60,550 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+          </svg>
+
+          <div class="vis-frame" id="visFrame">
+            <div class="vis-frame-inner"></div>
+            
+            <div class="vis-handle handle-nw" data-drag="nw"></div>
+            <div class="vis-handle handle-n" data-drag="n"></div>
+            <div class="vis-handle handle-ne" data-drag="ne"></div>
+            <div class="vis-handle handle-e" data-drag="e"></div>
+            <div class="vis-handle handle-se" data-drag="se"></div>
+            <div class="vis-handle handle-s" data-drag="s"></div>
+            <div class="vis-handle handle-sw" data-drag="sw"></div>
+            <div class="vis-handle handle-w" data-drag="w"></div>
+          </div>
+          
+          <div class="vis-floor"></div>
+        </div>
+
+        <div class="vis-controls">
+          <div class="vis-data-group">
+            <div class="vis-label">Dimensions</div>
+            <div class="vis-value" id="visDimensions">10 × 12 In</div>
+          </div>
+          
+          <div class="vis-data-group">
+            <div class="vis-label">Subjects (Characters)</div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button type="button" class="vis-btn-small" id="visSubMinus">-</button>
+              <input type="text" id="visSubCount" value="1" readonly />
+              <button type="button" class="vis-btn-small" id="visSubPlus">+</button>
+            </div>
+          </div>
+
+          <div class="vis-data-group" style="flex: 1; text-align: right;">
+            <div class="vis-label">Calculated Price</div>
+            <div class="price-amount" id="visPriceOut">₦40,000</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+          <button type="button" class="add-to-cart-btn" id="visAddToCart" style="padding: 14px 32px; font-size: 11px;">+ Lock In & Add to Collection</button>
         </div>
       </div>
     </div>
@@ -2452,6 +2609,157 @@
         updatePortCalculator();
     }
 
+    // ── INTERACTIVE SPATIAL VISUALIZER LOGIC ──
+    const visFrame = document.getElementById('visFrame');
+    const visDimensions = document.getElementById('visDimensions');
+    const visPriceOut = document.getElementById('visPriceOut');
+    const visSubCount = document.getElementById('visSubCount');
+    const visAddToCart = document.getElementById('visAddToCart');
+
+    if (visFrame) {
+      // Scale mappings: Human SVG is 350px representing 72 inches
+      const INCH_PX = 350 / 72; // ~4.86px per inch
+      const FLOOR_OFFSET_PX = 20; // Matches bottom: 20px in CSS
+      const GALLERY_HEIGHT_INCHES = 57; // Standard gallery eye-level height
+      
+      // State
+      let wIn = 10;
+      let hIn = 12;
+      let subjects = 1;
+      
+      // Physics Variables
+      let isDragging = false;
+      let currentHandle = null;
+      let startMouseX, startMouseY;
+      let startW, startH;
+
+      function getVisualizerPrice(width, height, chars) {
+        const area = width * height;
+        let basePrice = 40000;
+
+        // Pricing interpolation mapped exactly to TTA's stepped area logic
+        if (area >= 720) basePrice = 150000;      // 24x30 and above
+        else if (area >= 320) basePrice = 75000;  // 16x20 to 18x24
+        else if (area >= 192) basePrice = 60000;  // 12x16 range
+        else if (area >= 144) basePrice = 50000;  // > 20% size increase from base
+        else basePrice = 40000;                   // Base 10x12 (120 area)
+        
+        // Add additional characters at N20k each (beyond the first)
+        const charCost = Math.max(0, chars - 1) * 20000;
+        return basePrice + charCost;
+      }
+
+      function updateVisualizerUI() {
+        // Enforce Limits
+        wIn = Math.max(10, Math.min(30, wIn));
+        hIn = Math.max(12, Math.min(40, hIn));
+        subjects = Math.max(1, subjects);
+
+        // Calculate Pixel Dimensions
+        const pxW = wIn * INCH_PX;
+        const pxH = hIn * INCH_PX;
+        
+        // Gallery height: Center of frame is 57" from floor
+        // Distance from floor to bottom of frame = 57" - (hIn / 2)
+        const bottomInches = GALLERY_HEIGHT_INCHES - (hIn / 2);
+        const bottomPx = FLOOR_OFFSET_PX + (bottomInches * INCH_PX);
+
+        // Apply Styles
+        visFrame.style.width = `${pxW}px`;
+        visFrame.style.height = `${pxH}px`;
+        visFrame.style.bottom = `${bottomPx}px`;
+
+        // Update Text & Price
+        visDimensions.textContent = `${wIn} × ${hIn} In`;
+        visSubCount.value = subjects;
+        
+        const finalPrice = getVisualizerPrice(wIn, hIn, subjects);
+        visPriceOut.textContent = `₦${finalPrice.toLocaleString()}`;
+      }
+
+      // Interaction Events
+      document.querySelectorAll('.vis-handle').forEach(handle => {
+        handle.addEventListener('pointerdown', (e) => {
+          isDragging = true;
+          currentHandle = e.target.getAttribute('data-drag');
+          startMouseX = e.clientX;
+          startMouseY = e.clientY;
+          startW = wIn;
+          startH = hIn;
+          
+          visFrame.style.transition = 'none';
+          document.body.style.cursor = window.getComputedStyle(e.target).cursor;
+          e.preventDefault();
+        });
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+
+        const deltaX = (e.clientX - startMouseX) / INCH_PX;
+        const deltaY = (e.clientY - startMouseY) / INCH_PX;
+        
+        let dW = 0, dH = 0;
+
+        if (currentHandle.includes('e')) dW = deltaX;
+        if (currentHandle.includes('w')) dW = -deltaX;
+        if (currentHandle.includes('s')) dH = deltaY;
+        if (currentHandle.includes('n')) dH = -deltaY;
+
+        if (currentHandle.length === 2) {
+          // Corner Drag: Uniform Proportional Scale
+          let avgDelta = (dW + dH) / 2;
+          wIn = Math.round(startW + avgDelta);
+          hIn = Math.round(startH + avgDelta);
+        } else {
+          // Edge Drag: Freeform 1-inch scale
+          if (dW !== 0) wIn = Math.round(startW + dW);
+          if (dH !== 0) hIn = Math.round(startH + dH);
+        }
+
+        updateVisualizerUI();
+      });
+
+      window.addEventListener('pointerup', () => {
+        if(isDragging) {
+            isDragging = false;
+            currentHandle = null;
+            document.body.style.cursor = '';
+            visFrame.style.transition = 'width 0.2s, height 0.2s, bottom 0.2s';
+        }
+      });
+
+      // Character Controls
+      document.getElementById('visSubMinus').addEventListener('click', () => {
+        subjects--; updateVisualizerUI();
+      });
+      document.getElementById('visSubPlus').addEventListener('click', () => {
+        subjects++; updateVisualizerUI();
+      });
+
+      // Lock In Cart Button
+      visAddToCart.addEventListener('click', (e) => {
+        const name = `Custom Interactive Portrait (${wIn}x${hIn} In, ${subjects} Subjects)`;
+        const price = getVisualizerPrice(wIn, hIn, subjects);
+        
+        cart.push({ name, qty: 1, unitPrice: price, price: price });
+        updateCartUI();
+        
+        const originalText = e.target.textContent;
+        e.target.textContent = "Added to Collection!";
+        e.target.style.background = "var(--white)";
+        e.target.style.color = "var(--black)";
+        setTimeout(() => { 
+          e.target.textContent = originalText; 
+          e.target.style.background = "transparent"; 
+          e.target.style.color = "var(--accent)";
+        }, 1500);
+      });
+
+      // Initial render
+      updateVisualizerUI();
+    }
+
     // ── VIDEO PROCESS LOGIC ──
     const processVideo = document.getElementById('processVideo');
     const playBtn = document.getElementById('playBtn');
@@ -2916,7 +3224,7 @@
     const cartToggleBtn = document.getElementById('cartToggleBtn');
     const cartModal = document.getElementById('cartModal');
     
-    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#calcPortAddToCart)').forEach(btn => {
+    document.querySelectorAll('.add-to-cart-btn:not(#calcAddToCart):not(#calcPortAddToCart):not(#visAddToCart)').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const name = e.target.getAttribute('data-name');
         const price = parseInt(e.target.getAttribute('data-price'));
