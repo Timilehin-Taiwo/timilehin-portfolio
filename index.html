@@ -640,19 +640,21 @@
 
     .cart-modal {
       position: fixed; inset: 0; background: rgba(8,8,8,0.85);
-      z-index: 10000; display: flex; justify-content: center; align-items: center;
+      z-index: 10000; display: flex; justify-content: center; align-items: flex-start;
       opacity: 0; pointer-events: none; transition: opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      overflow-y: auto;
+      padding: 5vh 20px;
     }
     body.light-mode .cart-modal { background: rgba(245,242,238,0.85); }
     .cart-modal.open { opacity: 1; pointer-events: auto; }
     
     .cart-content {
       width: 100%; max-width: 600px; background: transparent;
-      height: auto; max-height: 90vh; padding: 48px; overflow-y: auto;
+      height: auto; padding: 48px; margin: auto;
       transform: translateY(30px) scale(0.95); transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-      border: none;
+      border: none; position: relative;
     }
     .cart-modal.open .cart-content { transform: translateY(0) scale(1); }
     
@@ -952,7 +954,7 @@
     }
     .video-container video {
       width: 100%;
-      height: auto;
+      height: 100%;
       max-height: 85vh;
       object-fit: contain; /* Flexibly allows both landscape and portrait without cropping */
       background: var(--dark);
@@ -1390,6 +1392,7 @@
     <div class="pricing-tabs" id="pricingTabs">
       <button class="tab-btn active" data-tab="storyboard">Storyboard</button>
       <button class="tab-btn" data-tab="portrait">Portrait Art</button>
+      <button class="tab-btn" data-tab="illustration">Illustrations</button>
       <button class="tab-btn" data-tab="design">Graphics Design</button>
     </div>
 
@@ -1537,7 +1540,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦60,000</div>
-            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-qty="1" data-unit-price="60000" data-price="60000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="12x16 Inch Individual Portrait" data-qty="1" data-unit="60000" data-price="60000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1548,7 +1551,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦75,000</div>
-            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-qty="1" data-unit-price="75000" data-price="75000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="18x24 Inch Individual Portrait" data-qty="1" data-unit="75000" data-price="75000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1559,7 +1562,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦150,000</div>
-            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-qty="1" data-unit-price="150000" data-price="150000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="24x30 Inch Individual Portrait" data-qty="1" data-unit="150000" data-price="150000">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1574,7 +1577,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦90,000</div>
-            <button class="add-to-cart-btn" data-name="Couple Portrait" data-qty="1" data-unit-price="90000" data-price="90000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Couple Portrait" data-qty="1" data-unit="90000" data-price="90000">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1600,6 +1603,49 @@
       </div>
     </div>
 
+    <div class="pricing-panel" id="tab-illustration">
+      <div class="panel-intro">
+        <h3>Illustrations</h3>
+        <p>Cover Art · Character Art · Digital Illustrations</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Ayobami ILL.jpeg" alt="Digital Illustration" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Digital Illustration (Softcopy)</div>
+            <div class="price-card-desc">Original digital illustration delivered as high-res softcopy</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="Digital Illustration (Softcopy)" data-qty="1" data-unit="50000" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="Caravan Cover Art.jpeg" alt="Song Cover Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">1 Character Song Cover Art</div>
+            <div class="price-card-desc">Single-character album or song cover illustration</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦50,000</div>
+            <button class="add-to-cart-btn" data-name="1 Character Cover Art" data-qty="1" data-unit="50000" data-price="50000">+ Add to Collection</button>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-img-wrapper ratio-square"><img src="JOTI Cover 1.jpeg" alt="Multi-Character Art" loading="lazy" class="parallax-img" /></div>
+          <div>
+            <div class="price-card-name">Multi-Character Song Cover Art</div>
+            <div class="price-card-desc">Complex multi-character scene for album or EP cover</div>
+          </div>
+          <div class="price-card-footer">
+            <div class="price-amount">₦100,000</div>
+            <button class="add-to-cart-btn" data-name="Multi-Character Cover Art" data-qty="1" data-unit="100000" data-price="100000">+ Add to Collection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="pricing-panel" id="tab-design">
       <div class="panel-intro">
         <h3>Graphics Design</h3>
@@ -1616,7 +1662,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦30,000</div>
-            <button class="add-to-cart-btn" data-name="Flyer Design" data-qty="1" data-unit-price="30000" data-price="30000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Flyer Design" data-qty="1" data-unit="30000" data-price="30000">+ Add to Collection</button>
           </div>
         </div>
         <div class="price-card">
@@ -1627,7 +1673,7 @@
           </div>
           <div class="price-card-footer">
             <div class="price-amount">₦40,000</div>
-            <button class="add-to-cart-btn" data-name="Logo Design" data-qty="1" data-unit-price="40000" data-price="40000">+ Add to Collection</button>
+            <button class="add-to-cart-btn" data-name="Logo Design" data-qty="1" data-unit="40000" data-price="40000">+ Add to Collection</button>
           </div>
         </div>
       </div>
@@ -1926,7 +1972,7 @@
     </div>
     
     <div class="video-container reveal">
-      <video id="processVideo" poster="Final 1.jpg.JPG" playsinline preload="metadata">
+      <video id="processVideo" poster="Final 1.jpg.JPG" playsinline preload="none">
         <source src="My Process (2).mp4" type="video/mp4" />
         <source src="My Process (2).mov" type="video/quicktime" />
         <source src="My Process (2).webm" type="video/webm" />
@@ -2121,13 +2167,9 @@
         setTimeout(() => preloader.style.display = 'none', 1200);
       }
     }
-
-    // 1. Standard trigger: Fades out as soon as the HTML is ready (doesn't wait for heavy videos)
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(removePreloader, 1500);
     });
-
-    // 2. Absolute Fail-safe: Forces the preloader to hide after 4 seconds no matter what is happening
     setTimeout(removePreloader, 4000);
 
     // ── SMOOTH SCROLLING (Lenis) ──
@@ -2357,6 +2399,7 @@
             e.target.style.color = "var(--accent)";
           }, 1000);
         });
+        // Initial setup
         updateSbCalculator();
     }
 
@@ -2405,6 +2448,7 @@
             e.target.style.color = "var(--accent)";
           }, 1000);
         });
+        // Initial setup
         updatePortCalculator();
     }
 
@@ -2441,6 +2485,7 @@
     horizontalWrappers.forEach(wrapper => {
       wrapper.addEventListener('wheel', (e) => {
         if (window.innerWidth < 1025) return;
+        
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; 
 
         const isAtStart = wrapper.scrollLeft <= 0;
@@ -2465,7 +2510,7 @@
         const filter = btn.dataset.filter;
         updateUrlParam('gallery', filter);
         
-        // Use the hide class instead of inline styles for smooth layout updates
+        // Display only matching items via toggle hide class
         document.querySelectorAll('.gallery-item').forEach(item => {
           if (item.dataset.category === filter) {
             item.classList.remove('hide');
@@ -2569,12 +2614,16 @@
       chatbotPanel.classList.add('open');
       chatbotToggleBtn.style.opacity = '0';
       chatbotToggleBtn.style.pointerEvents = 'none';
+      document.body.style.overflow = 'hidden';
+      if(typeof lenis !== 'undefined') lenis.stop();
     });
 
     chatbotClose.addEventListener('click', () => {
       chatbotPanel.classList.remove('open');
       chatbotToggleBtn.style.opacity = '1';
       chatbotToggleBtn.style.pointerEvents = 'auto';
+      document.body.style.overflow = '';
+      if(typeof lenis !== 'undefined') lenis.start();
     });
 
     chatbotOptions.forEach(option => {
@@ -2620,10 +2669,14 @@
       adminLoginForm.style.display = 'block';
       adminResetForm.style.display = 'none';
       document.getElementById('adminPassword').value = '';
+      document.body.style.overflow = 'hidden';
+      if(typeof lenis !== 'undefined') lenis.stop();
     });
 
     adminClose.addEventListener('click', () => {
       adminPanel.classList.remove('open');
+      document.body.style.overflow = '';
+      if(typeof lenis !== 'undefined') lenis.start();
     });
 
     forgotPasswordBtn.addEventListener('click', (e) => {
@@ -2715,7 +2768,6 @@
       const doc = new jsPDF();
       let y = 20;
 
-      // Utility for bold underlining
       function textWithUnderline(text, x, y) {
          doc.text(text, x, y);
          const w = doc.getTextWidth(text);
@@ -2726,6 +2778,20 @@
       doc.text("T", 20, y);
       y += 15;
 
+      // Top metadata: Invoice Number and Date
+      doc.setFontSize(12);
+      doc.text("Thanks for doing business with us!", 20, y);
+      y += 10;
+      doc.setFont("helvetica", "bold");
+      doc.text(`INVOICE #${invNum}`, 20, y);
+      doc.setFont("helvetica", "normal");
+      y += 7;
+      doc.setFontSize(10);
+      doc.text(`Invoice Date: ${dateStr}`, 20, y);
+      doc.text(`Payment Due: ${dateStr}`, 100, y);
+      y += 15;
+
+      // Bill To block
       doc.setFontSize(10);
       doc.setTextColor(100);
       doc.setFont("helvetica", "bold");
@@ -2770,16 +2836,7 @@
 
       y = doc.lastAutoTable.finalY + 20;
 
-      doc.setFontSize(12);
-      doc.text("Thanks for doing business with us!", 20, y);
-      y += 10;
-      doc.text(`INVOICE #${invNum}`, 20, y);
-      y += 7;
-      doc.setFontSize(10);
-      doc.text(`Invoice Date: ${dateStr}`, 20, y);
-      doc.text(`Payment Due: ${dateStr}`, 100, y);
-      y += 15;
-
+      // Bank Details block
       doc.setFontSize(11);
       doc.setFont("helvetica", "bold");
       textWithUnderline("Bank Details", 20, y);
@@ -2803,12 +2860,6 @@
       doc.text("Usdt (Solana)\n89AseN4zTVntGBGJGXFYqgyQmkayYbF4L1XxNHczRW9z", 20, y);
       y += 12;
       doc.text("Exchange rate - N1,400/1US$", 20, y);
-
-      y += 15;
-      doc.setFont("helvetica", "bold");
-      const bottomNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
-      doc.text(bottomNote, 20, y, { maxWidth: 170 });
-      doc.setFont("helvetica", "normal");
 
       // Page 2 - Terms
       doc.addPage();
@@ -2834,12 +2885,26 @@
       addTermSection("Reconciliation", "In a situation where the final project exceeds the quoted invoice shared above, we will issue a reconciliatory invoice for the difference.");
       addTermSection("Exchange", "Once work commences, an exchange can be made provided the new order is within a reasonable time frame, budget and allocation of resources. The increased difference between the previous and new order will require payment while a decrease is non-refundable (an additional order can be added to balance out the payment). All these are subject to the production stage of your order and will determine if an exchange is possible.");
       addTermSection("Discount", "Discounts given on your order are based on design, time frame and quantity. A change in any of these will subject discounted prices to be reviewed.");
-      addTermSection("DISCLAIMER", "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.\n\nPayment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.\n\nWe reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.\n\nAll these enables us to serve you better. Thank you.");
+      
+      doc.setFont("helvetica", "bold");
+      textWithUnderline("DISCLAIMER", 20, y);
+      y += 5;
+      doc.setFont("helvetica", "normal");
+      let discBody = "The agreed upon date of delivery only stands on the condition that PAYMENT and INFORMATION are provided within 24hrs of the invoice being sent except otherwise stated.\n\nPayment and information provided outside the 24hrs window will be subject to review of the initial delivery date. The new delivery date will be determined based on our current workload after the 24hrs window has expired.\n\nWe reserve the right to showcase our work physically and through all media platforms including our website and opposition to this would require a separate charge.\n\nAll these enables us to serve you better. Thank you.";
+      let lines = doc.splitTextToSize(discBody, 170);
+      doc.text(lines, 20, y);
+      y += (lines.length * 4.2) + 5;
       
       doc.text("Timilehin Taiwo Arts | +2348145782167 | ", 20, y);
       let offsetW = doc.getTextWidth("Timilehin Taiwo Arts | +2348145782167 | ");
       doc.textWithLink('IG: timilehin.taiwo', 20 + offsetW, y, { url: 'https://www.instagram.com/timilehin.taiwo?igsh=MXVpNm5saHNsMHpycg%3D%3D&utm_source=qr' });
       
+      y += 15;
+      doc.setFont("helvetica", "bold");
+      const bottomNote = "*Kindly note that minimum timeframe for delivery is 1 day and can vary to 90 days depending on the complexity of the project unless otherwise agreed, any request outside of this will attract a separate rush fee*\n\nExpected delivery date for this project - TBD";
+      doc.text(bottomNote, 20, y, { maxWidth: 170 });
+      doc.setFont("helvetica", "normal");
+
       doc.save(`${data.name}'s Invoice.pdf`);
     }
 
@@ -2891,6 +2956,8 @@
       } else {
         cartToggleBtn.classList.remove('visible');
         cartModal.classList.remove('open');
+        document.body.style.overflow = '';
+        if(typeof lenis !== 'undefined') lenis.start();
       }
     }
 
@@ -2899,8 +2966,17 @@
       updateCartUI();
     };
 
-    cartToggleBtn.addEventListener('click', () => cartModal.classList.add('open'));
-    document.getElementById('cartClose').addEventListener('click', () => cartModal.classList.remove('open'));
+    cartToggleBtn.addEventListener('click', () => {
+      cartModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      if(typeof lenis !== 'undefined') lenis.stop();
+    });
+    
+    document.getElementById('cartClose').addEventListener('click', () => {
+      cartModal.classList.remove('open');
+      document.body.style.overflow = '';
+      if(typeof lenis !== 'undefined') lenis.start();
+    });
 
     // ── FORM SUBMISSION LOGIC (WHATSAPP REDIRECT) ──
     function handleCartSubmit(e) {
@@ -2919,6 +2995,7 @@
       cart.forEach(item => { totalAmount += item.price; });
       
       let invNum = parseInt(localStorage.getItem('tta_inv_num')) || 345092152918;
+      localStorage.setItem('tta_inv_num', invNum + 1);
       const dateObj = new Date();
       const dateStr = dateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
@@ -2947,7 +3024,7 @@
       whatsappText += `*WhatsApp:* ${data.whatsapp}\n\n`;
 
       whatsappText += "*COLLECTION SUMMARY:*\n";
-      cart.forEach(item => { whatsappText += `- ${item.name} (x${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
+      cart.forEach(item => { whatsappText += `- ${item.name} (Qty: ${item.qty}): NGN ${item.price.toLocaleString()}\n`; });
       whatsappText += `\n*TOTAL AMOUNT:* NGN ${totalAmount.toLocaleString()}\n`;
       
       if (data.brief) {
